@@ -1,6 +1,71 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>alex</groupId>
-  <artifactId>VisualLogicToolV2</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  	<modelVersion>4.0.0</modelVersion>
+  	<groupId>alex</groupId>
+  	<artifactId>VisualLogicToolV2</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+  
+  	<dependencies>
+		<dependency>
+	  		<groupId>com.typesafe.akka</groupId>
+	  		<artifactId>akka-actor_2.12</artifactId>
+	  		<version>2.5.19</version>
+	   </dependency>
+				
+		<dependency>
+    		<groupId>commons-io</groupId>
+    		<artifactId>commons-io</artifactId>
+    		<version>2.6</version>
+		</dependency>
+
+		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+    		<artifactId>jackson-databind</artifactId>
+    		<version>2.9.8</version>
+		</dependency>
+		
+		
+		<dependency>
+  			<groupId>com.typesafe.akka</groupId>
+  			<artifactId>akka-http_2.12</artifactId>
+  			<version>10.1.7</version>
+		</dependency>
+		<dependency>
+  			<groupId>com.typesafe.akka</groupId>
+  			<artifactId>akka-stream_2.12</artifactId>
+  			<version>2.5.19</version>
+		</dependency>
+		
+		<dependency>
+  			<groupId>com.typesafe.akka</groupId>
+		  	<artifactId>akka-slf4j_2.12</artifactId>
+		  	<version>2.5.19</version>
+		</dependency>
+		<dependency>
+	  		<groupId>ch.qos.logback</groupId>
+	  		<artifactId>logback-classic</artifactId>
+	  		<version>1.2.3</version>
+		</dependency>
+		
+		
+		<dependency>
+    		<groupId>org.projectlombok</groupId>
+   			<artifactId>lombok</artifactId>
+    		<version>1.18.4</version>
+    		<scope>provided</scope>
+    	</dependency>
+
+		<dependency>
+    		<groupId>org.projectlombok</groupId>
+    		<artifactId>lombok</artifactId>
+    		<version>1.18.4</version>
+    		<scope>provided</scope>
+		</dependency>
+		
+	</dependencies>
+	
+  
+
+  
+  
+  
 </project>
