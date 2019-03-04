@@ -1,0 +1,43 @@
+
+
+{
+
+	"CreateFlow" : {
+	
+		"id" : 1,
+		"listNode" : [
+			{
+				"id" : 1,
+				"function" : "apiInput",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRest",
+				"listParameters" : { 
+										"id" : "1",
+										"api" : "coucou"
+									
+									},
+				"listNode" : ["2"]
+		
+			},
+			{
+				"id" : 2,
+				"function" : "apiOutput",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
+				"listParameters" : { 
+										"id" : "2"
+									},
+				"listNode" : ["none"]		
+			}		
+		]
+	
+	
+	
+	}
+
+
+
+
+
+}
+
+
+
