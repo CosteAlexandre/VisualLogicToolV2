@@ -3,20 +3,14 @@ package com.visuallogictool.application.nodes.baseclassimpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.visuallogictool.application.messages.flow.NextActorReceived;
-import com.visuallogictool.application.messages.flow.NextActors;
-import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import com.visuallogictool.application.messages.message.MessageNode;
-import com.visuallogictool.application.messages.message.MessageReceived;
 import com.visuallogictool.application.messages.message.RegisterRestRouter;
 import com.visuallogictool.application.nodes.baseclass.InputNode;
-import com.visuallogictool.application.server.RestServer;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.http.javadsl.model.HttpRequest;
 
 
 
@@ -40,7 +34,7 @@ public class ApiRest extends InputNode {
 		System.out.println("ID : " + this.id);
 	}
 	public ApiRest(int id, ApiRestConfiguration apiRestConfiguration) {
-		super(1);
+		super(id);
 		
 		this.api = apiRestConfiguration.getApi();
 		

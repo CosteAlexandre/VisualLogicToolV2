@@ -1,16 +1,13 @@
 package com.visuallogictool.application.supervision;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Properties;
 
 import com.visuallogictool.application.jsonclass.Flow;
+import com.visuallogictool.application.jsonclass.Node;
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.messages.flow.NodeCreated;
-import com.visuallogictool.application.utils.Files;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
@@ -23,7 +20,6 @@ public class Supervisor extends AbstractActor{
 	private int actorReceived;
 	private int nextActorReceived;
 	
-	private HashMap<ActorRef, ArrayList<Integer>> childNextOutput;
 	private HashMap<Integer, ActorRef> actors;
 	
 	public static Props props(Flow flow) {
@@ -35,7 +31,6 @@ public class Supervisor extends AbstractActor{
 		this.id = flow.getId();
 		this.actors = new HashMap<Integer, ActorRef>();
 		
-		this.childNextOutput = new HashMap<ActorRef, ArrayList<Integer>>();
 		
 		this.actorReceived = 0;
 		this.nextActorReceived = 0;
@@ -49,7 +44,6 @@ public class Supervisor extends AbstractActor{
 			try {
 				
 				this.getContext().actorOf(Props.create(Class.forName(node.getClassName()), node.getId(), node.getListParameters()));
-				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -85,11 +79,10 @@ public class Supervisor extends AbstractActor{
 		this.actorReceived++;
 		
 		this.actors.put(id, this.getSender());
-		this.childNextOutput.put(this.getSender(), this.flow.getListNode().get(id-1).getListNode());
 		
 		if(this.actorReceived == this.flow.getListNode().size()) {
-			this.childNextOutput.forEach( (actor,list) -> {
-				sendNextActor(actor);
+			this.flow.getListNode().forEach( node -> {
+				sendNextActor(node);
 			});
 				
 
@@ -97,18 +90,17 @@ public class Supervisor extends AbstractActor{
 		
 	}
 
-	private void sendNextActor(ActorRef actor) {
+	private void sendNextActor(Node node) {
 		ArrayList<ActorRef> listNextActor = new ArrayList<ActorRef>();
-		
-		if(this.childNextOutput.get(actor).isEmpty()) {
+		if(node.getListNode().isEmpty()) {
 			this.nextActorReceived++;
 			return ;
 		}
 		
-		this.childNextOutput.get(actor).forEach(child -> {
+		node.getListNode().forEach(child -> {
 			listNextActor.add(this.actors.get(child));
 		});
-		
+		ActorRef actor = this.actors.get(node.getId());
 		actor.tell(new NextActors(listNextActor), ActorRef.noSender());
 		
 	}

@@ -1,18 +1,10 @@
 package com.visuallogictool.application.server;
 
-import java.io.IOException;
-import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 
 import akka.NotUsed;
-import akka.Done;
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
 import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
 import akka.http.javadsl.ConnectHttp;
@@ -20,12 +12,9 @@ import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
-import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
-import akka.http.javadsl.unmarshalling.Unmarshaller;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
-import akka.stream.actor.ActorPublisherMessage.Request;
 import akka.stream.javadsl.Flow;
 
 import static akka.http.javadsl.server.Directives.*;

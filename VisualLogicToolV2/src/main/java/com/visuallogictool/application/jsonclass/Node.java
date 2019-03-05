@@ -1,15 +1,7 @@
 package com.visuallogictool.application.jsonclass;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
-import akka.protobuf.TextFormat.ParseException;
 
 public class Node {
 
@@ -71,7 +63,7 @@ public class Node {
 	}
 
 	@JsonIgnore
-	public Class getNodeClass() throws ClassNotFoundException {
+	public Class<?> getNodeClass() throws ClassNotFoundException {
 
       return Class.forName(this.className);
 
