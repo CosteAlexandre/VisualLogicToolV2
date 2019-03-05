@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 import com.visuallogictool.application.jsonclass.Flow;
-import com.visuallogictool.application.server.Server;
+import com.visuallogictool.application.server.RestServer;
 import com.visuallogictool.application.utils.Files;
 import com.visuallogictool.application.utils.JsonParser;
 
@@ -17,7 +17,7 @@ public class Director extends AbstractActor{
 
 	
 	
-	private Server server;
+	private RestServer server;
 	private int mode;
 	private Files filesUtils;
 	private JsonParser jsonParser;
@@ -26,7 +26,7 @@ public class Director extends AbstractActor{
 	
 	
 	
-	public Director(Server server, int mode) {
+	public Director(RestServer server, int mode) {
 		
 		this.server = server;
 		this.mode = mode;
@@ -64,7 +64,7 @@ public class Director extends AbstractActor{
 	private void initializeFlow(Flow flow) {
 		System.out.println("Initializing flow");
 		
-		//this.listSupervisor.add(this.getContext().actorOf(Supervisor.props(flow)));		
+		this.listSupervisor.add(this.getContext().actorOf(Supervisor.props(flow)));		
 	}
 
 	@Override

@@ -2,13 +2,19 @@ package com.visuallogictool.application.nodes.baseclassimpl;
 
 import java.util.ArrayList;
 
+import com.visuallogictool.application.messages.flow.NextActorReceived;
+import com.visuallogictool.application.messages.flow.NextActors;
+import com.visuallogictool.application.messages.message.HttpRequestReceived;
+import com.visuallogictool.application.messages.message.MessageReceived;
+import com.visuallogictool.application.messages.message.RegisterRestRouter;
 import com.visuallogictool.application.nodes.baseclass.InputNode;
-import com.visuallogictool.application.server.Server;
+import com.visuallogictool.application.server.RestServer;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import akka.http.javadsl.model.HttpRequest;
 
 
 
@@ -16,8 +22,8 @@ public class ApiRest extends InputNode {
 	
 	 LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 	 //final LoggingAdapter log = Logging.getLogger(getContext().getSystem().eventStream(), "my.string");
-	  static public Props props(ApiRestConfiguration apiRestConfiguration) {
-		    return Props.create(ApiRest.class, () -> new ApiRest(apiRestConfiguration));
+	  static public Props props(int id, ApiRestConfiguration apiRestConfiguration) {
+		    return Props.create(ApiRest.class, () -> new ApiRest(id, apiRestConfiguration));
 	  }
 	  static public Props props(int id, String api, ArrayList<ActorRef> listActor) {
 		    return Props.create(ApiRest.class, () -> new ApiRest(id,api,listActor));
@@ -26,8 +32,8 @@ public class ApiRest extends InputNode {
 	private String api;
 	
 	
-	public ApiRest(ApiRestConfiguration apiRestConfiguration) {
-		super(apiRestConfiguration.getId());
+	public ApiRest(int id, ApiRestConfiguration apiRestConfiguration) {
+		super(1);
 		
 		this.api = apiRestConfiguration.getApi();
 		
@@ -57,13 +63,20 @@ public class ApiRest extends InputNode {
 	@Override
 	public Receive createReceive() {
 		// TODO Auto-generated method stub
-		return null;
+		return receiveBuilder().match(NextActors.class, apply -> {
+			//System.out.println("next actor received");
+			this.listNextActors = apply.getListNextActor();
+			this.getContext().getParent().tell(new NextActorReceived(), ActorRef.noSender());
+		}).match(MessageReceived.class, apply -> {
+			System.out.println("RECEIVED IN API REST");
+		}).build();
 	}
 
 	
 	@Override
 	public void createMessageTrigger() {
 		System.out.println("In create message trigger");
+		this.context().actorSelection("/user/restRouter").tell(new RegisterRestRouter(this.api, this.getSelf()), ActorRef.noSender());
 		//Server.addRoute(this.api, this.getSelf());
 		
 	}

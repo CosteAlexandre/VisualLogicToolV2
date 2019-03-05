@@ -1,21 +1,17 @@
 package com.visuallogictool.application.messages.message;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class MessageReceived {
 
-	//sends message to the director with json content
-	
-	private String json;
+	private String message;
 
-	public MessageReceived(String json) {
-		this.json = json;
-	}
-
-	public String getJson() {
-		return json;
+	public MessageReceived(String message) {
+		this.message = message;
 	}
 	
+	public String getMessage() {
+		return message;
+	}
+
 	
 	
 	

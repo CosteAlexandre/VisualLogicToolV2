@@ -1,6 +1,13 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
-public class ApiRestOutputConfiguration {
+import com.visuallogictool.application.jsonclass.NodeConfiguration;
+import com.visuallogictool.application.messages.flow.NextActorReceived;
+import com.visuallogictool.application.messages.flow.NextActors;
+
+import akka.actor.ActorRef;
+import akka.actor.AbstractActor.Receive;
+
+public class ApiRestOutputConfiguration extends NodeConfiguration  {
 
 	private int id;
 	
@@ -23,5 +30,6 @@ public class ApiRestOutputConfiguration {
 		this.id = id;
 	}
 	
+
 	
 }

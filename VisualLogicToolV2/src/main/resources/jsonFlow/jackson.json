@@ -11,7 +11,7 @@
 				"function" : "apiInput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRest",
 				"listParameters" : { 
-										"id" : "1",
+                                        "type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration",
 										"api" : "coucou"
 									
 									},
@@ -22,11 +22,13 @@
 				"id" : 2,
 				"function" : "apiOutput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
-				"listParameters" : { 
-										"id" : "2"
-									},
-				"listNode" : ["none"]		
-			}		
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration",
+					"id" : "2"
+				},
+				"listNode" : []
+			}
+
 		]
 	
 	

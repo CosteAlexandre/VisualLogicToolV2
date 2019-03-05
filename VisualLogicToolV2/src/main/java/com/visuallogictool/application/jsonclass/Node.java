@@ -2,6 +2,7 @@ package com.visuallogictool.application.jsonclass;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -16,18 +17,18 @@ public class Node {
 	private String function;
 	private String className;
 //	@JsonDeserialize(using = CustomDateDeserializer.class)
-	private String listParameters;
-	private ArrayList<String> listNode;
+	private NodeConfiguration listParameters;
+	private ArrayList<Integer> listNode;
 	
 	public Node() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Node(int id, String function, String className, String listParameters, ArrayList<String> listNode) {
+	public Node(int id, String function, String className, ArrayList<Integer> listNode) {
 		super();
 		this.id = id;
 		this.function = function;
-		this.listParameters = listParameters;
+
 		this.listNode = listNode;
 	}
 	
@@ -44,16 +45,20 @@ public class Node {
 	public void setFunction(String function) {
 		this.function = function;
 	}
-	public String getListParameters() {
+
+
+	public NodeConfiguration getListParameters() {
 		return listParameters;
 	}
-	public void setListParameters(String listParameters) {
+
+	public void setListParameters(NodeConfiguration listParameters) {
 		this.listParameters = listParameters;
 	}
-	public ArrayList<String> getListNode() {
+
+	public ArrayList<Integer> getListNode() {
 		return listNode;
 	}
-	public void setListNode(ArrayList<String> listNode) {
+	public void setListNode(ArrayList<Integer> listNode) {
 		this.listNode = listNode;
 	}
 
@@ -64,28 +69,15 @@ public class Node {
 	public void setClassName(String className) {
 		this.className = className;
 	}
-	
+
+	@JsonIgnore
+	public Class getNodeClass() throws ClassNotFoundException {
+
+      return Class.forName(this.className);
+
+	}
 	
 
-public class CustomDateDeserializer extends StdDeserializer<String> {
- 
-   
- 
-    public CustomDateDeserializer(){
-        this(null);
-    }
-    public CustomDateDeserializer(Class<?> c){
-        super(c);
-    }
- 
-    @Override
-    public String deserialize(JsonParser jsonParser, DeserializationContext
-            deserializationContext) throws IOException, JsonProcessingException {
-        String date = jsonParser.getText();
-        System.out.println("In custom parser : "+date);
-        return date;
-    }
-}
 	
 	
 }

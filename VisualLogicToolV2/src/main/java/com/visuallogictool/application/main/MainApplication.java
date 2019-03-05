@@ -10,7 +10,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.visuallogictool.application.configuration.Configuration;
 import com.visuallogictool.application.jsonclass.Flow;
-import com.visuallogictool.application.server.Server;
+import com.visuallogictool.application.server.RestRouter;
+import com.visuallogictool.application.server.RestServer;
 import com.visuallogictool.application.supervision.Director;
 import com.visuallogictool.application.supervision.Supervisor;
 import com.visuallogictool.application.utils.Files;
@@ -38,10 +39,11 @@ public class MainApplication {
 		ActorSystem system = ActorSystem.create("system");
 		
 		
-		Server server = new Server(system, configuration.getPort());
+		RestServer server = new RestServer(system, configuration.getPort());
 		
 		server.startServer();
 		
+		system.actorOf(RestRouter.props(),"restRouter");
 		
 		system.actorOf(Props.create(Director.class, server, configuration.getMode()));
 		

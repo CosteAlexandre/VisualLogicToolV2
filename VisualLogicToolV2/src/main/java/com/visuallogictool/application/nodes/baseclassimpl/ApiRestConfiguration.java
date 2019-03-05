@@ -1,8 +1,10 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
-public class ApiRestConfiguration {
+import com.visuallogictool.application.jsonclass.NodeConfiguration;
 
-	private int id;
+public class ApiRestConfiguration extends NodeConfiguration {
+
+
 	private String api;
 	
 	public ApiRestConfiguration() {
@@ -10,21 +12,13 @@ public class ApiRestConfiguration {
 	}
 
 
-	public ApiRestConfiguration(int id, String api) {
+	public ApiRestConfiguration( String api) {
 		super();
-		this.id = id;
+
 		this.api = api;
 	}
 
 
-	public int getId() {
-		return id;
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 
 	public String getApi() {
