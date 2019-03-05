@@ -1,8 +1,12 @@
 package com.visuallogictool.application.server;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.CompletionStage;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 
 import akka.NotUsed;
@@ -21,24 +25,25 @@ import akka.http.javadsl.server.Route;
 import akka.http.javadsl.unmarshalling.Unmarshaller;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
+import akka.stream.actor.ActorPublisherMessage.Request;
 import akka.stream.javadsl.Flow;
 
 import static akka.http.javadsl.server.Directives.*;
 import static scala.compat.java8.FutureConverters.toJava;
 public class RestServer {
 
-	private static ActorSystem system;
-	private static Http http;
-	private static ActorMaterializer materializer;
-	private static CompletionStage<ServerBinding> binding;
-	private static Flow<HttpRequest, HttpResponse, NotUsed> routeFlow;
+	private ActorSystem system;
+	private Http http;
+	private ActorMaterializer materializer;
+	private CompletionStage<ServerBinding> binding;
+	private Flow<HttpRequest, HttpResponse, NotUsed> routeFlow;
 	
-	private static ActorSelection restRouter;
+	private ActorSelection restRouter;
 	
-	private static long time = 10000000;
+	private long time = 10000000;
 	
-	private static int port;
-	private static ConnectHttp host;
+	private int port;
+	private ConnectHttp host;
 	
 	public RestServer(ActorSystem system, int port) {
 		this.system = system;
@@ -73,6 +78,7 @@ public class RestServer {
 	}
 
 	  private Route createRoute() {
+		  
 		    return  concat(
 		        pathPrefix("", () ->
 		            get(() -> {
@@ -87,15 +93,24 @@ public class RestServer {
 	            	CompletionStage<HttpResponse> future = toJava(( Patterns.ask(restRouter, new HttpRequestReceived("coucou","Hola"), time))).thenApply(r -> {
 	            		return (HttpResponse) r;
 	            	});
-	            	System.out.println(Unmarshaller.entityToString());
-	            	/*entity(Unmarshaller.entityToString(), (string) -> {
-	            	    System.out.println("request body: " + string);
-	            	    return complete("ok");
-	            	  });*/
 	            	
 	            	return complete("<h1>In logic fLow  route</h1>");
 	            			
 	            	})));
+		    /*post(() ->entity(Unmarshaller.entityToString(), (content) -> {
+		    	ObjectMapper objectMapper = new ObjectMapper();
+		    	
+		    	try {
+					Request requestBody = objectMapper.readValue(content, Request.class);
+					System.out.println(requestBody.toString());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    	
+        	    System.out.println("request body: " + content);
+        	    return complete("ok");
+        	  }))));*/
 		    
 	  }
 

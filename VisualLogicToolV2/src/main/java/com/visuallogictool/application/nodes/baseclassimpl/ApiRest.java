@@ -1,10 +1,12 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
+import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.messages.message.MessageReceived;
 import com.visuallogictool.application.messages.message.RegisterRestRouter;
 import com.visuallogictool.application.nodes.baseclass.InputNode;
@@ -31,7 +33,12 @@ public class ApiRest extends InputNode {
 
 	private String api;
 	
-	
+	@Override
+	public void preStart() throws Exception {
+		// TODO Auto-generated method stub
+		super.preStart();
+		System.out.println("ID : " + this.id);
+	}
 	public ApiRest(int id, ApiRestConfiguration apiRestConfiguration) {
 		super(1);
 		
@@ -51,7 +58,24 @@ public class ApiRest extends InputNode {
 	}
 	
 	@Override
-	public void processMessage() {
+	public void processMessage(String message) {
+		System.out.println("RECEIVED IN API REST");
+		
+		
+		HashMap<String, Object> context = new HashMap<String, Object>();
+		
+		context.put("InputSender", this.getSender());
+		context.put("context", "From ApiREst");
+		MessageNode messageToSend = new MessageNode(context);
+	
+	
+		this.listNextActors.forEach(actor -> {
+			actor.tell(messageToSend, ActorRef.noSender());
+		});		
+	}
+	@Override
+	public void processMessage(HashMap<String, Object> context) {
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -60,17 +84,7 @@ public class ApiRest extends InputNode {
 		
 	}
 
-	@Override
-	public Receive createReceive() {
-		// TODO Auto-generated method stub
-		return receiveBuilder().match(NextActors.class, apply -> {
-			//System.out.println("next actor received");
-			this.listNextActors = apply.getListNextActor();
-			this.getContext().getParent().tell(new NextActorReceived(), ActorRef.noSender());
-		}).match(MessageReceived.class, apply -> {
-			System.out.println("RECEIVED IN API REST");
-		}).build();
-	}
+	
 
 	
 	@Override
@@ -80,22 +94,8 @@ public class ApiRest extends InputNode {
 		//Server.addRoute(this.api, this.getSelf());
 		
 	}
-	@Override
-	protected void initializeRunningPhase() {
-		/*this.runningPhase = receiveBuilder().match(MessageReceived.class,apply -> {
-			 log.debug("Starting");
-			System.out.println("message Received");
-			//this.getOutput().get(0).tell(new MessageReceived(apply.getJson()), ActorRef.noSender());;
-		}).matchAny(apply->{
-			log.debug("Received from server");
-			System.out.println("Received from server " + apply.toString());
-			System.out.println("In ApiRest : "+this.getOutput().get(0));
-			this.getOutput().get(0).tell(new MessageReceived(apply.toString()), ActorRef.noSender());
-			this.getSender().tell(new MessageFlowStart(5), this.getSelf());
-		}					
-				).build();*/
-		
-	}
+
+	
 
 
 

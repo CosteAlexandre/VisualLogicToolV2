@@ -4,15 +4,15 @@ import java.util.HashMap;
 
 //Type of message for passing informations form a node to another
 
-public class MessageNode<T> {
+public class MessageNode {
 
-	private HashMap<String,T> context;
+	private HashMap<String,Object> context;
 
-	public MessageNode(HashMap<String, T> context) {
+	public MessageNode(HashMap<String, Object> context) {
 		this.context = context;
 	}
 
-	public HashMap<String, T> getContext() {
+	public HashMap<String, Object> getContext() {
 		return context;
 	}
 	

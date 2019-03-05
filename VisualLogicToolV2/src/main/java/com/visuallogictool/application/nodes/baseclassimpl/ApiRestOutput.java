@@ -1,5 +1,7 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
+import java.util.HashMap;
+
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.nodes.baseclass.OutputNode;
@@ -22,34 +24,20 @@ public class ApiRestOutput extends OutputNode{
 	}
 
 	@Override
-	public void processMessage() {
+	public void processMessage(String message) {
 		
 		
-		System.out.println("message processed");
 	}
-
+	@Override
+	public void processMessage(HashMap<String, Object> context) {
+		System.out.println("RECEIVED IN OUTPUT NODE");
+		
+	}
 	@Override
 	public void getGUI() {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public Receive createReceive() {
-		// TODO Auto-generated method stub
-		return receiveBuilder().match(NextActors.class, apply -> {
-			//System.out.println("next actor received");
-			this.listNextActors = apply.getListNextActor();
-			this.getContext().getParent().tell(NextActorReceived.class, ActorRef.noSender());
-			
-		}).build();
-	}
-	
-	@Override
-	protected void initializeRunningPhase() {
-		/*this.runningPhase = receiveBuilder().match(MessageReceived.class,apply -> {
-			processMessage();
-		}).build();*/
-		
-	}
+
 }

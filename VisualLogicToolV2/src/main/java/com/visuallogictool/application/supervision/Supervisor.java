@@ -47,10 +47,9 @@ public class Supervisor extends AbstractActor{
 	public void preStart() throws Exception {
 		this.flow.getListNode().forEach(node -> {
 			try {
-				ActorRef actor = this.getContext().actorOf(Props.create(Class.forName(node.getClassName()), node.getId(), node.getListParameters()));
 				
-				this.actors.put(node.getId(), actor);
-				this.childNextOutput.put(actor, node.getListNode());
+				this.getContext().actorOf(Props.create(Class.forName(node.getClassName()), node.getId(), node.getListParameters()));
+				
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -64,7 +63,7 @@ public class Supervisor extends AbstractActor{
 	public Receive createReceive() {
 
 		return receiveBuilder().match(NodeCreated.class, apply -> {
-			nodeCreateReceive();
+			nodeCreateReceive(apply.getId());
 				
 			
 		}).match(NextActorReceived.class, apply -> {
@@ -76,15 +75,17 @@ public class Supervisor extends AbstractActor{
 	private void receiveNextActor() {
 		
 		this.nextActorReceived++;
-		
 		if(this.nextActorReceived == this.flow.getListNode().size()) {
 			System.out.println("All next actor RECEIVED");
 		}
 		
 	}
 
-	private void nodeCreateReceive() {
+	private void nodeCreateReceive(int id) {
 		this.actorReceived++;
+		
+		this.actors.put(id, this.getSender());
+		this.childNextOutput.put(this.getSender(), this.flow.getListNode().get(id-1).getListNode());
 		
 		if(this.actorReceived == this.flow.getListNode().size()) {
 			this.childNextOutput.forEach( (actor,list) -> {
@@ -99,15 +100,16 @@ public class Supervisor extends AbstractActor{
 	private void sendNextActor(ActorRef actor) {
 		ArrayList<ActorRef> listNextActor = new ArrayList<ActorRef>();
 		
-		if(this.childNextOutput.isEmpty()) {
+		if(this.childNextOutput.get(actor).isEmpty()) {
+			this.nextActorReceived++;
 			return ;
 		}
 		
-		this.childNextOutput.get(this.getSender()).forEach(child -> {
+		this.childNextOutput.get(actor).forEach(child -> {
 			listNextActor.add(this.actors.get(child));
 		});
 		
-		this.getSender().tell(new NextActors(listNextActor), ActorRef.noSender());
+		actor.tell(new NextActors(listNextActor), ActorRef.noSender());
 		
 	}
 

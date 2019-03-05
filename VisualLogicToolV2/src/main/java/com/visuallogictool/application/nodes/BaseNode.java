@@ -1,15 +1,16 @@
 package com.visuallogictool.application.nodes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.messages.flow.NodeCreated;
+import com.visuallogictool.application.messages.message.MessageNode;
+import com.visuallogictool.application.messages.message.MessageReceived;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.actor.AbstractActor.Receive;
 
 public abstract class BaseNode extends AbstractActor{
 
@@ -30,8 +31,6 @@ public abstract class BaseNode extends AbstractActor{
 	//add method
 	protected int id; // unique id for each node
 	
-	protected AbstractActor.Receive initialisationPhase;
-	protected AbstractActor.Receive runningPhase;
 	
 	protected ArrayList<ActorRef> listNextActors; // list of the next actor he will call
 	
@@ -42,12 +41,7 @@ public abstract class BaseNode extends AbstractActor{
 		super();
 		//this.numberOutput = numberOutput;		
 		this.id = id;
-		initializeRunningPhase();
-		this.initialisationPhase = receiveBuilder().match(NextActors.class, apply -> {
-			this.setListNextActor(apply.getListNextActor());
-			this.receivedOutput();
-			getContext().become(runningPhase);
-		}).build();
+
 				
 	}
 	
@@ -63,22 +57,30 @@ public abstract class BaseNode extends AbstractActor{
 		return this.listNextActors;
 	}
 	
-	public abstract void processMessage();
+	public abstract void processMessage(HashMap<String, Object> context);
+	public abstract void processMessage(String message);
 	
 	public abstract void getGUI();// by introspection get all fields of class and send it back by formating it?
 	// so all nodes sends the same response? And no multiple actions needed? Todo this add a description in class
 	
 	@Override
 	public void preStart() throws Exception {
-		getContext().getParent().tell(new NodeCreated(), this.getSelf());
+		getContext().getParent().tell(new NodeCreated(this.id), this.getSelf());
 	}
 	
 	@Override
 	public Receive createReceive() {
-		
-		return this.initialisationPhase;
-		
+		// TODO Auto-generated method stub
+		return receiveBuilder().match(NextActors.class, apply -> {
+			//System.out.println("next actor received");
+			this.listNextActors = apply.getListNextActor();
+			this.getContext().getParent().tell(new NextActorReceived(), ActorRef.noSender());
+		}).match(MessageReceived.class, apply -> {
+			processMessage(apply.getMessage());
+			
+		}).match(MessageNode.class, apply -> {
+			processMessage(apply.getContext());
+		}).build();
 		
 	}
-	protected abstract void initializeRunningPhase();
 }
