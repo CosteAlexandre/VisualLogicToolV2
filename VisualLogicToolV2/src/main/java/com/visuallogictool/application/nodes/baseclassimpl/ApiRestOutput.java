@@ -19,18 +19,15 @@ public class ApiRestOutput extends OutputNode{
 	}
 
 	@Override
-	public void createMessageResponse() {
-		
+	public void createMessageResponse(HashMap<String, Object> context) {
+		ActorRef actor = ((ActorRef)context.get("InputSender"));
+		actor.tell("CALL BACK", ActorRef.noSender());
 	}
 
 	@Override
-	public void processMessage(String message) {
-		
-		
-	}
-	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		System.out.println("RECEIVED IN OUTPUT NODE");
+		createMessageResponse(context);
 		
 	}
 	@Override

@@ -12,6 +12,9 @@ import com.visuallogictool.application.utils.JsonParser;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.actor.SupervisorStrategy;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 
 public class Director extends AbstractActor{
 
@@ -23,7 +26,7 @@ public class Director extends AbstractActor{
 	private JsonParser jsonParser;
 	
 	private HashSet<ActorRef> listSupervisor;
-	
+	private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 	
 	
 	public Director(RestServer server, int mode) {
@@ -42,7 +45,7 @@ public class Director extends AbstractActor{
 	public void preStart() throws Exception {
 		// TODO Add logic flow route when this actor is created, then start adding new route
 		super.preStart();
-		System.out.println("Director created, charging files");
+		log.info("Director created, charging files");
 		chargeFiles();
 		
 	}
@@ -57,12 +60,12 @@ public class Director extends AbstractActor{
 			System.out.println("Flow sucessfully parsed to json");
 			initializeFlow(flow);
 		}
-		System.out.println("File charged");
+		log.info("File charged");
 	}
 
 	
 	private void initializeFlow(Flow flow) {
-		System.out.println("Initializing flow");
+		log.info("Initializing flow");
 		
 		this.listSupervisor.add(this.getContext().actorOf(Supervisor.props(flow)));		
 	}
@@ -74,5 +77,9 @@ public class Director extends AbstractActor{
 			System.out.println("Receive any in director");
 		}).build();
 	}
+	
+
+	
+	
 
 }

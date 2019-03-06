@@ -11,6 +11,8 @@ import com.visuallogictool.application.messages.message.MessageReceived;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 
 public abstract class BaseNode extends AbstractActor{
 
@@ -29,6 +31,8 @@ public abstract class BaseNode extends AbstractActor{
 	private boolean singleOutput;
 	*/
 	//add method
+	protected LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
+	
 	protected int id; // unique id for each node
 	
 	
@@ -58,13 +62,18 @@ public abstract class BaseNode extends AbstractActor{
 	}
 	
 	public abstract void processMessage(HashMap<String, Object> context);
-	public abstract void processMessage(String message);
+	public void processMessage(String message) {
+		HashMap<String, Object> context = new HashMap<String, Object>();
+		context.put("message", message);
+		processMessage(context);
+	}
 	
 	public abstract void getGUI();// by introspection get all fields of class and send it back by formating it?
 	// so all nodes sends the same response? And no multiple actions needed? Todo this add a description in class
 	
 	@Override
 	public void preStart() throws Exception {
+		log.info("Actor of {} class started : {}",this.getClass().getSimpleName(),this.getSelf());
 		getContext().getParent().tell(new NodeCreated(this.id), this.getSelf());
 	}
 	
@@ -73,12 +82,15 @@ public abstract class BaseNode extends AbstractActor{
 		// TODO Auto-generated method stub
 		return receiveBuilder().match(NextActors.class, apply -> {
 			//System.out.println("next actor received");
+			log.info("Message received NextActor.class");
 			this.listNextActors = apply.getListNextActor();
-			this.getContext().getParent().tell(new NextActorReceived(), ActorRef.noSender());
+			this.getContext().getParent().tell(new NextActorReceived(), this.getSelf());
 		}).match(MessageReceived.class, apply -> {
+			log.info("Message received MessagedReceived.class");
 			processMessage(apply.getMessage());
 			
 		}).match(MessageNode.class, apply -> {
+			log.info("Message received MessageNode.class");
 			processMessage(apply.getContext());
 		}).build();
 		

@@ -10,6 +10,7 @@ import akka.actor.ActorSystem;
 import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
 import akka.http.javadsl.ServerBinding;
+import akka.http.javadsl.marshalling.Marshaller;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.javadsl.server.Route;
@@ -55,8 +56,6 @@ public class RestServer {
 		    System.out.println("Server online at http://localhost:"+port);
 
 		    
-		    
-		   //system.actorOf(ApiRest.props(1, "test"));
 	}
 
 	
@@ -72,21 +71,28 @@ public class RestServer {
 		        pathPrefix("", () ->
 		            get(() -> {
 		            	return complete("<h1>In logic fLow  route</h1>");
-		            }
-		                
+		            }       
 		            
 		        		)),
 		        pathPrefix("", () ->
 	            post(() ->{
 	            	System.out.println("Sending message");
 	            	CompletionStage<HttpResponse> future = toJava(( Patterns.ask(restRouter, new HttpRequestReceived("coucou","Hola"), time))).thenApply(r -> {
+	            		System.out.println("Response received : " + r.toString());
 	            		return (HttpResponse) r;
 	            	});
 	            	
 	            	return complete("<h1>In logic fLow  route</h1>");
 	            			
 	            	})));
-		    /*post(() ->entity(Unmarshaller.entityToString(), (content) -> {
+		        
+		       /* post(()->{
+		        	
+		        	System.out.println(Marshaller.byteStringToEntity().toString());
+		        	return complete("ok");
+		        })));*/
+		 /*       
+		    post(() ->entity(Marshaller.entityToResponse, (content) -> {
 		    	ObjectMapper objectMapper = new ObjectMapper();
 		    	
 		    	try {

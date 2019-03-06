@@ -34,7 +34,7 @@ public class RestRouter extends AbstractActor{
 		return receiveBuilder().match(HttpRequestReceived.class, message -> {
 			System.out.println("Router received message");
 			if(this.api.containsKey(message.getApi())) {
-				this.api.get(message.getApi()).tell(new MessageReceived(message.getMessage()), ActorRef.noSender());
+				this.api.get(message.getApi()).tell(new MessageReceived(message.getMessage()), this.getSender());
 			}else {
 				this.getSender().tell(new IncorrectMessage(), ActorRef.noSender());
 			}

@@ -2,6 +2,7 @@ package com.visuallogictool.application.supervision;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Function;
 
 import com.visuallogictool.application.jsonclass.Flow;
 import com.visuallogictool.application.jsonclass.Node;
@@ -12,6 +13,9 @@ import com.visuallogictool.application.messages.flow.NodeCreated;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.actor.SupervisorStrategy;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 
 
 public class Supervisor extends AbstractActor{
@@ -21,6 +25,7 @@ public class Supervisor extends AbstractActor{
 	private int nextActorReceived;
 	
 	private HashMap<Integer, ActorRef> actors;
+	private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 	
 	public static Props props(Flow flow) {
 		return Props.create(Supervisor.class, () -> new Supervisor(flow));
@@ -31,7 +36,6 @@ public class Supervisor extends AbstractActor{
 		this.id = flow.getId();
 		this.actors = new HashMap<Integer, ActorRef>();
 		
-		
 		this.actorReceived = 0;
 		this.nextActorReceived = 0;
 	}
@@ -40,6 +44,7 @@ public class Supervisor extends AbstractActor{
 	 
 	@Override
 	public void preStart() throws Exception {
+		log.info("Supervisor started");
 		this.flow.getListNode().forEach(node -> {
 			try {
 				
@@ -57,10 +62,12 @@ public class Supervisor extends AbstractActor{
 	public Receive createReceive() {
 
 		return receiveBuilder().match(NodeCreated.class, apply -> {
+			log.info("New node created of : {}",this.getSender());
 			nodeCreateReceive(apply.getId());
 				
 			
 		}).match(NextActorReceived.class, apply -> {
+			log.info("Next actor of received : {}",this.getSender());
 			receiveNextActor();
 		}).build();
 		
@@ -70,7 +77,7 @@ public class Supervisor extends AbstractActor{
 		
 		this.nextActorReceived++;
 		if(this.nextActorReceived == this.flow.getListNode().size()) {
-			System.out.println("All next actor RECEIVED");
+			log.info("All next actor Received");
 		}
 		
 	}
@@ -81,6 +88,7 @@ public class Supervisor extends AbstractActor{
 		this.actors.put(id, this.getSender());
 		
 		if(this.actorReceived == this.flow.getListNode().size()) {
+			log.info("All node created");
 			this.flow.getListNode().forEach( node -> {
 				sendNextActor(node);
 			});
@@ -88,14 +96,11 @@ public class Supervisor extends AbstractActor{
 
 		}
 		
+		
 	}
 
 	private void sendNextActor(Node node) {
 		ArrayList<ActorRef> listNextActor = new ArrayList<ActorRef>();
-		if(node.getListNode().isEmpty()) {
-			this.nextActorReceived++;
-			return ;
-		}
 		
 		node.getListNode().forEach(child -> {
 			listNextActor.add(this.actors.get(child));
@@ -104,5 +109,25 @@ public class Supervisor extends AbstractActor{
 		actor.tell(new NextActors(listNextActor), ActorRef.noSender());
 		
 	}
+	/*
+	@Override
+	public SupervisorStrategy supervisorStrategy() {
+		// TODO Auto-generated method stub
+		return new Function<Throwable, SupervisorStrategy.Directive>() {
+            @Override
+            public SupervisorStrategy.Directive apply(Throwable param) throws Exception {
+                if (param instanceof
+                        IllegalArgumentException)
+                    return SupervisorStrategy.restart();
+                if (param instanceof
+                        ArithmeticException)
+                    return SupervisorStrategy.resume();
+                if (param instanceof
+                        NullPointerException)
+                    return SupervisorStrategy.stop();
+                else return SupervisorStrategy.escalate();
+            }
+        };
+	}*/
 
 }
