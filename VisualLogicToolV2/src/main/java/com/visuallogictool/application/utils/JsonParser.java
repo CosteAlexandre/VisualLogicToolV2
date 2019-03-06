@@ -68,6 +68,19 @@ public class JsonParser {
 		}
 		return null;
 	}
+	public JsonNode getJsonNode(String json) {
+		JsonNode jsonNode;
+		try {
+			jsonNode = objectMapper.readTree(json);
+			return jsonNode;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+	}
+	
 	
 	
 }

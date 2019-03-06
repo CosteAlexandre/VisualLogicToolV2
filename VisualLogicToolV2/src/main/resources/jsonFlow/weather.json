@@ -1,0 +1,129 @@
+
+
+{
+
+	"CreateFlow" : {
+	
+		"id" : 1,
+		"listNode" : [
+			{
+				"id" : 1,
+				"function" : "apiInput",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRest",
+				"listParameters" : { 
+                                        "type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration",
+										"api" : "/weather"
+									
+									},
+				"listNode" : ["2"]
+		
+			},
+			{
+				"id" : 2,
+				"function" : "currentHour",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.CurrentHour",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.CurrentHourConfiguration",
+					"var" : "hour"
+				},
+				"listNode" : ["3"]
+			},
+			{
+				"id" : 3,
+				"function" : "apiRequest",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.HttpRequest",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.HttpRequestConfiguration",
+					"var" : "httpRequest",
+					"url" : "https://api.apixu.com/v1/forecast.json?key=b4ed9ebe1c434417ab5150128190402&q=Brussels&days=2"
+				},
+				"listNode" : [4]
+			},
+			{
+				"id" : 4,
+				"function" : "conditionNode",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration",
+					"conditionList" : [{
+											"val1" : "hour",
+											"val2" : "12:00:00",
+											"typeVal2" : "hour",
+											"condition" : "<",
+											"outPut" : "1"										
+										},
+										{
+											"val1" : "hour",
+											"val2" : "12:00:00",
+											"typeVal2" : "hour",
+											"condition" : ">=",
+											"outPut" : "2"										
+										}				
+					]
+				},
+				"listNode" : [5,6]
+			},
+			{
+				"id" : 5,
+				"function" : "jsonNode",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.SetJsonNodeConfiguration",
+
+					"variable" : "httpRequest",
+					"path" : "forecast.forecastday[0]",
+					"valName" : "forecast"
+	
+					
+				},
+				"listNode" : [8]
+			},
+			{
+				"id" : 6,
+				"function" : "jsonNode",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.SetJsonNodeConfiguration",
+
+					"variable" : "httpRequest",
+					"path" : "forecast.forecastday[1]",
+					"valName" : "forecast"
+
+				},
+				"listNode" : [7]
+			},
+			{
+				"id" : 7,
+				"function" : "apiOutput",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration",
+					"htm" : "Number 5"
+				},
+				"listNode" : []
+			},
+			{
+				"id" : 8,
+				"function" : "apiOutput",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration",
+					"htm" : "Number 6"
+				},
+				"listNode" : []
+			}
+
+		]
+	
+	
+	
+	}
+
+
+
+
+
+}
+
+
+
