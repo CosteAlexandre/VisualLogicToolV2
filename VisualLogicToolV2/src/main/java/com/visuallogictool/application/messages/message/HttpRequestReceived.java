@@ -2,24 +2,24 @@ package com.visuallogictool.application.messages.message;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import akka.http.javadsl.model.HttpRequest;
+
 public class HttpRequestReceived {
 
 	//sends message to the director with json content
 	
-	private String api;
-	private String message;
+	private HttpRequest request;
 
-	public HttpRequestReceived(String api, String message) {
-		this.api = api;
-		this.message = message;
+	public HttpRequestReceived(HttpRequest request) {
+		this.request = request;
 	}
 
-	public String getApi() {
-		return api;
+	public HttpRequest getRequest() {
+		return request;
 	}
-	public String getMessage() {
-		return message;
-	}
+
+
+	
 	
 	
 	

@@ -9,27 +9,26 @@ import akka.actor.AbstractActor.Receive;
 
 public class ApiRestOutputConfiguration extends NodeConfiguration  {
 
-	private int id;
+	private String htm;
 	
 	public ApiRestOutputConfiguration() {
 		// TODO Auto-generated constructor stub
 	}
 
-	
-	
-	public ApiRestOutputConfiguration(int id) {
+	public ApiRestOutputConfiguration(String htm) {
 		super();
-		this.id = id;
+		this.htm = htm;
 	}
 
-	public int getId() {
-		return id;
+	public String getHtm() {
+		return htm;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setHtm(String htm) {
+		this.htm = htm;
 	}
-	
+
+
 
 	
 }

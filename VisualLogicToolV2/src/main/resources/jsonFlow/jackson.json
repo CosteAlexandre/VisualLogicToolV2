@@ -12,7 +12,7 @@
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRest",
 				"listParameters" : { 
                                         "type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration",
-										"api" : "coucou"
+										"api" : "/coucou"
 									
 									},
 				"listNode" : ["2"]
@@ -24,7 +24,7 @@
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
 				"listParameters" : {
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration",
-					"id" : "2"
+					"htm" : "Output message"
 				},
 				"listNode" : []
 			}

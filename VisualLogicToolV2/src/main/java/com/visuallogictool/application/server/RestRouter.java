@@ -14,6 +14,7 @@ import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.http.javadsl.model.HttpResponse;
 
 public class RestRouter extends AbstractActor{
 
@@ -31,12 +32,17 @@ public class RestRouter extends AbstractActor{
 	
 	@Override
 	public Receive createReceive() {
-		return receiveBuilder().match(HttpRequestReceived.class, message -> {
-			System.out.println("Router received message");
-			if(this.api.containsKey(message.getApi())) {
-				this.api.get(message.getApi()).tell(new MessageReceived(message.getMessage()), this.getSender());
+		return receiveBuilder().match(HttpRequestReceived.class, request -> {
+			String url = request.getRequest().getUri().getPathString();
+			System.out.println("Router received message from : " + url);
+			
+			if(this.api.containsKey(url)) {
+				this.api.get(url).tell(new HttpRequestReceived(request.getRequest()), this.getSender());
 			}else {
-				this.getSender().tell(new IncorrectMessage(), ActorRef.noSender());
+				HttpResponse response = HttpResponse.create()
+						.withStatus(404)
+						.withEntity("Api not found");
+				this.getSender().tell(response, ActorRef.noSender());
 			}
 			
 		}).match(RegisterRestRouter.class, message -> {

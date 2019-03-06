@@ -1,113 +1,97 @@
 package com.visuallogictool.application.server;
 
+import static scala.compat.java8.FutureConverters.toJava;
+
 import java.util.concurrent.CompletionStage;
 
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 
-import akka.NotUsed;
 import akka.actor.ActorSelection;
 import akka.actor.ActorSystem;
+import akka.dispatch.ExecutionContexts;
+import akka.dispatch.forkjoin.ForkJoinPool;
+import akka.event.Logging;
+import akka.event.LoggingAdapter;
 import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
+import akka.http.javadsl.IncomingConnection;
 import akka.http.javadsl.ServerBinding;
-import akka.http.javadsl.marshalling.Marshaller;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
-import akka.http.javadsl.server.Route;
+import akka.japi.function.Function;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
-import akka.stream.javadsl.Flow;
-
-import static akka.http.javadsl.server.Directives.*;
-import static scala.compat.java8.FutureConverters.toJava;
+import akka.stream.javadsl.Sink;
+import akka.stream.javadsl.Source;
+import scala.concurrent.ExecutionContext;
 public class RestServer {
 
+	
+	
 	private ActorSystem system;
-	private Http http;
 	private ActorMaterializer materializer;
-	private CompletionStage<ServerBinding> binding;
-	private Flow<HttpRequest, HttpResponse, NotUsed> routeFlow;
+	private ExecutionContext ec;
+	
+	private LoggingAdapter log;
 	
 	private ActorSelection restRouter;
 	
-	private long time = 10000000;
+	private long timeout = 10000000;
 	
 	private int port;
-	private ConnectHttp host;
 	
 	public RestServer(ActorSystem system, int port) {
 		this.system = system;
 		this.port = port;
-		
+		log = Logging.getLogger(system, this);
 		this.restRouter = this.system.actorSelection("/user/restRouter");
 	}
 	
 	
 	public void startServer() {
 		
-		this.http = Http.get(system);
-		this.materializer = ActorMaterializer.create(system);
 		
-		host = ConnectHttp.toHost("localhost", port);
-		 routeFlow = createRoute().flow(system, materializer);
-		    binding = http.bindAndHandle(routeFlow,
-		        host, materializer);
-		    
-		    System.out.println("Server online at http://localhost:"+port);
+		this.materializer = ActorMaterializer.create(system);
+		ec = ExecutionContexts.fromExecutor(ForkJoinPool.commonPool());
+		
+		Source<IncomingConnection, CompletionStage<ServerBinding>> serverSource
+        = Http.get(system).
+        bind(ConnectHttp.toHost("localhost",port), materializer);
 
 		    
-	}
+		log.info("Server online at http://localhost:"+port);
 
-	
-	public void stopServer() {
-		 binding
-	        .thenCompose(ServerBinding::unbind) // trigger unbinding from the port
-	        .thenAccept(unbound -> system.terminate()); // and shutdown when done
-	}
-
-	  private Route createRoute() {
-		  
-		    return  concat(
-		        pathPrefix("", () ->
-		            get(() -> {
-		            	return complete("<h1>In logic fLow  route</h1>");
-		            }       
-		            
-		        		)),
-		        pathPrefix("", () ->
-	            post(() ->{
-	            	System.out.println("Sending message");
-	            	CompletionStage<HttpResponse> future = toJava(( Patterns.ask(restRouter, new HttpRequestReceived("coucou","Hola"), time))).thenApply(r -> {
-	            		System.out.println("Response received : " + r.toString());
-	            		return (HttpResponse) r;
-	            	});
-	            	
-	            	return complete("<h1>In logic fLow  route</h1>");
-	            			
-	            	})));
+		CompletionStage<ServerBinding> serverBindingFuture
+        = serverSource
+            
+            .to(Sink.foreach(conn ->   
+                 {
+                   log.debug("Accepted new connection from '{}' ..." , conn.remoteAddress());
+                   conn.handleWithAsyncHandler(handler, materializer);
+                 }
+             ))
+             .run(materializer);   
+		
+		
+		serverBindingFuture.whenCompleteAsync((binding, failure) -> {			   
+		    if (failure!= null) {
 		        
-		       /* post(()->{
-		        	
-		        	System.out.println(Marshaller.byteStringToEntity().toString());
-		        	return complete("ok");
-		        })));*/
-		 /*       
-		    post(() ->entity(Marshaller.entityToResponse, (content) -> {
-		    	ObjectMapper objectMapper = new ObjectMapper();
-		    	
-		    	try {
-					Request requestBody = objectMapper.readValue(content, Request.class);
-					System.out.println(requestBody.toString());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		    	
-        	    System.out.println("request body: " + content);
-        	    return complete("ok");
-        	  }))));*/
+		        //WE GOT AN BINDING ERROR
+		        log.error("HTTP REST Binding Error...");		       
+		    }
 		    
-	  }
+		}, system.dispatcher());
+	}
+
+	Function<HttpRequest, CompletionStage<HttpResponse>> handler = req -> { 
+		log.info("Process Incoming HTTP Request -> {}",req);
+		CompletionStage<HttpResponse> futureDirective = toJava(Patterns.ask(this.restRouter, new HttpRequestReceived(req), this.timeout))
+		        .thenApply (r ->{ 
+		            log.info("=====> {}",r);
+		            return  (HttpResponse) r;});
+		return futureDirective;
+	};
+
 
 
 

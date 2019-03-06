@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.messages.flow.NodeCreated;
+import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.messages.message.MessageReceived;
 
@@ -85,9 +86,9 @@ public abstract class BaseNode extends AbstractActor{
 			log.info("Message received NextActor.class");
 			this.listNextActors = apply.getListNextActor();
 			this.getContext().getParent().tell(new NextActorReceived(), this.getSelf());
-		}).match(MessageReceived.class, apply -> {
+		}).match(HttpRequestReceived.class, apply -> {
 			log.info("Message received MessagedReceived.class");
-			processMessage(apply.getMessage());
+			processMessage(apply.getRequest().toString());
 			
 		}).match(MessageNode.class, apply -> {
 			log.info("Message received MessageNode.class");
