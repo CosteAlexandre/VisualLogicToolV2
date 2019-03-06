@@ -83,11 +83,7 @@
         	<version>5.4.0</version>
         	<scope>test</scope>
     	</dependency>	
-    	<dependency>
-    		<groupId>com.typesafe.akka</groupId>
-    		<artifactId>akka-http-jackson-experimental_2.10</artifactId>
-    		<version>1.0-RC2</version>
-		</dependency>	
+
 	</dependencies>
 	
   
