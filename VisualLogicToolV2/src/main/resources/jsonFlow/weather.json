@@ -50,14 +50,14 @@
 											"val2" : "12:00:00",
 											"typeVal2" : "hour",
 											"condition" : "<",
-											"outPut" : "1"										
+											"outPut" : "0"										
 										},
 										{
 											"val1" : "hour",
 											"val2" : "12:00:00",
 											"typeVal2" : "hour",
 											"condition" : ">=",
-											"outPut" : "2"										
+											"outPut" : "1"										
 										}				
 					]
 				},
@@ -76,7 +76,7 @@
 	
 					
 				},
-				"listNode" : [8]
+				"listNode" : [7]
 			},
 			{
 				"id" : 6,
@@ -94,21 +94,97 @@
 			},
 			{
 				"id" : 7,
+				"function" : "jsonNode",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.SetJsonNodeConfiguration",
+
+					"variable" : "forecast",
+					"path" : "day.condition.text",
+					"valName" : "weather"
+
+				},
+				"listNode" : [8]
+			},
+			{
+				"id" : 8,
+				"function" : "conditionNode",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration",
+					"conditionList" : [{
+											"val1" : "weather",
+											"val2" : "rain",
+											"typeVal2" : "json",
+											"condition" : "contains",
+											"outPut" : "0"										
+										},
+										{
+											"val1" : "weather",
+											"val2" : "else",
+											"typeVal2" : "else",
+											"condition" : "else",
+											"outPut" : "1"										
+										}				
+					]
+				},
+				"listNode" : [9,10]
+			},
+			{
+				"id" : 9,
 				"function" : "apiOutput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
 				"listParameters" : {
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration",
-					"htm" : "Number 5"
+					"htm" : "Bad weather : Sending mail"
 				},
 				"listNode" : []
 			},
 			{
-				"id" : 8,
+				"id" : 10,
+				"function" : "jsonNode",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.SetJsonNodeConfiguration",
+
+					"variable" : "forecast",
+					"path" : "day.mintemp_c",
+					"valName" : "mintemp"
+
+				},
+				"listNode" : [11]
+			},
+			{
+				"id" : 11,
+				"function" : "conditionNode",
+				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
+				"listParameters" : {
+					"type":"com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration",
+					"conditionList" : [{
+											"val1" : "mintemp",
+											"val2" : "10",
+											"typeVal2" : "json",
+											"condition" : "<",
+											"outPut" : "0"										
+										},
+										{
+											"val1" : "mintemp",
+											"val2" : "else",
+											"typeVal2" : "else",
+											"condition" : "else",
+											"outPut" : "1"										
+										}				
+					]
+				},
+				"listNode" : [9,12]
+			},
+			{
+				"id" : 12,
 				"function" : "apiOutput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
 				"listParameters" : {
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration",
-					"htm" : "Number 6"
+					"htm" : "Good weather, everything is fine"
 				},
 				"listNode" : []
 			}
