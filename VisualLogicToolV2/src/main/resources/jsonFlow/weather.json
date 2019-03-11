@@ -15,7 +15,7 @@
 										"api" : "/weather"
 									
 									},
-				"listNode" : ["2"]
+				"output" : ["2"]
 		
 			},
 			{
@@ -26,7 +26,7 @@
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.CurrentHourConfiguration",
 					"var" : "hour"
 				},
-				"listNode" : ["3"]
+				"output" : ["3"]
 			},
 			{
 				"id" : 3,
@@ -37,7 +37,7 @@
 					"var" : "httpRequest",
 					"url" : "https://api.apixu.com/v1/forecast.json?key=b4ed9ebe1c434417ab5150128190402&q=Brussels&days=2"
 				},
-				"listNode" : [4]
+				"output" : [4]
 			},
 			{
 				"id" : 4,
@@ -45,7 +45,7 @@
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
 				"listParameters" : {
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration",
-					"conditionList" : [{
+					"conditions" : [{
 											"val1" : "hour",
 											"val2" : "12:00:00",
 											"typeVal2" : "hour",
@@ -61,7 +61,7 @@
 										}				
 					]
 				},
-				"listNode" : [5,6]
+				"output" : [5,6]
 			},
 			{
 				"id" : 5,
@@ -76,7 +76,7 @@
 	
 					
 				},
-				"listNode" : [7]
+				"output" : [7]
 			},
 			{
 				"id" : 6,
@@ -90,7 +90,7 @@
 					"valName" : "forecast"
 
 				},
-				"listNode" : [7]
+				"output" : [7]
 			},
 			{
 				"id" : 7,
@@ -104,7 +104,7 @@
 					"valName" : "weather"
 
 				},
-				"listNode" : [8]
+				"output" : [8]
 			},
 			{
 				"id" : 8,
@@ -112,7 +112,7 @@
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
 				"listParameters" : {
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration",
-					"conditionList" : [{
+					"conditions" : [{
 											"val1" : "weather",
 											"val2" : "rain",
 											"typeVal2" : "json",
@@ -128,7 +128,7 @@
 										}				
 					]
 				},
-				"listNode" : [9,10]
+				"output" : [9,10]
 			},
 			{
 				"id" : 9,
@@ -138,7 +138,7 @@
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration",
 					"htm" : "Bad weather : Sending mail"
 				},
-				"listNode" : []
+				"output" : []
 			},
 			{
 				"id" : 10,
@@ -152,7 +152,7 @@
 					"valName" : "mintemp"
 
 				},
-				"listNode" : [11]
+				"output" : [11]
 			},
 			{
 				"id" : 11,
@@ -160,7 +160,7 @@
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
 				"listParameters" : {
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration",
-					"conditionList" : [{
+					"conditions" : [{
 											"val1" : "mintemp",
 											"val2" : "10",
 											"typeVal2" : "json",
@@ -176,7 +176,7 @@
 										}				
 					]
 				},
-				"listNode" : [9,12]
+				"output" : [9,12]
 			},
 			{
 				"id" : 12,
@@ -186,7 +186,7 @@
 					"type":"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration",
 					"htm" : "Good weather, everything is fine"
 				},
-				"listNode" : []
+				"output" : []
 			}
 
 		]

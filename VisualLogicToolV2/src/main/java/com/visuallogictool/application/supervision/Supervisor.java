@@ -102,7 +102,7 @@ public class Supervisor extends AbstractActor{
 	private void sendNextActor(Node node) {
 		ArrayList<ActorRef> listNextActor = new ArrayList<ActorRef>();
 		
-		node.getListNode().forEach(child -> {
+		node.getOutput().forEach(child -> {
 			listNextActor.add(this.actors.get(child));
 		});
 		ActorRef actor = this.actors.get(node.getId());

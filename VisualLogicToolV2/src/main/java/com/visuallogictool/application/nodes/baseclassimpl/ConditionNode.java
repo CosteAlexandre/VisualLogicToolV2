@@ -18,7 +18,7 @@ import akka.actor.ActorRef;
 public class ConditionNode<T> extends BaseNode{
 
 	private ConditionNodeConfiguration configuration;
-	private ArrayList<Condition> conditionList;
+	private ArrayList<Condition> conditions;
 	
 	private HashMap<String, HashMap<String, BiFunction<Object,String,Boolean>>> types; 
 	
@@ -29,7 +29,7 @@ public class ConditionNode<T> extends BaseNode{
 	public ConditionNode(int id, ConditionNodeConfiguration configuration) {
 		super(id);
 		this.configuration = configuration;
-		conditionList = configuration.getConditionList();
+		conditions = configuration.getConditions();
 		initializeMap();
 	}
 
@@ -49,6 +49,9 @@ public class ConditionNode<T> extends BaseNode{
 		json.put("contains", containsJson);
 		json.put("<", inferiorThanJson);
 		
+		/*
+		 * 
+		 */
 		
 	}
 
@@ -106,7 +109,7 @@ public class ConditionNode<T> extends BaseNode{
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		resp = false;
-		this.conditionList.forEach( condition -> {
+		this.conditions.forEach( condition -> {
 			String type = condition.getTypeVal2();
 			String function = condition.getCondition();
 			

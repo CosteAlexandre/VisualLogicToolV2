@@ -6,7 +6,7 @@ import com.visuallogictool.application.jsonclass.NodeConfiguration;
 
 public class ConditionNodeConfiguration extends NodeConfiguration{
 
-	private ArrayList<Condition> conditionList;
+	private ArrayList<Condition> conditions;
 	
 
 	
@@ -20,17 +20,17 @@ public class ConditionNodeConfiguration extends NodeConfiguration{
 
 
 
-	public ConditionNodeConfiguration(ArrayList<Condition> conditionList) {
+	public ConditionNodeConfiguration(ArrayList<Condition> conditions) {
 		super();
-		this.conditionList = conditionList;
+		this.conditions = conditions;
 	}
 
-	public ArrayList<Condition> getConditionList() {
-		return conditionList;
+	public ArrayList<Condition> getConditions() {
+		return conditions;
 	}
 
-	public void setConditionList(ArrayList<Condition> conditionList) {
-		this.conditionList = conditionList;
+	public void setConditions(ArrayList<Condition> conditions) {
+		this.conditions = conditions;
 	}
 	
 	
