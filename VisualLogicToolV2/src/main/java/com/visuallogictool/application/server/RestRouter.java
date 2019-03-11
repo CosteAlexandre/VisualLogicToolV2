@@ -9,6 +9,7 @@ import com.visuallogictool.application.messages.message.RegisterFailed;
 import com.visuallogictool.application.messages.message.RegisterRestRouter;
 import com.visuallogictool.application.nodes.baseclassimpl.ApiRest;
 import com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration;
+import com.visuallogictool.application.server.route.LogicFlowRoute;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 
 import akka.actor.AbstractActor;
@@ -27,6 +28,17 @@ public class RestRouter extends AbstractActor{
 	
 	public RestRouter() {
 		this.api = new HashMap<String, ActorRef>();		
+	}
+	
+	@Override
+	public void preStart() throws Exception {
+		super.preStart();
+		register();
+	}
+	
+	private void register() {
+		ActorRef logicFlow =  this.getContext().actorOf(LogicFlowRoute.props());
+		api.put("/logicFlow", logicFlow);
 	}
 	
 	

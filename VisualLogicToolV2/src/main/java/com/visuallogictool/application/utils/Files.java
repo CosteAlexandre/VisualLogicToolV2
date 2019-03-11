@@ -5,10 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+
+import com.visuallogictool.application.jsonclass.Flow;
 
 public class Files {
 	public Properties loadPropertiesFile(String path) {
@@ -40,6 +43,8 @@ public class Files {
 		});
 		return files;
 	}
+
+
 	
 	
 	

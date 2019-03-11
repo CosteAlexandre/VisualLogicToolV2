@@ -6,6 +6,8 @@ import java.util.function.Function;
 
 import com.visuallogictool.application.jsonclass.Flow;
 import com.visuallogictool.application.jsonclass.Node;
+import com.visuallogictool.application.messages.flow.CreateFlow;
+import com.visuallogictool.application.messages.flow.FlowCreated;
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.messages.flow.NodeCreated;
@@ -16,6 +18,7 @@ import akka.actor.Props;
 import akka.actor.SupervisorStrategy;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
+import akka.http.javadsl.model.HttpResponse;
 
 
 public class Supervisor extends AbstractActor{
@@ -27,8 +30,9 @@ public class Supervisor extends AbstractActor{
 	private HashMap<Integer, ActorRef> actors;
 	private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 	
-	public static Props props(Flow flow) {
-		return Props.create(Supervisor.class, () -> new Supervisor(flow));
+	private ActorRef httpResponse;
+	public static Props props(Flow flow, ActorRef httpResponse) {
+		return Props.create(Supervisor.class, () -> new Supervisor(flow,httpResponse));
 	}
 
 	public Supervisor(Flow flow) {
@@ -38,6 +42,15 @@ public class Supervisor extends AbstractActor{
 		
 		this.actorReceived = 0;
 		this.nextActorReceived = 0;
+	}
+	public Supervisor(Flow flow, ActorRef httpResponse) {
+		this.flow = flow;
+		this.id = flow.getId();
+		this.actors = new HashMap<Integer, ActorRef>();
+		
+		this.actorReceived = 0;
+		this.nextActorReceived = 0;
+		this.httpResponse = httpResponse;
 	}
 
 	
@@ -78,6 +91,9 @@ public class Supervisor extends AbstractActor{
 		this.nextActorReceived++;
 		if(this.nextActorReceived == this.flow.getListNode().size()) {
 			log.info("All next actor Received");
+			if(this.httpResponse!=null) {
+				this.getContext().getParent().tell(new FlowCreated(this.id), this.httpResponse);
+			}
 		}
 		
 	}

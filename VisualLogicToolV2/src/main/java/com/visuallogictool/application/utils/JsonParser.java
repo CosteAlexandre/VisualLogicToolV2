@@ -2,6 +2,9 @@ package com.visuallogictool.application.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+import org.apache.commons.io.FileUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -38,21 +41,29 @@ public class JsonParser {
 		
 		return null;
 	}
-
+	public Flow jsonFlowConverter(String json) {
+		
+		try {
+			Flow flow = objectMapper.readValue(json, Flow.class);
+			return flow;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//error
+		return null;
+	}
 	public Flow jsonFlowConverter(File file) {
 		try {
 			
 			JsonNode jsonNode = objectMapper.readTree(file);
 
-			if(jsonNode.get("CreateFlow") == null) {
-				System.out.println("Error");
-			}
-			
-			JsonNode node = jsonNode.get("CreateFlow");
 
-			Flow flow = objectMapper.treeToValue(node, Flow.class);
+
+			Flow flow = objectMapper.readValue(file, Flow.class);
 			
-			System.out.println(node.toString());
+			System.out.println(jsonNode.toString());
 			
 			return flow;
 			
@@ -80,7 +91,15 @@ public class JsonParser {
 		return null;
 		
 	}
-	
+	public void addFlowJsonFile(Flow flow, String path) {
+        
+		try {
+			objectMapper.writeValue(new File(path), flow);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 }

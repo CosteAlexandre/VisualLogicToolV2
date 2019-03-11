@@ -45,7 +45,7 @@ public class MainApplication {
 		
 		system.actorOf(RestRouter.props(),"restRouter");
 		
-		system.actorOf(Props.create(Director.class, server, configuration.getMode()));
+		system.actorOf(Props.create(Director.class, server, configuration.getMode()),"director");
 		
 		
 	}
