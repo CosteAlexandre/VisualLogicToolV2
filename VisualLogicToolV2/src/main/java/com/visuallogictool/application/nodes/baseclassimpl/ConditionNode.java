@@ -12,6 +12,8 @@ import java.util.function.BiFunction;
 import com.visuallogictool.application.errors.DateError;
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.nodes.BaseNode;
+import com.visuallogictool.application.nodes.baseclassimpl.conditions.ConditionHour;
+import com.visuallogictool.application.nodes.baseclassimpl.conditions.ConditionJson;
 
 import akka.actor.ActorRef;
 
@@ -38,72 +40,19 @@ public class ConditionNode<T> extends BaseNode{
 
 		types = new HashMap<String, HashMap<String,BiFunction<Object,String,Boolean>>>();
 		
-		hourFunction = new HashMap<String, BiFunction<Object,String,Boolean>>();		
-		json = new HashMap<String, BiFunction<Object,String,Boolean>>();
+		hourFunction = (new ConditionHour()).getHourFunction();		
+		json = (new ConditionJson()).getJson();
 		
 		types.put("hour", hourFunction);
 		types.put("json", json);
 		
-		hourFunction.put(">=", hourAboveOrEquals);
-		hourFunction.put("<", hourBelow);
-		json.put("contains", containsJson);
-		json.put("<", inferiorThanJson);
-		
+
+
 		/*
 		 * 
 		 */
 		
 	}
-
-
-	private BiFunction<Object, String, Boolean> hourAboveOrEquals = new BiFunction<Object, String, Boolean>() {
-		@Override
-		public Boolean apply(Object t, String u) {
-			DateFormat format = new SimpleDateFormat ("hh:mm:ss");
-			try {
-				Date date1 = format.parse((String)t);
-				Date date2 = format.parse(u);
-				return !date1.before(date2);
-			} catch (ParseException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}
-	};
-	private BiFunction<Object, String, Boolean> hourBelow = new BiFunction<Object, String, Boolean>() {
-		@Override
-		public Boolean apply(Object t, String u) {
-			DateFormat format = new SimpleDateFormat ("hh:mm:ss");
-			try {
-				Date date1 = format.parse((String)t);
-				Date date2 = format.parse(u);
-				return date1.before(date2);
-			} catch (ParseException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}
-	};
-	
-	private BiFunction<Object, String, Boolean> containsJson = new BiFunction<Object, String, Boolean>() {
-		@Override
-		public Boolean apply(Object t, String u) {
-			
-				return t.toString().contains(u);
-			
-		}
-	};
-	private BiFunction<Object, String, Boolean> inferiorThanJson = new BiFunction<Object, String, Boolean>() {
-		@Override
-		public Boolean apply(Object t, String u) {
-				double a = Double.parseDouble(t.toString());
-				double b = Double.parseDouble(u);
-				
-				return a < b ;
-			
-		}
-	};
-	
 	
 	private boolean resp;
 	@Override
