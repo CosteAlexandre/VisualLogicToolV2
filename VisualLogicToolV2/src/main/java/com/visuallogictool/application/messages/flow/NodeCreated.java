@@ -2,13 +2,13 @@ package com.visuallogictool.application.messages.flow;
 
 public class NodeCreated {
 
-	private int id;
+	private String id;
 	
-	public NodeCreated(int id) {
+	public NodeCreated(String id) {
 		this.id = id ;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 

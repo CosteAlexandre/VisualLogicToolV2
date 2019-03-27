@@ -12,8 +12,8 @@ public class ConditionJson {
 	public ConditionJson() {
 		json = new HashMap<String, BiFunction<Object,String,Boolean>>();
 		
-		json.put("contains", containsJson);
-		json.put("<", inferiorThanJson);
+		json.put("jsoncontains", containsJson);
+		json.put("json<", inferiorThanJson);
 		
 		
 		

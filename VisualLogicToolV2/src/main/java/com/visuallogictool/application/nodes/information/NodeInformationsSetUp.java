@@ -1,0 +1,56 @@
+package com.visuallogictool.application.nodes.information;
+
+import com.visuallogictool.application.nodes.information.concrete.FieldBase;
+
+public class NodeInformationsSetUp {
+
+	private NodeInformations nodeInformations;
+	
+	public NodeInformationsSetUp() {
+		nodeInformations = new NodeInformations();
+	}
+	
+	public NodeInformationsSetUp setHeader(String name, String tooltip,String description) {
+		
+		nodeInformations.setName(name);
+		nodeInformations.setTooltip(tooltip);
+		nodeInformations.setDescription(description);
+		
+		return this;
+	}
+	
+	public NodeInformationsSetUp setFields(Field ...fields ) {
+		
+		for (Field field : fields) {
+			nodeInformations.getFields().add(field);
+		}
+		
+		return this;
+	}
+	public NodeInformations getNodeInformations() {
+		return nodeInformations;
+	}
+	public NodeInformationsSetUp setFieldBase(FieldBase ...basefields) {
+		
+		for (FieldBase fieldBase : basefields) {
+			this.nodeInformations.getFieldBases().add(fieldBase);
+		}
+		
+		return this;
+	}
+	public NodeInformationsSetUp setType(String type) {
+		this.nodeInformations.setType(type);
+		return this;
+	}
+	public NodeInformationsSetUp setClass(String classType, String className) {
+		
+		this.nodeInformations.setClassType(classType);
+		this.nodeInformations.setClassName(className);		
+		
+		return this;
+	}
+	public NodeInformationsSetUp setShortName(String shortName) {
+		this.nodeInformations.setShortName(shortName);
+		return this;
+	}
+}

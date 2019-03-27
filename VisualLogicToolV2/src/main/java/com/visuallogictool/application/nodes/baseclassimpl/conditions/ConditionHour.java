@@ -15,8 +15,8 @@ public class ConditionHour {
 	public ConditionHour() {
 		hourFunction = new HashMap<String, BiFunction<Object,String,Boolean>>();
 		
-		hourFunction.put(">=", hourAboveOrEquals);
-		hourFunction.put("<", hourBelow);
+		hourFunction.put("hour>=", hourAboveOrEquals);
+		hourFunction.put("hour<", hourBelow);
 	
 	}
 	

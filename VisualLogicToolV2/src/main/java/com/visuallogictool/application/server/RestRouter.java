@@ -2,15 +2,14 @@ package com.visuallogictool.application.server;
 
 import java.util.HashMap;
 
-import com.visuallogictool.application.messages.message.IncorrectMessage;
-import com.visuallogictool.application.messages.message.MessageReceived;
+import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import com.visuallogictool.application.messages.message.RegisterComplete;
 import com.visuallogictool.application.messages.message.RegisterFailed;
 import com.visuallogictool.application.messages.message.RegisterRestRouter;
-import com.visuallogictool.application.nodes.baseclassimpl.ApiRest;
-import com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration;
+import com.visuallogictool.application.messages.message.UnregisterRouter;
+import com.visuallogictool.application.server.route.DeleteFlowRoute;
+import com.visuallogictool.application.server.route.GetNodesInformationsRoute;
 import com.visuallogictool.application.server.route.LogicFlowRoute;
-import com.visuallogictool.application.messages.message.HttpRequestReceived;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
@@ -37,8 +36,12 @@ public class RestRouter extends AbstractActor{
 	}
 	
 	private void register() {
+		ActorRef deleteFlow =  this.getContext().actorOf(DeleteFlowRoute.props());
 		ActorRef logicFlow =  this.getContext().actorOf(LogicFlowRoute.props());
+		ActorRef getNodesInformations =  this.getContext().actorOf(GetNodesInformationsRoute.props());
+		api.put("/deleteFlow", deleteFlow);
 		api.put("/logicFlow", logicFlow);
+		api.put("/getNodesInformations", getNodesInformations);
 	}
 	
 	
@@ -66,7 +69,14 @@ public class RestRouter extends AbstractActor{
 				message.getActor().tell(new RegisterComplete(), ActorRef.noSender());
 			}
 			
+		}).match(UnregisterRouter.class, apply ->{			
+			this.api.remove(apply.getApi());
+		}).matchAny(apply->{
+			
+			System.out.println("Else : "+apply);
+			
 		}).build();
+		
 		
 	}
 

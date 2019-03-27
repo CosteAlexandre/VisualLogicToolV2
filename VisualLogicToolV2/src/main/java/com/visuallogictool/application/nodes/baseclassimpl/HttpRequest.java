@@ -11,6 +11,10 @@ import com.mashape.unirest.http.async.Callback;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.nodes.BaseNode;
+import com.visuallogictool.application.nodes.information.Field;
+import com.visuallogictool.application.nodes.information.NodeInformations;
+import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
+import com.visuallogictool.application.nodes.information.concrete.TextboxField;
 import com.visuallogictool.application.utils.JsonParser;
 
 import akka.actor.ActorRef;
@@ -22,7 +26,7 @@ public class HttpRequest extends BaseNode{
 	
 	HttpRequestConfiguration configuration;
 	
-	public HttpRequest(int id, HttpRequestConfiguration configuration) {
+	public HttpRequest(String id, HttpRequestConfiguration configuration) {
 		super(id);
 		this.configuration = configuration;
 		this.var = configuration.getVar();
@@ -67,10 +71,25 @@ public class HttpRequest extends BaseNode{
 	}
 
 
-	@Override
-	public void getGUI() {
-		// TODO Auto-generated method stub
+	
+	public static NodeInformations getGUI() {
 		
+		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		informations = informations.setHeader("HttpRequest", "Fetch a http request", "Fetch the json in the given url").
+									setFields(new Field("var", "String", "variable", "name of the variable where the information will be stored")).
+									setFields(new Field("url", "String", "name of url", "the name of the url that will be used"));
+		
+		informations = informations.setFieldBase(new TextboxField(null, "var", "var", true, 1, null)).
+									setFieldBase(new TextboxField(null, "url", "url", true, 2, null));
+		
+		informations = informations.setType("BaseNode");
+		
+		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.HttpRequestConfiguration"
+				,"com.visuallogictool.application.nodes.baseclassimpl.HttpRequest");
+		
+		informations = informations.setShortName("HR");
+		
+		return informations.getNodeInformations();
 	}
 
 }

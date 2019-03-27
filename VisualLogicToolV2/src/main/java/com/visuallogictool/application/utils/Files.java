@@ -44,7 +44,17 @@ public class Files {
 		return files;
 	}
 
-
+	public boolean deleteFile(String path) {
+		File file = new File(path);
+        if(file.delete()){
+            System.out.println(path + " File deleted from Project root directory");
+            return true;
+        }else {
+        	System.out.println(path + " doesn't exist in the project root directory");
+        	return false;
+        }
+        
+	}
 	
 	
 	

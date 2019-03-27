@@ -4,10 +4,10 @@
 
 
 	
-		"id" : 1,
+		"id" : "1",
 		"listNode" : [
 			{
-				"id" : 1,
+				"id" : "1",
 				"function" : "apiInput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRest",
 				"listParameters" : { 
@@ -19,7 +19,7 @@
 		
 			},
 			{
-				"id" : 2,
+				"id" : "2",
 				"function" : "apiOutput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
 				"listParameters" : {

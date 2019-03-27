@@ -6,6 +6,10 @@ import java.util.HashMap;
 
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.nodes.BaseNode;
+import com.visuallogictool.application.nodes.information.Field;
+import com.visuallogictool.application.nodes.information.NodeInformations;
+import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
+import com.visuallogictool.application.nodes.information.concrete.TextboxField;
 
 import akka.actor.ActorRef;
 
@@ -16,7 +20,7 @@ public class CurrentHour extends BaseNode{
 	private String var;
 	private CurrentHourConfiguration configuration;
 	
-	public CurrentHour(int id, CurrentHourConfiguration configuration) {
+	public CurrentHour(String id, CurrentHourConfiguration configuration) {
 		super(id);
 		this.var = configuration.getVar();
 	}
@@ -34,10 +38,22 @@ public class CurrentHour extends BaseNode{
 		});
 	}
 
-	@Override
-	public void getGUI() {
-		// TODO Auto-generated method stub
+	public static NodeInformations getGUI() {
 		
+		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		informations = informations.setHeader("CurrentHour", "take the current hour", "Put the current hour in a variable").
+									setFields(new Field("var", "hour", "variable", "the name of the variable where the new parameter will be stored"));
+		
+		informations = informations.setFieldBase(new TextboxField(null, "var", "var", true, 1, null));
+	
+		informations = informations.setType("BaseNode");
+		
+		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.CurrentHourConfiguration"
+				,"com.visuallogictool.application.nodes.baseclassimpl.CurrentHour");
+		
+		informations = informations.setShortName("CH");
+		
+		return informations.getNodeInformations();
 	}
 
 }

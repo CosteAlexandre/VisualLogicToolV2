@@ -1,14 +1,18 @@
 package com.visuallogictool.application.messages.flow;
 
-public class FlowCreated {
+public class DeleteFlow {
 
 	private String id;
 	
-	public FlowCreated(String id2) {
-		this.id = id2;
+	public DeleteFlow(String id) {
+		this.id = id;
 	}
+	
 	public String getId() {
 		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	
 }

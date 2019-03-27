@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class Flow {
 
-	private int id;
+	private String id;
 	
 	private ArrayList<Node> listNode;
 
@@ -13,17 +13,17 @@ public class Flow {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Flow(int id, ArrayList<Node> listNode) {
+	public Flow(String id, ArrayList<Node> listNode) {
 		super();
 		this.id = id;
 		this.listNode = listNode;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

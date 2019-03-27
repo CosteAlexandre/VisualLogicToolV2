@@ -1,13 +1,15 @@
 package com.visuallogictool.application.nodes.baseclass;
 
 import com.visuallogictool.application.nodes.BaseNode;
+import com.visuallogictool.application.nodes.information.NodeInformations;
 
 public abstract class InputNode extends BaseNode{
 
-	public InputNode(int id) {
+	public InputNode(String id) {
 		super(id);		
 	}
 
+	
 	public abstract void createMessageTrigger(); // Start a logic like a listen on a folder/file or on a api / mail etc
 	
 	public void preStart() throws Exception {

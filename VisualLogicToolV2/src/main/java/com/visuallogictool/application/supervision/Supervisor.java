@@ -23,11 +23,11 @@ import akka.http.javadsl.model.HttpResponse;
 
 public class Supervisor extends AbstractActor{
 	private Flow flow;
-	private int id;
+	private String id;
 	private int actorReceived;
 	private int nextActorReceived;
 	
-	private HashMap<Integer, ActorRef> actors;
+	private HashMap<String, ActorRef> actors;
 	private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 	
 	private ActorRef httpResponse;
@@ -38,7 +38,7 @@ public class Supervisor extends AbstractActor{
 	public Supervisor(Flow flow) {
 		this.flow = flow;
 		this.id = flow.getId();
-		this.actors = new HashMap<Integer, ActorRef>();
+		this.actors = new HashMap<String, ActorRef>();
 		
 		this.actorReceived = 0;
 		this.nextActorReceived = 0;
@@ -46,7 +46,7 @@ public class Supervisor extends AbstractActor{
 	public Supervisor(Flow flow, ActorRef httpResponse) {
 		this.flow = flow;
 		this.id = flow.getId();
-		this.actors = new HashMap<Integer, ActorRef>();
+		this.actors = new HashMap<String, ActorRef>();
 		
 		this.actorReceived = 0;
 		this.nextActorReceived = 0;
@@ -90,7 +90,7 @@ public class Supervisor extends AbstractActor{
 		
 		this.nextActorReceived++;
 		if(this.nextActorReceived == this.flow.getListNode().size()) {
-			log.info("All next actor Received");
+			log.info("All next actor Received size node : ");
 			if(this.httpResponse!=null) {
 				this.getContext().getParent().tell(new FlowCreated(this.id), this.httpResponse);
 			}
@@ -98,27 +98,24 @@ public class Supervisor extends AbstractActor{
 		
 	}
 
-	private void nodeCreateReceive(int id) {
+	private void nodeCreateReceive(String id) {
 		this.actorReceived++;
-		
 		this.actors.put(id, this.getSender());
 		
 		if(this.actorReceived == this.flow.getListNode().size()) {
+						
 			log.info("All node created");
 			this.flow.getListNode().forEach( node -> {
 				sendNextActor(node);
 			});
-				
-
 		}
-		
-		
 	}
 
 	private void sendNextActor(Node node) {
 		ArrayList<ActorRef> listNextActor = new ArrayList<ActorRef>();
 		
 		node.getOutput().forEach(child -> {
+		//	System.out.println(this.actors.get(child));
 			listNextActor.add(this.actors.get(child));
 		});
 		ActorRef actor = this.actors.get(node.getId());

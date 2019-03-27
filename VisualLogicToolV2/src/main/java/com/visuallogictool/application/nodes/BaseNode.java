@@ -9,6 +9,7 @@ import com.visuallogictool.application.messages.flow.NodeCreated;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.messages.message.MessageReceived;
+import com.visuallogictool.application.nodes.information.NodeInformations;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
@@ -34,7 +35,7 @@ public abstract class BaseNode extends AbstractActor{
 	//add method
 	protected LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
 	
-	protected int id; // unique id for each node
+	protected String id; // unique id for each node
 	
 	
 	protected ArrayList<ActorRef> listNextActors; // list of the next actor he will call
@@ -42,7 +43,7 @@ public abstract class BaseNode extends AbstractActor{
 	//add start/finish time
 	
 	//call this one with the new one to initialise quickly
-	public BaseNode(int id ) {
+	public BaseNode(String id ) {
 		super();
 		//this.numberOutput = numberOutput;		
 		this.id = id;
@@ -69,7 +70,9 @@ public abstract class BaseNode extends AbstractActor{
 		processMessage(context);
 	}
 	
-	public abstract void getGUI();// by introspection get all fields of class and send it back by formating it?
+	public static NodeInformations getGUI() {
+		return null;
+	};// by introspection get all fields of class and send it back by formating it?
 	// so all nodes sends the same response? And no multiple actions needed? Todo this add a description in class
 	
 	@Override

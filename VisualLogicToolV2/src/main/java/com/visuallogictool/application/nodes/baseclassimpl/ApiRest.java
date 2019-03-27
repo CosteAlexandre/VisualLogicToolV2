@@ -5,7 +5,13 @@ import java.util.HashMap;
 
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.messages.message.RegisterRestRouter;
+import com.visuallogictool.application.messages.message.UnregisterRouter;
 import com.visuallogictool.application.nodes.baseclass.InputNode;
+import com.visuallogictool.application.nodes.information.Field;
+import com.visuallogictool.application.nodes.information.NodeInformations;
+import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
+import com.visuallogictool.application.nodes.information.concrete.FieldBase;
+import com.visuallogictool.application.nodes.information.concrete.TextboxField;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
@@ -18,10 +24,10 @@ public class ApiRest extends InputNode {
 	
 	 
 	 //final LoggingAdapter log = Logging.getLogger(getContext().getSystem().eventStream(), "my.string");
-	  static public Props props(int id, ApiRestConfiguration apiRestConfiguration) {
+	  static public Props props(String id, ApiRestConfiguration apiRestConfiguration) {
 		    return Props.create(ApiRest.class, () -> new ApiRest(id, apiRestConfiguration));
 	  }
-	  static public Props props(int id, String api, ArrayList<ActorRef> listActor) {
+	  static public Props props(String id, String api, ArrayList<ActorRef> listActor) {
 		    return Props.create(ApiRest.class, () -> new ApiRest(id,api,listActor));
 	  }
 
@@ -33,7 +39,7 @@ public class ApiRest extends InputNode {
 		super.preStart();
 		System.out.println("ID : " + this.id);
 	}
-	public ApiRest(int id, ApiRestConfiguration apiRestConfiguration) {
+	public ApiRest(String id, ApiRestConfiguration apiRestConfiguration) {
 		super(id);
 		
 		this.api = apiRestConfiguration.getApi();
@@ -41,7 +47,7 @@ public class ApiRest extends InputNode {
 		//"/application"
 		
 	}
-	public ApiRest(int id, String api,ArrayList<ActorRef> listActor) {
+	public ApiRest(String id, String api,ArrayList<ActorRef> listActor) {
 		super(id);
 		
 		this.api = api;
@@ -58,7 +64,7 @@ public class ApiRest extends InputNode {
 		System.out.println("RECEIVED IN API REST");
 		
 		context.put("InputSender", this.getSender());
-		context.put("context", "From ApiREst");
+		context.put("context", "From ApiRest");
 		MessageNode messageToSend = new MessageNode(context);
 	
 	
@@ -67,11 +73,26 @@ public class ApiRest extends InputNode {
 		});		
 		
 	}
-
-	@Override
-	public void getGUI() {
+	
+	public static NodeInformations getGUI() {
 		
+		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		informations = informations.setHeader("ApiInput", "Creates an api", "Creates an Api with the given parameter").
+									setFields(new Field("api", "String", "name for new api", "the name for the new api"));
+		
+		informations = informations.setFieldBase(new TextboxField(null, "api", "api", true, 1, null));
+		
+		informations = informations.setType("InputNode");
+		
+		
+		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration"
+											,"com.visuallogictool.application.nodes.baseclassimpl.ApiRest");
+		
+		informations = informations.setShortName("AR");
+		
+		return informations.getNodeInformations();
 	}
+	
 
 	
 
@@ -84,7 +105,14 @@ public class ApiRest extends InputNode {
 	}
 
 	
-
+	@Override
+	public void postStop() throws Exception {
+		super.postStop();
+		this.context().actorSelection("/user/restRouter").tell(new UnregisterRouter(this.api), ActorRef.noSender());
+		
+		
+		
+	}
 
 
 

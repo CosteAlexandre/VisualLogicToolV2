@@ -1,13 +1,15 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.nodes.BaseNode;
+import com.visuallogictool.application.nodes.information.Field;
+import com.visuallogictool.application.nodes.information.NodeInformations;
+import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
+import com.visuallogictool.application.nodes.information.concrete.TextboxField;
 
 import akka.actor.ActorRef;
 
@@ -19,7 +21,7 @@ public class SetJsonNode extends BaseNode{
 	private String path;
 	private String valName;
 	
-	public SetJsonNode(int id, SetJsonNodeConfiguration configuration) {
+	public SetJsonNode(String id, SetJsonNodeConfiguration configuration) {
 		super(id);
 		this.configuration = configuration;
 		this.variable = configuration.getVariable();
@@ -64,10 +66,27 @@ public class SetJsonNode extends BaseNode{
 		
 	}
 
-	@Override
-	public void getGUI() {
-		// TODO Auto-generated method stub
+	
+	public static NodeInformations getGUI() {
 		
+		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		informations = informations.setHeader("SetJson", "modify the current json", "Modifies the current json and put it in a new variable").
+									setFields(new Field("variable", "String", "name of variable", "the name of the variable that contains the json node")).
+									setFields(new Field("path", "String", "new path", "path to the new variable in the json node")).
+									setFields(new Field("valName", "String", "name of new variable", "the name of the new varaible where the new information will be stored"));
+		
+		informations = informations.setFieldBase(new TextboxField(null, "variable", "variable", true, 1, null)).
+									setFieldBase(new TextboxField(null, "path", "path", true, 2, null)).
+									setFieldBase(new TextboxField(null, "valName", "valName", true, 3, null));
+		
+		informations = informations.setType("BaseNode");
+		
+		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.SetJsonNodeConfiguration"
+				,"com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode");
+		
+		informations = informations.setShortName("SJN");
+		
+		return informations.getNodeInformations();
 	}
 
 }

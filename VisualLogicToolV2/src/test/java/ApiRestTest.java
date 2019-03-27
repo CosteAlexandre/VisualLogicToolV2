@@ -15,7 +15,7 @@ public class ApiRestTest {
 	@BeforeEach
     public void init() {
 		system = ActorSystem.create("system");
-		int id = 1;
+		String id = "1";
 		ApiRestConfiguration apiRestConfiguration = new ApiRestConfiguration("api");
 		apiRest = system.actorOf(ApiRest.props(id, apiRestConfiguration ));
     }

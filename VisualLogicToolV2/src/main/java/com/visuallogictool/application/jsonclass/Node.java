@@ -5,18 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class Node {
 
-	private int id;
+	private String id;
 	private String function;
 	private String className;
 //	@JsonDeserialize(using = CustomDateDeserializer.class)
 	private NodeConfiguration listParameters;
-	private ArrayList<Integer> output;
+	private ArrayList<String> output;
 	
 	public Node() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Node(int id, String function, String className, ArrayList<Integer> output) {
+	public Node(String id, String function, String className, ArrayList<String> output) {
 		super();
 		this.id = id;
 		this.function = function;
@@ -25,10 +25,10 @@ public class Node {
 	}
 	
 	
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	public String getFunction() {
@@ -47,11 +47,11 @@ public class Node {
 		this.listParameters = listParameters;
 	}
 
-	public ArrayList<Integer> getOutput() {
+	public ArrayList<String> getOutput() {
 		return output;
 	}
 
-	public void setOutput(ArrayList<Integer> output) {
+	public void setOutput(ArrayList<String> output) {
 		this.output = output;
 	}
 

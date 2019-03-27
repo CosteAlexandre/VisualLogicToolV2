@@ -2,12 +2,10 @@
 
 {
 
-
-	
-		"id" : 2,
+		"id" : "2",
 		"listNode" : [
 			{
-				"id" : 1,
+				"id" : "1",
 				"function" : "apiInput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRest",
 				"listParameters" : { 
@@ -19,7 +17,7 @@
 		
 			},
 			{
-				"id" : 2,
+				"id" : "2",
 				"function" : "currentHour",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.CurrentHour",
 				"listParameters" : {
@@ -29,7 +27,7 @@
 				"output" : ["3"]
 			},
 			{
-				"id" : 3,
+				"id" : "3",
 				"function" : "apiRequest",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.HttpRequest",
 				"listParameters" : {
@@ -37,10 +35,10 @@
 					"var" : "httpRequest",
 					"url" : "https://api.apixu.com/v1/forecast.json?key=b4ed9ebe1c434417ab5150128190402&q=Brussels&days=2"
 				},
-				"output" : [4]
+				"output" : ["4"]
 			},
 			{
-				"id" : 4,
+				"id" : "4",
 				"function" : "conditionNode",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
 				"listParameters" : {
@@ -49,22 +47,22 @@
 											"val1" : "hour",
 											"val2" : "12:00:00",
 											"typeVal2" : "hour",
-											"condition" : "<",
+											"condition" : "hour<",
 											"outPut" : "0"										
 										},
 										{
 											"val1" : "hour",
 											"val2" : "12:00:00",
 											"typeVal2" : "hour",
-											"condition" : ">=",
+											"condition" : "hour>=",
 											"outPut" : "1"										
 										}				
 					]
 				},
-				"output" : [5,6]
+				"output" : ["5","6"]
 			},
 			{
-				"id" : 5,
+				"id" : "5",
 				"function" : "jsonNode",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode",
 				"listParameters" : {
@@ -76,10 +74,10 @@
 	
 					
 				},
-				"output" : [7]
+				"output" : ["7"]
 			},
 			{
-				"id" : 6,
+				"id" : "6",
 				"function" : "jsonNode",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode",
 				"listParameters" : {
@@ -90,10 +88,10 @@
 					"valName" : "forecast"
 
 				},
-				"output" : [7]
+				"output" : ["7"]
 			},
 			{
-				"id" : 7,
+				"id" : "7",
 				"function" : "jsonNode",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode",
 				"listParameters" : {
@@ -104,10 +102,10 @@
 					"valName" : "weather"
 
 				},
-				"output" : [8]
+				"output" : ["8"]
 			},
 			{
-				"id" : 8,
+				"id" : "8",
 				"function" : "conditionNode",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
 				"listParameters" : {
@@ -116,7 +114,7 @@
 											"val1" : "weather",
 											"val2" : "rain",
 											"typeVal2" : "json",
-											"condition" : "contains",
+											"condition" : "jsoncontains",
 											"outPut" : "0"										
 										},
 										{
@@ -128,10 +126,10 @@
 										}				
 					]
 				},
-				"output" : [9,10]
+				"output" : ["9","10"]
 			},
 			{
-				"id" : 9,
+				"id" : "9",
 				"function" : "apiOutput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
 				"listParameters" : {
@@ -141,7 +139,7 @@
 				"output" : []
 			},
 			{
-				"id" : 10,
+				"id" : "10",
 				"function" : "jsonNode",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode",
 				"listParameters" : {
@@ -152,10 +150,10 @@
 					"valName" : "mintemp"
 
 				},
-				"output" : [11]
+				"output" : ["11"]
 			},
 			{
-				"id" : 11,
+				"id" : "11",
 				"function" : "conditionNode",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ConditionNode",
 				"listParameters" : {
@@ -164,7 +162,7 @@
 											"val1" : "mintemp",
 											"val2" : "10",
 											"typeVal2" : "json",
-											"condition" : "<",
+											"condition" : "json<",
 											"outPut" : "0"										
 										},
 										{
@@ -176,10 +174,10 @@
 										}				
 					]
 				},
-				"output" : [9,12]
+				"output" : ["9","12"]
 			},
 			{
-				"id" : 12,
+				"id" : "12",
 				"function" : "apiOutput",
 				"className" : "com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput",
 				"listParameters" : {

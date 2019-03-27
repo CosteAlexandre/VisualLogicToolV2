@@ -12,12 +12,19 @@ import java.util.function.BiFunction;
 import com.visuallogictool.application.errors.DateError;
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.nodes.BaseNode;
+import com.visuallogictool.application.nodes.baseclass.MultipleOutput;
 import com.visuallogictool.application.nodes.baseclassimpl.conditions.ConditionHour;
 import com.visuallogictool.application.nodes.baseclassimpl.conditions.ConditionJson;
+import com.visuallogictool.application.nodes.information.Field;
+import com.visuallogictool.application.nodes.information.NodeInformations;
+import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
+import com.visuallogictool.application.nodes.information.concrete.DropdownField;
+import com.visuallogictool.application.nodes.information.concrete.Option;
+import com.visuallogictool.application.nodes.information.concrete.TextboxField;
 
 import akka.actor.ActorRef;
 
-public class ConditionNode<T> extends BaseNode{
+public class ConditionNode<T> extends MultipleOutput{
 
 	private ConditionNodeConfiguration configuration;
 	private ArrayList<Condition> conditions;
@@ -28,7 +35,7 @@ public class ConditionNode<T> extends BaseNode{
 	private HashMap<String, BiFunction<Object, String, Boolean>> json;
 	
 	
-	public ConditionNode(int id, ConditionNodeConfiguration configuration) {
+	public ConditionNode(String id, ConditionNodeConfiguration configuration) {
 		super(id);
 		this.configuration = configuration;
 		conditions = configuration.getConditions();
@@ -81,10 +88,47 @@ public class ConditionNode<T> extends BaseNode{
 		});
 	}
 
-	@Override
-	public void getGUI() {
-		// TODO Auto-generated method stub
+	public static NodeInformations getGUI() {
 		
-	}
+		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		informations = informations.setHeader("ConditionNode", "Creates new conditions", "Creates multiple conditions and depending on the output of those conditions redirect it").
+				setFields(new Field("val1", "String", "first value", "the parameter of the context that will be used for the first parameter")).
+				setFields(new Field("val2", "String", "second value", "the value that will be used for the second parameter")).
+				setFields(new Field("typeval2", "type", "type of value 2", "decide the type of the second value")).
+				setFields(new Field("condition", "String", "conditions", "the condition that the user wanna use")).
+//				setFields(new Field("output", "int", "output result", "Where the output will go")).
+				
+									setFields(new Field("hourAboveOrEquals", "hour", "check above or equals hour", "check if the hour is above or equal to the given parameter")).
+									setFields(new Field("hourBelow", "hour", "check below hour", "check if the hour is below the given parameter")).
+									setFields(new Field("containsJson", "json", "contains", "check if the value of the json contains the given parameter")).
+									setFields(new Field("inferiorThanJson", "json", "inferior than integer", "check if the hour is the value of the json (converted to an integer) is inferior than the given parameter"));
+		
+		ArrayList<Option> optionsType = new ArrayList<Option>();
+		optionsType.add(new Option("hour","hour"));
+		optionsType.add(new Option("json","json"));
+		optionsType.add(new Option("else","else"));
+		
+		ArrayList<Option> optionsFunction = new ArrayList<Option>();
+		optionsFunction.add(new Option("hour>=","hour>="));
+		optionsFunction.add(new Option("hour<","hour<"));
+		optionsFunction.add(new Option("json<","json<"));
+		optionsFunction.add(new Option("jsoncontains","jsoncontains"));
+		optionsFunction.add(new Option("else","else"));
 
+		informations = informations.setFieldBase(new TextboxField(null, "val1", "valeur 1", true, 1, null),
+												 new TextboxField(null, "val2", "valeur 2", true, 2, null),
+												 new DropdownField(null, "typeVal2", "type value 2", true, 3, optionsType),
+												 new DropdownField(null, "condition", "condition", true, 4, optionsFunction));
+//												 new TextboxField(null, "output", "output", true, 5, null));
+
+		informations = informations.setType("MultipleOutput");
+		
+		
+		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration"
+				,"com.visuallogictool.application.nodes.baseclassimpl.ConditionNode");
+		
+		informations = informations.setShortName("CN");
+		
+		return informations.getNodeInformations();
+	}
 }
