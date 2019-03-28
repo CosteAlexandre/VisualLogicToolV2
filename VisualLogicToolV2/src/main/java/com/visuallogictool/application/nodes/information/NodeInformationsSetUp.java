@@ -38,8 +38,9 @@ public class NodeInformationsSetUp {
 		
 		return this;
 	}
-	public NodeInformationsSetUp setType(String type) {
+	public NodeInformationsSetUp setType(String type, String labelType) {
 		this.nodeInformations.setType(type);
+		this.nodeInformations.setLabelType(labelType);
 		return this;
 	}
 	public NodeInformationsSetUp setClass(String classType, String className) {

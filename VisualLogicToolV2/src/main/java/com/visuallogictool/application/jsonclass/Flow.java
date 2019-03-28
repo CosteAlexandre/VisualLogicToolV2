@@ -7,18 +7,26 @@ public class Flow {
 	
 	private ArrayList<Node> listNode;
 
-	
+	private Object graph;
 	
 	public Flow() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Flow(String id, ArrayList<Node> listNode) {
+	public Flow(String id, ArrayList<Node> listNode, Object graph) {
 		super();
 		this.id = id;
 		this.listNode = listNode;
+		this.graph = graph;
 	}
-
+	public Object getGraph() {
+		return graph;
+	}
+	
+	public void setGraph(Object graph) {
+		this.graph = graph;
+	}
+	
 	public String getId() {
 		return id;
 	}

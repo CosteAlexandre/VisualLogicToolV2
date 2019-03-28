@@ -2,38 +2,24 @@ package com.visuallogictool.application.server.route;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.ServiceLoader;
 import java.util.Set;
 
 import org.reflections.Reflections;
 
-import com.visuallogictool.application.jsonclass.Flow;
-import com.visuallogictool.application.messages.flow.CreateFlow;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import com.visuallogictool.application.nodes.BaseNode;
-import com.visuallogictool.application.nodes.baseclassimpl.ApiRest;
 import com.visuallogictool.application.nodes.information.NodeInformations;
-import com.visuallogictool.application.utils.JsonParser;
 
-import akka.actor.AbstractActor;
-import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.http.javadsl.model.HttpEntity.Strict;
-import akka.http.javadsl.model.HttpHeader;
-import akka.http.javadsl.model.HttpResponse;
-import akka.http.scaladsl.model.headers.RawHeader;
 
-public class GetNodesInformationsRoute extends AbstractActor{
+public class GetNodesInformationsRoute extends Route{
 
 	public static Props props() {
 	    return Props.create(GetNodesInformationsRoute.class, () -> new GetNodesInformationsRoute());
 	}
 
-	private JsonParser jsonParse;
-	
 	public GetNodesInformationsRoute() {
-
-		jsonParse = new JsonParser();
+		super();
 		
 	}
 	
@@ -73,11 +59,8 @@ public class GetNodesInformationsRoute extends AbstractActor{
 			
 			truc.add(ApiRest.getGUI());
 			*/
-			HttpResponse response = HttpResponse.create()
-					.withStatus(200)
-					.withEntity(jsonParse.getJson(nodes)).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
-			//apply.getRequest().getHeader("Origin").get().value() 
-			this.getSender().tell(response, ActorRef.noSender());
+			this.sendResponse(nodes);
+			
 			
 			
 		}).build();

@@ -121,7 +121,7 @@ public class ConditionNode<T> extends MultipleOutput{
 												 new DropdownField(null, "condition", "condition", true, 4, optionsFunction));
 //												 new TextboxField(null, "output", "output", true, 5, null));
 
-		informations = informations.setType("MultipleOutput");
+		informations = informations.setType("MultipleOutput","MultipleOutput");
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration"

@@ -82,7 +82,7 @@ public class ApiRest extends InputNode {
 		
 		informations = informations.setFieldBase(new TextboxField(null, "api", "api", true, 1, null));
 		
-		informations = informations.setType("InputNode");
+		informations = informations.setType("InputNode","InputNode");
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration"

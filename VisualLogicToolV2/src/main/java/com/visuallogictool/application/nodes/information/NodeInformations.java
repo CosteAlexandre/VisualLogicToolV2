@@ -10,6 +10,7 @@ public class NodeInformations {
 	private String tooltip;	
 	private String description;
 	private String type;
+	private String labelType;
 	private ArrayList<Field> fields;
 	
 	private ArrayList<FieldBase> fieldBases;
@@ -24,8 +25,12 @@ public class NodeInformations {
 		fieldBases = new ArrayList<FieldBase>();
 	}
 
-	
-	
+	public String getLabelType() {
+		return labelType;
+	}
+	public void setLabelType(String labelType) {
+		this.labelType = labelType;
+	}
 
 	public String getShortName() {
 		return shortName;

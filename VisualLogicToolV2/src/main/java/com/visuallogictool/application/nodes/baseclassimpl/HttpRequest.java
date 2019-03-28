@@ -82,7 +82,7 @@ public class HttpRequest extends BaseNode{
 		informations = informations.setFieldBase(new TextboxField(null, "var", "var", true, 1, null)).
 									setFieldBase(new TextboxField(null, "url", "url", true, 2, null));
 		
-		informations = informations.setType("BaseNode");
+		informations = informations.setType("BaseNode","BaseNode");
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.HttpRequestConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.HttpRequest");

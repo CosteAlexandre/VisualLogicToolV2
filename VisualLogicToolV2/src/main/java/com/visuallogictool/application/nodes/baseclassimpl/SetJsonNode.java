@@ -79,7 +79,7 @@ public class SetJsonNode extends BaseNode{
 									setFieldBase(new TextboxField(null, "path", "path", true, 2, null)).
 									setFieldBase(new TextboxField(null, "valName", "valName", true, 3, null));
 		
-		informations = informations.setType("BaseNode");
+		informations = informations.setType("BaseNode","BaseNode");
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.SetJsonNodeConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode");

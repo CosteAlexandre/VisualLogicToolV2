@@ -52,7 +52,7 @@ public class ApiRestOutput extends OutputNode{
 		NodeInformationsSetUp informations = new NodeInformationsSetUp();
 		informations = informations.setHeader("ApiOutput", "send back a response", "Sends back a response to the api called");
 		
-		informations = informations.setType("OutputNode");
+		informations = informations.setType("OutputNode","OutputNode");
 
 		informations = informations.setFieldBase(new TextboxField(null, "htm", "htm", true, 1, null));
 		

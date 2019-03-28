@@ -1,27 +1,19 @@
 package com.visuallogictool.application.server.route;
 
-import com.visuallogictool.application.jsonclass.Flow;
-import com.visuallogictool.application.messages.flow.CreateFlow;
 import com.visuallogictool.application.messages.flow.DeleteFlow;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
-import com.visuallogictool.application.utils.JsonParser;
 
-import akka.actor.AbstractActor;
 import akka.actor.Props;
 import akka.http.javadsl.model.HttpEntity.Strict;
 
-public class DeleteFlowRoute extends AbstractActor{
+public class DeleteFlowRoute extends Route{
 
 	public static Props props() {
 	    return Props.create(DeleteFlowRoute.class, () -> new DeleteFlowRoute());
 	}
 
-	private JsonParser jsonParse;
-	
 	public DeleteFlowRoute() {
-
-		jsonParse = new JsonParser();
-		
+		super();
 	}
 	
 	@Override
@@ -36,7 +28,7 @@ public class DeleteFlowRoute extends AbstractActor{
 			
 			System.out.println("DELETE FLOW RECEIVED");
 			
-			this.getContext().getSystem().actorSelection("/user/director").tell(new DeleteFlow(id), this.getSender());;
+			this.getContext().getSystem().actorSelection("/user/director").tell(new DeleteFlow(id), this.getSender());
 		}).build();
 		
 	}

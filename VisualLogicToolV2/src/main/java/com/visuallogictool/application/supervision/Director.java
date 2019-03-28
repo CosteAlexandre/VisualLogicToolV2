@@ -1,6 +1,7 @@
 package com.visuallogictool.application.supervision;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,14 +10,14 @@ import com.visuallogictool.application.jsonclass.Flow;
 import com.visuallogictool.application.messages.flow.CreateFlow;
 import com.visuallogictool.application.messages.flow.DeleteFlow;
 import com.visuallogictool.application.messages.flow.FlowCreated;
+import com.visuallogictool.application.messages.flow.GetAllFlow;
+import com.visuallogictool.application.messages.flow.GetFlowGraph;
 import com.visuallogictool.application.server.RestServer;
 import com.visuallogictool.application.utils.Files;
 import com.visuallogictool.application.utils.JsonParser;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
-import akka.actor.Props;
-import akka.actor.SupervisorStrategy;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.http.javadsl.model.HttpResponse;
@@ -103,12 +104,7 @@ public class Director extends AbstractActor{
 		// TODO Auto-generated method stub
 		return receiveBuilder().match(CreateFlow.class,apply -> {
 			if(this.supervisorsFlow.get(apply.getFlow().getId())!=null) {
-				HttpResponse response = HttpResponse.create()
-						.withStatus(200)
-						.withEntity(jsonParser.getJson("Flow with this id already exists")).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
-				
-				
-				this.getSender().tell(response, ActorRef.noSender());
+				sendResponse("Flow with this id already exists");
 			}else {
 				initializeFlow(apply.getFlow(),this.getSender());
 			}
@@ -119,16 +115,37 @@ public class Director extends AbstractActor{
 			jsonParser.addFlowJsonFile(flow,"src/main/resources/jsonFlow/"+flow.getId()+".json");
 			
 		
-			HttpResponse response = HttpResponse.create()
-					.withStatus(200)
-					.withEntity(jsonParser.getJson("Flow succesfully created")).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
+			sendResponse("Flow succesfully created");
 			
-			
-			this.getSender().tell(response, ActorRef.noSender());
 		}).match(DeleteFlow.class, apply -> {
 			deleteFlow(apply);
+		}).match(GetAllFlow.class, apply ->{
+			getAllFlow();
+		}).match(GetFlowGraph.class, apply->{
+			getFlowGraph(apply.getId());
 		}).build();
 		
+		
+		
+	}
+
+	private void getFlowGraph(String id) {
+		
+		this.sendResponse(this.supervisorsFlow.get(id));
+		
+	}
+
+	private void getAllFlow() {
+
+		ArrayList<String> flowId = new ArrayList<String>();
+		
+		this.supervisorsFlow.forEach((id,flow) -> {
+			if(flow.getGraph()!=null) {
+				flowId.add(id);
+			}
+			
+		});
+		this.sendResponse(flowId);
 	}
 
 	private void deleteFlow(DeleteFlow apply) {
@@ -159,10 +176,13 @@ public class Director extends AbstractActor{
 		}
 		
 		
+		sendResponse(resp);
 		
+	}
+	private void sendResponse(Object object) {
 		HttpResponse response = HttpResponse.create()
 				.withStatus(200)
-				.withEntity(jsonParser.getJson(resp)).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
+				.withEntity(jsonParser.getJson(object)).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
 		
 		
 		

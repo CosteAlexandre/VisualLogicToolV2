@@ -46,7 +46,7 @@ public class CurrentHour extends BaseNode{
 		
 		informations = informations.setFieldBase(new TextboxField(null, "var", "var", true, 1, null));
 	
-		informations = informations.setType("BaseNode");
+		informations = informations.setType("BaseNode","BaseNode");
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.CurrentHourConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.CurrentHour");

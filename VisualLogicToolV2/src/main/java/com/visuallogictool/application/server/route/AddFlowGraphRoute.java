@@ -1,19 +1,20 @@
 package com.visuallogictool.application.server.route;
 
-import com.visuallogictool.application.jsonclass.Flow;
-import com.visuallogictool.application.messages.flow.CreateFlow;
+import com.visuallogictool.application.messages.flow.AddFlowGraph;
+import com.visuallogictool.application.messages.flow.GetAllFlow;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 
 import akka.actor.Props;
 import akka.http.javadsl.model.HttpEntity.Strict;
 
-public class LogicFlowRoute extends Route{
+public class AddFlowGraphRoute extends Route{
 
 	public static Props props() {
-	    return Props.create(LogicFlowRoute.class, () -> new LogicFlowRoute());
+	    return Props.create(AddFlowGraphRoute.class, () -> new AddFlowGraphRoute());
 	}
+
 	
-	public LogicFlowRoute() {
+	public AddFlowGraphRoute() {
 		super();
 	}
 	
@@ -23,12 +24,8 @@ public class LogicFlowRoute extends Route{
 		return receiveBuilder().match(HttpRequestReceived.class, apply -> {
 			
 			String body  = getBody(apply);
-			
-			Flow flow = jsonParser.jsonFlowConverter(body);
-			
-			System.out.println("FLOW RECEIVED");
-			
-			this.getContext().getSystem().actorSelection("/user/director").tell(new CreateFlow(flow), this.getSender());;
+			this.getContext().getSystem().actorSelection("/user/director").tell(new AddFlowGraph(body), this.getSender());
+		 
 		}).build();
 		
 	}
