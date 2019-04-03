@@ -1,17 +1,10 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.function.BiFunction;
 
-import com.visuallogictool.application.errors.DateError;
 import com.visuallogictool.application.messages.message.MessageNode;
-import com.visuallogictool.application.nodes.BaseNode;
 import com.visuallogictool.application.nodes.baseclass.MultipleOutput;
 import com.visuallogictool.application.nodes.baseclassimpl.conditions.ConditionHour;
 import com.visuallogictool.application.nodes.baseclassimpl.conditions.ConditionJson;
@@ -90,7 +83,7 @@ public class ConditionNode<T> extends MultipleOutput{
 
 	public static NodeInformations getGUI() {
 		
-		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("ConditionNode", "Creates new conditions", "Creates multiple conditions and depending on the output of those conditions redirect it").
 				setFields(new Field("val1", "String", "first value", "the parameter of the context that will be used for the first parameter")).
 				setFields(new Field("val2", "String", "second value", "the value that will be used for the second parameter")).
@@ -115,19 +108,20 @@ public class ConditionNode<T> extends MultipleOutput{
 		optionsFunction.add(new Option("jsoncontains","jsoncontains"));
 		optionsFunction.add(new Option("else","else"));
 
-		informations = informations.setFieldBase(new TextboxField(null, "val1", "valeur 1", true, 1, null),
-												 new TextboxField(null, "val2", "valeur 2", true, 2, null),
-												 new DropdownField(null, "typeVal2", "type value 2", true, 3, optionsType),
-												 new DropdownField(null, "condition", "condition", true, 4, optionsFunction));
+		informations = informations.setFieldBase(new TextboxField(null, "val1", "valeur 1", false, 1, null),
+												 new TextboxField(null, "val2", "valeur 2", false, 2, null),
+												 new DropdownField(null, "typeVal2", "type value 2", false, 3, optionsType),
+												 new DropdownField(null, "condition", "condition", false, 4, optionsFunction));
 //												 new TextboxField(null, "output", "output", true, 5, null));
 
-		informations = informations.setType("MultipleOutput","MultipleOutput");
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ConditionNodeConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.ConditionNode");
 		
 		informations = informations.setShortName("CN");
+		
+		informations = informations.setImageUrl("https://img.icons8.com/metro/26/000000/split.png");
 		
 		return informations.getNodeInformations();
 	}

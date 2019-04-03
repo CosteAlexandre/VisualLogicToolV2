@@ -54,4 +54,15 @@ public class NodeInformationsSetUp {
 		this.nodeInformations.setShortName(shortName);
 		return this;
 	}
+	
+	public NodeInformationsSetUp setColor(String color) {
+		this.nodeInformations.setColor(color);
+		return this;
+	}
+	
+	public NodeInformationsSetUp setImageUrl(String imageUrl){
+		this.nodeInformations.setImageUrl(imageUrl);
+		return this;
+	}
+	
 }

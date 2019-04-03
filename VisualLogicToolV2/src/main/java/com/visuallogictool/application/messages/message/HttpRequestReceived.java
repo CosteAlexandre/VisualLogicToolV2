@@ -1,7 +1,5 @@
 package com.visuallogictool.application.messages.message;
 
-import com.fasterxml.jackson.databind.JsonNode;
-
 import akka.http.javadsl.model.HttpRequest;
 
 public class HttpRequestReceived {

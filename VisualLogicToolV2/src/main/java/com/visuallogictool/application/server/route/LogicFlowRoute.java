@@ -5,7 +5,6 @@ import com.visuallogictool.application.messages.flow.CreateFlow;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 
 import akka.actor.Props;
-import akka.http.javadsl.model.HttpEntity.Strict;
 
 public class LogicFlowRoute extends Route{
 

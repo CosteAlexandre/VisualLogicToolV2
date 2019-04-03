@@ -1,6 +1,5 @@
 package com.visuallogictool.application.server.route;
 
-import com.visuallogictool.application.messages.flow.GetAllFlow;
 import com.visuallogictool.application.messages.flow.GetFlowGraph;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 

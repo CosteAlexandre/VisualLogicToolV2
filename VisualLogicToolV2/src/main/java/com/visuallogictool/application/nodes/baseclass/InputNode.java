@@ -1,14 +1,31 @@
 package com.visuallogictool.application.nodes.baseclass;
 
 import com.visuallogictool.application.nodes.BaseNode;
-import com.visuallogictool.application.nodes.information.NodeInformations;
+import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 
 public abstract class InputNode extends BaseNode{
 
 	public InputNode(String id) {
 		super(id);		
 	}
-
+	protected static String getColor() {
+		// TODO Auto-generated method stub
+		return "rgb(127, 255, 0)";
+	}
+	protected static String getType() {
+		return "InputNode";
+	}
+	protected static String getTypeDescription() {
+		return "InputNode";
+	}
+	protected static NodeInformationsSetUp getBaseInformation() {
+		
+		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		
+		informations = informations.setType(getType(),getTypeDescription());
+		informations = informations.setColor(getColor());
+		return informations;
+	}
 	
 	public abstract void createMessageTrigger(); // Start a logic like a listen on a folder/file or on a api / mail etc
 	

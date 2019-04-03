@@ -2,9 +2,6 @@ package com.visuallogictool.application.utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-
-import org.apache.commons.io.FileUtils;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;

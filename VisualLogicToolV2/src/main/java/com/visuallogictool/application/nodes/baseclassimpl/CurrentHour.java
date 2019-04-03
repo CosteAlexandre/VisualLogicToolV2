@@ -40,18 +40,18 @@ public class CurrentHour extends BaseNode{
 
 	public static NodeInformations getGUI() {
 		
-		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("CurrentHour", "take the current hour", "Put the current hour in a variable").
 									setFields(new Field("var", "hour", "variable", "the name of the variable where the new parameter will be stored"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", true, 1, null));
+		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null));
 	
-		informations = informations.setType("BaseNode","BaseNode");
-		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.CurrentHourConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.CurrentHour");
 		
 		informations = informations.setShortName("CH");
+		
+		informations = informations.setImageUrl("https://img.icons8.com/ios/50/000000/clock.png");
 		
 		return informations.getNodeInformations();
 	}

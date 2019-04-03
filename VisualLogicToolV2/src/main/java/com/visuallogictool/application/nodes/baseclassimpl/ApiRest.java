@@ -10,13 +10,10 @@ import com.visuallogictool.application.nodes.baseclass.InputNode;
 import com.visuallogictool.application.nodes.information.Field;
 import com.visuallogictool.application.nodes.information.NodeInformations;
 import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
-import com.visuallogictool.application.nodes.information.concrete.FieldBase;
 import com.visuallogictool.application.nodes.information.concrete.TextboxField;
 
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.event.Logging;
-import akka.event.LoggingAdapter;
 
 
 
@@ -27,9 +24,7 @@ public class ApiRest extends InputNode {
 	  static public Props props(String id, ApiRestConfiguration apiRestConfiguration) {
 		    return Props.create(ApiRest.class, () -> new ApiRest(id, apiRestConfiguration));
 	  }
-	  static public Props props(String id, String api, ArrayList<ActorRef> listActor) {
-		    return Props.create(ApiRest.class, () -> new ApiRest(id,api,listActor));
-	  }
+
 
 	private String api;
 	
@@ -47,15 +42,7 @@ public class ApiRest extends InputNode {
 		//"/application"
 		
 	}
-	public ApiRest(String id, String api,ArrayList<ActorRef> listActor) {
-		super(id);
-		
-		this.api = api;
-		
-		//"/application"
-		this.setListNextActor(listActor);
-		
-	}
+
 	
 
 	@Override
@@ -76,19 +63,19 @@ public class ApiRest extends InputNode {
 	
 	public static NodeInformations getGUI() {
 		
-		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("ApiInput", "Creates an api", "Creates an Api with the given parameter").
 									setFields(new Field("api", "String", "name for new api", "the name for the new api"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "api", "api", true, 1, null));
-		
-		informations = informations.setType("InputNode","InputNode");
+		informations = informations.setFieldBase(new TextboxField(null, "api", "api", false, 1, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration"
 											,"com.visuallogictool.application.nodes.baseclassimpl.ApiRest");
 		
 		informations = informations.setShortName("AR");
+		
+		informations = informations.setImageUrl("https://img.icons8.com/material-outlined/24/000000/upload-to-cloud.png");
 		
 		return informations.getNodeInformations();
 	}

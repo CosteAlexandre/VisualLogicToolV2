@@ -6,6 +6,7 @@ import com.visuallogictool.application.utils.JsonParser;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.http.javadsl.model.HttpResponse;
+import akka.http.javadsl.model.RequestEntity;
 import akka.http.javadsl.model.HttpEntity.Strict;
 import akka.http.scaladsl.model.headers.RawHeader;
 
@@ -30,6 +31,10 @@ public abstract class Route extends AbstractActor{
 	}
 	
 	protected String getBody(HttpRequestReceived httpRequest) {
+		System.out.println("HTTP REQUEST : "+httpRequest.getRequest().entity());
+		
+		RequestEntity test = httpRequest.getRequest().entity();
+		System.out.println("Test : " + test.getDataBytes().toString());
 		Strict entity = (Strict) httpRequest.getRequest().entity();
 		System.out.println(" TEST "+entity.getData().decodeString("UTF-8"));
 		String body = entity.getData().decodeString("UTF-8");

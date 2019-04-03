@@ -1,6 +1,5 @@
 package com.visuallogictool.application.messages.flow;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.visuallogictool.application.jsonclass.Flow;
 
 public class CreateFlow {

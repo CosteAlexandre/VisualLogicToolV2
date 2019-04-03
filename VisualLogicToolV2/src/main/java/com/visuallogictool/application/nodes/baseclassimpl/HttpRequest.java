@@ -1,6 +1,5 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.concurrent.Future;
 
@@ -74,20 +73,20 @@ public class HttpRequest extends BaseNode{
 	
 	public static NodeInformations getGUI() {
 		
-		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("HttpRequest", "Fetch a http request", "Fetch the json in the given url").
 									setFields(new Field("var", "String", "variable", "name of the variable where the information will be stored")).
 									setFields(new Field("url", "String", "name of url", "the name of the url that will be used"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", true, 1, null)).
-									setFieldBase(new TextboxField(null, "url", "url", true, 2, null));
-		
-		informations = informations.setType("BaseNode","BaseNode");
+		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
+									setFieldBase(new TextboxField(null, "url", "url", false, 2, null));
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.HttpRequestConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.HttpRequest");
 		
 		informations = informations.setShortName("HR");
+		
+		informations = informations.setImageUrl("https://img.icons8.com/ios/50/000000/domain.png");
 		
 		return informations.getNodeInformations();
 	}

@@ -3,22 +3,24 @@ package com.visuallogictool.application.nodes.baseclass;
 import com.visuallogictool.application.nodes.BaseNode;
 import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 
-public abstract class MultipleOutput extends BaseNode {
+public abstract class TwoOutPutNode extends BaseNode{
 
-	public MultipleOutput(String id) {
-		super(id);		
+	public TwoOutPutNode(String id) {
+		super(id);
+		// TODO Auto-generated constructor stub
 	}
+
 	
 	protected static String getColor() {
 		// TODO Auto-generated method stub
-		return "blue";
+		return "orange";
 	}
 	
 	protected static String getType() {
-		return "MultipleOutput";
+		return "TwoOutPut";
 	}
 	protected static String getTypeDescription() {
-		return "MultipleOutput";
+		return "TwoOutPut";
 	}
 	
 	protected static NodeInformationsSetUp getBaseInformation() {

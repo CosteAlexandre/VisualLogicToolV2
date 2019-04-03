@@ -2,7 +2,6 @@ package com.visuallogictool.application.server;
 
 import java.util.HashMap;
 
-import com.visuallogictool.application.messages.flow.GetAllFlow;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import com.visuallogictool.application.messages.message.RegisterComplete;
 import com.visuallogictool.application.messages.message.RegisterFailed;

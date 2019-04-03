@@ -2,11 +2,9 @@ package com.visuallogictool.application.supervision;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Function;
 
 import com.visuallogictool.application.jsonclass.Flow;
 import com.visuallogictool.application.jsonclass.Node;
-import com.visuallogictool.application.messages.flow.CreateFlow;
 import com.visuallogictool.application.messages.flow.FlowCreated;
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
@@ -15,10 +13,8 @@ import com.visuallogictool.application.messages.flow.NodeCreated;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
-import akka.actor.SupervisorStrategy;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
-import akka.http.javadsl.model.HttpResponse;
 
 
 public class Supervisor extends AbstractActor{

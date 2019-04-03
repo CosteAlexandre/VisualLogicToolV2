@@ -69,22 +69,22 @@ public class SetJsonNode extends BaseNode{
 	
 	public static NodeInformations getGUI() {
 		
-		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("SetJson", "modify the current json", "Modifies the current json and put it in a new variable").
 									setFields(new Field("variable", "String", "name of variable", "the name of the variable that contains the json node")).
 									setFields(new Field("path", "String", "new path", "path to the new variable in the json node")).
 									setFields(new Field("valName", "String", "name of new variable", "the name of the new varaible where the new information will be stored"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "variable", "variable", true, 1, null)).
-									setFieldBase(new TextboxField(null, "path", "path", true, 2, null)).
-									setFieldBase(new TextboxField(null, "valName", "valName", true, 3, null));
-		
-		informations = informations.setType("BaseNode","BaseNode");
+		informations = informations.setFieldBase(new TextboxField(null, "variable", "variable", false, 1, null)).
+									setFieldBase(new TextboxField(null, "path", "path", false, 2, null)).
+									setFieldBase(new TextboxField(null, "valName", "valName", false, 3, null));
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.SetJsonNodeConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode");
 		
 		informations = informations.setShortName("SJN");
+		
+		informations = informations.setImageUrl("https://img.icons8.com/ios/50/000000/json.png");
 		
 		return informations.getNodeInformations();
 	}

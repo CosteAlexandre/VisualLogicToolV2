@@ -1,7 +1,5 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
-import java.util.ArrayList;
-
 import com.visuallogictool.application.jsonclass.NodeConfiguration;
 
 public class SetJsonNodeConfiguration extends NodeConfiguration{

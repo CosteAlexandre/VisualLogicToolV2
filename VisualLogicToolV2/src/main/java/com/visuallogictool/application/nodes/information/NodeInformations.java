@@ -20,11 +20,27 @@ public class NodeInformations {
 	
 	private String shortName;
 	
+	private String color;
+	
+	private String imageUrl;
+	
 	public NodeInformations() {
 		fields = new ArrayList<Field>();
 		fieldBases = new ArrayList<FieldBase>();
 	}
-
+	
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public String getColor() {
+		return color;
+	}
+	public void setColor(String color) {
+		this.color = color;
+	}
 	public String getLabelType() {
 		return labelType;
 	}

@@ -3,7 +3,6 @@ package com.visuallogictool.application.nodes.baseclassimpl;
 import java.util.HashMap;
 
 import com.visuallogictool.application.nodes.baseclass.OutputNode;
-import com.visuallogictool.application.nodes.information.Field;
 import com.visuallogictool.application.nodes.information.NodeInformations;
 import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 import com.visuallogictool.application.nodes.information.concrete.TextboxField;
@@ -49,17 +48,17 @@ public class ApiRestOutput extends OutputNode{
 	
 	public static NodeInformations getGUI() {
 		
-		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("ApiOutput", "send back a response", "Sends back a response to the api called");
 		
-		informations = informations.setType("OutputNode","OutputNode");
-
-		informations = informations.setFieldBase(new TextboxField(null, "htm", "htm", true, 1, null));
+		informations = informations.setFieldBase(new TextboxField(null, "htm", "htm", false, 1, null));
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput");
 		
 		informations = informations.setShortName("ARO");
+		
+		informations = informations.setImageUrl("https://img.icons8.com/material-outlined/24/000000/download-from-cloud.png");
 		
 		return informations.getNodeInformations();
 	}

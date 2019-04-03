@@ -1,10 +1,5 @@
 package com.visuallogictool.application.configuration;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
-
 public class Configuration {
 
 	private int port;

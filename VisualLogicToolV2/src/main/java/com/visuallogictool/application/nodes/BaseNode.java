@@ -8,8 +8,8 @@ import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.messages.flow.NodeCreated;
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import com.visuallogictool.application.messages.message.MessageNode;
-import com.visuallogictool.application.messages.message.MessageReceived;
 import com.visuallogictool.application.nodes.information.NodeInformations;
+import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
@@ -61,6 +61,27 @@ public abstract class BaseNode extends AbstractActor{
 	
 	public ArrayList<ActorRef> getOutput() {
 		return this.listNextActors;
+	}
+	
+	protected static String getColor() {
+		return "rgb(255, 255, 0)";
+	}
+	
+	protected static String getType() {
+		return "BaseNode";
+	}
+	
+	protected static String getTypeDescription() {
+		return "BaseNode";
+	}
+	
+	protected static NodeInformationsSetUp getBaseInformation() {
+		
+		NodeInformationsSetUp informations = new NodeInformationsSetUp();
+		
+		informations = informations.setType(getType(),getTypeDescription());
+		informations = informations.setColor(getColor());
+		return informations;
 	}
 	
 	public abstract void processMessage(HashMap<String, Object> context);
