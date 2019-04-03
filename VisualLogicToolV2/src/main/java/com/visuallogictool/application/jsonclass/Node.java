@@ -10,13 +10,13 @@ public class Node {
 	private String className;
 //	@JsonDeserialize(using = CustomDateDeserializer.class)
 	private NodeConfiguration listParameters;
-	private ArrayList<String> output;
+	private ArrayList<ArrayList<String>> output;
 	
 	public Node() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Node(String id, String function, String className, ArrayList<String> output) {
+	public Node(String id, String function, String className, ArrayList<ArrayList<String>> output) {
 		super();
 		this.id = id;
 		this.function = function;
@@ -47,11 +47,11 @@ public class Node {
 		this.listParameters = listParameters;
 	}
 
-	public ArrayList<String> getOutput() {
+	public ArrayList<ArrayList<String>> getOutput() {
 		return output;
 	}
 
-	public void setOutput(ArrayList<String> output) {
+	public void setOutput(ArrayList<ArrayList<String>> output) {
 		this.output = output;
 	}
 

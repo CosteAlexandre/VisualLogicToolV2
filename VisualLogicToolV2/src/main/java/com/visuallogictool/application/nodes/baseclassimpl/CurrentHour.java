@@ -33,9 +33,12 @@ public class CurrentHour extends BaseNode{
 	    String hour = sdf.format(cal.getTime());
 	    System.out.println("HOUR : " + hour);
 		context.put(var, hour);
-		this.getOutput().forEach( node -> {
-			node.tell(new MessageNode(context), ActorRef.noSender());
-		});
+		this.listNextActors.forEach(output -> {
+			output.forEach(actor -> {
+				actor.tell(new MessageNode(context), ActorRef.noSender());
+			});
+			
+		});	
 	}
 
 	public static NodeInformations getGUI() {

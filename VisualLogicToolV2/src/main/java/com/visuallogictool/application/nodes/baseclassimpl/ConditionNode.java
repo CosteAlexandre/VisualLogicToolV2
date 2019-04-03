@@ -65,7 +65,9 @@ public class ConditionNode<T> extends MultipleOutput{
 			if(type.equals("else")) {
 				if(!resp) {
 					log.info("ELSE SENDING TO : " + condition.getOutPut());
-					this.getOutput().get(condition.getOutPut()).tell(new MessageNode(context), ActorRef.noSender());
+					this.getOutput().get(condition.getOutPut()).forEach(output -> { 
+						output.tell(new MessageNode(context), ActorRef.noSender());
+					});
 				}
 				resp = false;
 				
@@ -73,10 +75,12 @@ public class ConditionNode<T> extends MultipleOutput{
 				resp = this.types.get(type).get(function).apply(context.get(condition.getVal1()), condition.getVal2());
 				if(resp) {
 					log.info("SENDING TO : " + condition.getOutPut());
-					this.getOutput().get(condition.getOutPut()).tell(new MessageNode(context), ActorRef.noSender());
+					this.getOutput().get(condition.getOutPut()).forEach(output -> {
+						output.tell(new MessageNode(context), ActorRef.noSender());
+					});
+					
 				}
 			}
-			
 			
 		});
 	}

@@ -9,14 +9,14 @@ import akka.actor.ActorRef;
 
 public class NextActors {
 
-	private ArrayList<ActorRef> listNextActors; // list of the next actor the node can send a message to,
+	private ArrayList<ArrayList<ActorRef>> listNextActors; // list of the next actor the node can send a message to,
 	//by order
 
-	public NextActors(ArrayList<ActorRef> listNextActor) {
+	public NextActors(ArrayList<ArrayList<ActorRef>> listNextActor) {
 		this.listNextActors = listNextActor;
 	}
 
-	public ArrayList<ActorRef> getListNextActor() {
+	public ArrayList<ArrayList<ActorRef>> getListNextActor() {
 		return listNextActors;
 	}
 	

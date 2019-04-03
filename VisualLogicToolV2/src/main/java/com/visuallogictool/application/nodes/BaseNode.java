@@ -38,7 +38,7 @@ public abstract class BaseNode extends AbstractActor{
 	protected String id; // unique id for each node
 	
 	
-	protected ArrayList<ActorRef> listNextActors; // list of the next actor he will call
+	protected ArrayList<ArrayList<ActorRef>> listNextActors; // list of the next actor he will call
 	
 	//add start/finish time
 	
@@ -51,7 +51,7 @@ public abstract class BaseNode extends AbstractActor{
 				
 	}
 	
-	public void setListNextActor(ArrayList<ActorRef> listNextActors) {
+	public void setListNextActor(ArrayList<ArrayList<ActorRef>> listNextActors) {
 		this.listNextActors = listNextActors;
 	}
 
@@ -59,7 +59,7 @@ public abstract class BaseNode extends AbstractActor{
 		this.context().parent().tell(NextActorReceived.class, ActorRef.noSender());
 	}
 	
-	public ArrayList<ActorRef> getOutput() {
+	public ArrayList<ArrayList<ActorRef>> getOutput() {
 		return this.listNextActors;
 	}
 	

@@ -60,9 +60,12 @@ public class SetJsonNode extends BaseNode{
 		
 		context.put(this.valName, node);
 		
-		this.getOutput().forEach( output -> {
-			output.tell(new MessageNode(context), ActorRef.noSender());
-		});
+		this.listNextActors.forEach(output -> {
+			output.forEach(actor -> {
+				actor.tell(new MessageNode(context), ActorRef.noSender());
+			});
+			
+		});	
 		
 	}
 

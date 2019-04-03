@@ -55,9 +55,13 @@ public class HttpRequest extends BaseNode{
 				         http://unirest.io/java.html
 				         */
 				         
-				         getOutput().forEach( node -> {
-				        	 node.tell(new MessageNode(context), ActorRef.noSender());
-				         });
+				         
+				         getOutput().forEach(output -> {
+				 			output.forEach(actor -> {
+				 				actor.tell(new MessageNode(context), ActorRef.noSender());
+				 			});
+				 			
+				 		});	
 				         
 				    }
 

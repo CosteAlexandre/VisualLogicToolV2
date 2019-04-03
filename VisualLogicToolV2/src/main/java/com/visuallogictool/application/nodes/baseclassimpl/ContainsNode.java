@@ -59,12 +59,17 @@ public class ContainsNode extends TwoOutPutNode {
 		
 		MessageNode messageToSend = new MessageNode(context);
 		
-		if(variable.contains(this.value)) {
-			this.listNextActors.get(0).tell(messageToSend, ActorRef.noSender());
-		}else {
-			this.listNextActors.get(1).tell(messageToSend, ActorRef.noSender());
-		}
+		int outPutNum;
 		
+		if(variable.contains(this.value)) {
+			outPutNum = 0;
+			
+		}else {
+			outPutNum = 1;
+		}
+		this.listNextActors.get(outPutNum).forEach(output-> {
+			output.tell(messageToSend, ActorRef.noSender());
+		});
 		System.out.println("AFTER Contains : " + variable);
 		
 		

@@ -108,11 +108,15 @@ public class Supervisor extends AbstractActor{
 	}
 
 	private void sendNextActor(Node node) {
-		ArrayList<ActorRef> listNextActor = new ArrayList<ActorRef>();
-		
-		node.getOutput().forEach(child -> {
+		ArrayList<ArrayList<ActorRef>> listNextActor = new ArrayList<ArrayList<ActorRef>>();
+		node.getOutput().forEach(output -> {
 		//	System.out.println(this.actors.get(child));
-			listNextActor.add(this.actors.get(child));
+			ArrayList<ActorRef> temp = new ArrayList<ActorRef>();
+			output.forEach(child -> {
+				temp.add(this.actors.get(child));
+			});
+			listNextActor.add(temp);
+			
 		});
 		ActorRef actor = this.actors.get(node.getId());
 		actor.tell(new NextActors(listNextActor), ActorRef.noSender());

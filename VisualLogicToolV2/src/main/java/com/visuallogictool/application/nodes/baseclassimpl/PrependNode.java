@@ -63,8 +63,11 @@ public class PrependNode extends BaseNode {
 		
 		MessageNode messageToSend = new MessageNode(context);
 	
-		this.listNextActors.forEach(actor -> {
-			actor.tell(messageToSend, ActorRef.noSender());
+		this.listNextActors.forEach(output -> {
+			output.forEach(actor -> {
+				actor.tell(messageToSend, ActorRef.noSender());
+			});
+			
 		});		
 		
 	}
