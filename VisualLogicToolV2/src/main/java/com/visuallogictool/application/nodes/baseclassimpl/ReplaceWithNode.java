@@ -51,12 +51,19 @@ public class ReplaceWithNode extends BaseNode {
 		
 		String variable = (String) context.get(this.var);
 		
+		log.info("Replacing node");
+		log.debug("before replacing : {}", variable);	
+		
 		variable = variable.replace(this.value, this.newValue );
+		
+		log.debug("After replacing {}", variable);
 		
 		if(this.otherVar == "") {
 			context.put(this.var, variable);
+			log.debug("erasing var");
 		} else {
 			context.put(this.otherVar, variable);
+			log.debug("putting in new variable {}",this.otherVar);
 		}
 		
 		this.sendingToAllActor(context);

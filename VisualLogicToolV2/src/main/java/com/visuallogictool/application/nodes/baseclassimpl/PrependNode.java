@@ -2,15 +2,11 @@ package com.visuallogictool.application.nodes.baseclassimpl;
 
 import java.util.HashMap;
 
-import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.nodes.BaseNode;
 import com.visuallogictool.application.nodes.information.Field;
 import com.visuallogictool.application.nodes.information.NodeInformations;
 import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 import com.visuallogictool.application.nodes.information.concrete.TextboxField;
-
-import akka.actor.ActorRef;
-import akka.actor.Props;
 
 
 
@@ -44,18 +40,18 @@ public class PrependNode extends BaseNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		
-		
-		
 		String variable = (String) context.get(this.var);
-		
-		
-		variable = variable + this.value;
 
+		log.info("Prepending node");
+		log.debug("before prepending : {}", variable);		
+		variable = variable + this.value;
+		log.debug("After prepending {}", variable);
 		if(this.newVariable == "") {
 			context.put(this.var, variable);
+			log.debug("erasing var");
 		}else {
 			context.put(this.newVariable, variable);
+			log.debug("putting in new variable {}",this.newVariable);
 		}
 		
 		

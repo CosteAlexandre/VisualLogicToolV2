@@ -21,12 +21,7 @@ public class StartWithNode extends TwoOutPutNode {
 	private String value;
 	private StartWithNodeConfiguration startWithNodeConfiguration;
 	
-	@Override
-	public void preStart() throws Exception {
-		// TODO Auto-generated method stub
-		super.preStart();
-		System.out.println("ID : " + this.id);
-	}
+
 	public StartWithNode(String id, String logId, String flowId, StartWithNodeConfiguration startWithNodeConfiguration) {
 		super(id, logId);
 		
@@ -46,28 +41,28 @@ public class StartWithNode extends TwoOutPutNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		System.out.println("RECEIVED IN start with");
 		
 		
 		
 		String variable = (String) context.get(this.var);
 		
-		System.out.println("START WITH BEFORE : " + variable);
 		
 		MessageNode messageToSend = new MessageNode(context);
 		
 		int outPutNum;
 		
 		if(variable.startsWith(this.value)) {
+			log.debug("start with the value {}",this.value);
 			outPutNum = 0;
 			
 		}else {
+			log.debug("does not start with the value {}",this.value);
 			outPutNum = 1;
 		}
+		log.info("sending to actor of output {}",outPutNum);
 		this.listNextActors.get(outPutNum).forEach(output-> {
 			output.tell(messageToSend, ActorRef.noSender());
 		});
-		System.out.println("AFTER start with : " + variable);
 		
 		
 	

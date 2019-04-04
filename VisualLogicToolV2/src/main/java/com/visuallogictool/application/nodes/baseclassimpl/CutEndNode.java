@@ -52,12 +52,18 @@ public class CutEndNode extends BaseNode {
 		
 		String variable = (String) context.get(this.var);
 		
+		log.debug("Before cutting end {}",variable);
 		
 		variable = variable.substring(0, variable.length()-this.number);
-
+		
+		log.debug("After cutting end {}",variable);
+		
+		
 		if(this.newVariable == "") {
+			log.info("errasing var");
 			context.put(this.var, variable);
 		}else {
+			log.info("putting in new variable {}",this.newVariable);
 			context.put(this.newVariable, variable);
 		}
 		

@@ -47,4 +47,18 @@
 12:10:46.275UTC INFO [system-akka.actor.default-dispatcher-4] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Supervisor coucou started
 12:10:46.276UTC INFO [system-akka.actor.default-dispatcher-4] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Starting node AR-0
 12:10:46.281UTC INFO [system-akka.actor.default-dispatcher-5] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Starting node ARO-1
-12:10:46.284UTC INFO [system-akka.actor.default-dispatcher-10] ApiRest [group : , route :  supervisor: , nodeId: coucou-AR-0] - Actor of ApiRest class started : Actor[akka://system/user/dire
+12:10:46.284UTC INFO [system-akka.actor.default-dispatcher-10] ApiRest [group : , route :  supervisor: , nodeId: coucou-AR-0] - Actor of ApiRest class started : Actor[akka://system/user/director/coucou/coucou-AR-0#1998687922]
+12:10:46.285UTC INFO [system-akka.actor.default-dispatcher-10] ApiRestOutput [group : , route :  supervisor: , nodeId: coucou-ARO-1] - Actor of ApiRestOutput class started : Actor[akka://system/user/director/coucou/coucou-ARO-1#-428987647]
+12:10:46.291UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Node e92ff4a2-77cf-409e-b493-afb2adc08dff created of : Actor[akka://system/user/director/coucou/coucou-AR-0#1998687922]
+12:10:46.292UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Node afc9eb56-e3a9-4b88-a60c-39840edb9726 created of : Actor[akka://system/user/director/coucou/coucou-ARO-1#-428987647]
+12:10:46.292UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - All node created 
+12:10:46.292UTC DEBUG[system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Sending next actor to index 0 in list and id e92ff4a2-77cf-409e-b493-afb2adc08dff
+12:10:46.295UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Sending next actor to AR-0 
+12:10:46.295UTC DEBUG[system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Sending next actor to index 1 in list and id afc9eb56-e3a9-4b88-a60c-39840edb9726
+12:10:46.295UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Sending next actor to ARO-1 
+12:10:46.295UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - All next actor sent
+12:10:46.295UTC INFO [system-akka.actor.default-dispatcher-10] ApiRestOutput [group : , route :  supervisor: , nodeId: coucou-ARO-1] - Next actor received in coucou-ARO-1
+12:10:46.296UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Next actor of received of Actor[akka://system/user/director/coucou/coucou-ARO-1#-428987647]
+12:10:46.296UTC INFO [system-akka.actor.default-dispatcher-10] ApiRest [group : , route :  supervisor: , nodeId: coucou-AR-0] - Next actor received in coucou-AR-0
+12:10:46.298UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Next actor of received of Actor[akka://system/user/director/coucou/coucou-AR-0#1998687922]
+12:10:46.298UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - All next actor Received 

@@ -16,7 +16,6 @@ import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.event.DiagnosticLoggingAdapter;
 import akka.event.Logging;
-import akka.event.LoggingAdapter;
 
 public abstract class BaseNode extends AbstractActor{
 

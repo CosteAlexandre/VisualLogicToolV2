@@ -36,6 +36,7 @@ public class CurrentHour extends BaseNode{
 	    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	    String hour = sdf.format(cal.getTime());
 		context.put(var, hour);
+		log.info("Current hour is {}",hour);
 		this.sendingToAllActor(context);
 	}
 

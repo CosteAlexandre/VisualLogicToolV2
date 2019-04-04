@@ -52,10 +52,13 @@ public class ContainsNode extends TwoOutPutNode {
 		
 		if(variable.contains(this.value)) {
 			outPutNum = 0;
+			log.debug("contains the value {}",this.value);
 			
 		}else {
+			log.debug("doesn't contain the value {}",this.value);
 			outPutNum = 1;
 		}
+		log.info("sending to output {}",outPutNum);
 		this.listNextActors.get(outPutNum).forEach(output-> {
 			output.tell(messageToSend, ActorRef.noSender());
 		});

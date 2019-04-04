@@ -47,12 +47,16 @@ public class AppendNode extends BaseNode {
 		
 		String variable = (String) context.get(this.var);
 		
-		
+		log.info("Appending node");
+		log.debug("before appending : {}", variable);
 		variable = this.value + variable;
+		log.debug("After appending {}", variable);
 		if(this.newVariable == "") {
 			context.put(this.var, variable);
+			log.debug("erasing var");
 		}else {
 			context.put(this.newVariable, variable);
+			log.debug("putting in new variable {}",this.newVariable);
 		}
 		
 		this.sendingToAllActor(context);		

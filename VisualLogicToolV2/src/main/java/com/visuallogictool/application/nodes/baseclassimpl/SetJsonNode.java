@@ -35,11 +35,12 @@ public class SetJsonNode extends BaseNode{
 
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
-		log.info("IN SET JSONNODE");
+		log.info("In set Json node");
 		JsonNode node = (JsonNode)context.get(this.variable);
 
 		
 		String[] split = this.path.split(Pattern.quote("."));
+		log.debug("split {}",split);
 		String pattern = "(.*)\\[([0-9]*)\\]";
 		
 		for (int i = 0; i < split.length; i++) {

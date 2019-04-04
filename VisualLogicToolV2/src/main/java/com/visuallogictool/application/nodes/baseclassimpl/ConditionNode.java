@@ -62,13 +62,14 @@ public class ConditionNode<T> extends MultipleOutput{
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		resp = false;
-		this.conditions.forEach( condition -> {
+		int i =0;
+		for (Condition condition : this.conditions) {
 			String type = condition.getTypeVal2();
 			String function = condition.getCondition();
-			
+			log.debug("Condition number {}",i);
 			if(type.equals("else")) {
 				if(!resp) {
-					log.info("ELSE SENDING TO : " + condition.getOutPut());
+					log.info("else sending to output {}", condition.getOutPut());
 					this.getOutput().get(condition.getOutPut()).forEach(output -> { 
 						output.tell(new MessageNode(context), ActorRef.noSender());
 					});
@@ -78,15 +79,19 @@ public class ConditionNode<T> extends MultipleOutput{
 			} else {
 				resp = this.types.get(type).get(function).apply(context.get(condition.getVal1()), condition.getVal2());
 				if(resp) {
-					log.info("SENDING TO : " + condition.getOutPut());
+					log.info("sending to output {} ", condition.getOutPut());
 					this.getOutput().get(condition.getOutPut()).forEach(output -> {
 						output.tell(new MessageNode(context), ActorRef.noSender());
 					});
 					
 				}
 			}
+			i++;
 			
-		});
+
+		}
+		
+
 	}
 
 	public static NodeInformations getGUI() {

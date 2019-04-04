@@ -47,6 +47,8 @@ public class SetNode extends BaseNode {
 		
 		context.put(this.var, this.value);
 		
+		log.info("setting {} to {}", this.var, this.value);
+		
 		this.sendingToAllActor(context);	
 		
 	}

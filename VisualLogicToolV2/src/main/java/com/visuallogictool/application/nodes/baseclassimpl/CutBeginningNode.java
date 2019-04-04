@@ -47,19 +47,19 @@ public class CutBeginningNode extends BaseNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		
-		
-		
 		String variable = (String) context.get(this.var);
 		
+		log.debug("Before cutting start {}",variable);
 		
 		variable = variable.substring(this.number);
 		
-		
+		log.debug("After cutting start {}",variable);
 		
 		if(this.newVariable == "") {
+			log.info("errasing var");
 			context.put(this.var, variable);
 		}else {
+			log.info("putting in new variable {}",this.newVariable);
 			context.put(this.newVariable, variable);
 		}
 		

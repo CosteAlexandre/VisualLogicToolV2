@@ -53,11 +53,14 @@ public class EndWithNode extends TwoOutPutNode {
 		int outPutNum;
 		
 		if(variable.endsWith(this.value)) {
+			log.debug("end with the value {}",this.value);
 			outPutNum = 0;
 			
 		}else {
+			log.debug("does not end with the value {}",this.value);
 			outPutNum = 1;
 		}
+		log.info("sending to actor of output {}",outPutNum);
 		this.listNextActors.get(outPutNum).forEach(output-> {
 			output.tell(messageToSend, ActorRef.noSender());
 		});
