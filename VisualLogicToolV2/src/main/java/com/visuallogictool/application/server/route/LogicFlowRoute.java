@@ -25,7 +25,6 @@ public class LogicFlowRoute extends Route{
 			
 			Flow flow = jsonParser.jsonFlowConverter(body);
 			
-			System.out.println("FLOW RECEIVED");
 			
 			this.getContext().getSystem().actorSelection("/user/director").tell(new CreateFlow(flow), this.getSender());;
 		}).build();

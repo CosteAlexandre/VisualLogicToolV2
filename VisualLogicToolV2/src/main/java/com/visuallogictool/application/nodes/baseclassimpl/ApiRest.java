@@ -20,25 +20,17 @@ import akka.actor.Props;
 public class ApiRest extends InputNode {
 	
 	 
-	 //final LoggingAdapter log = Logging.getLogger(getContext().getSystem().eventStream(), "my.string");
-	  static public Props props(String id, ApiRestConfiguration apiRestConfiguration) {
-		    return Props.create(ApiRest.class, () -> new ApiRest(id, apiRestConfiguration));
-	  }
-
-
 	private String api;
+
 	
-	@Override
-	public void preStart() throws Exception {
-		// TODO Auto-generated method stub
-		super.preStart();
-		System.out.println("ID : " + this.id);
-	}
-	public ApiRest(String id, ApiRestConfiguration apiRestConfiguration) {
-		super(id);
+
+	public ApiRest(String id, String logId , ApiRestConfiguration apiRestConfiguration) {
+		super(id, logId );
 		
 		this.api = apiRestConfiguration.getApi();
 		
+		this.shortName = "AR";
+		this.logName = this.shortName + "-" + logId;
 		//"/application"
 		
 	}
@@ -48,7 +40,6 @@ public class ApiRest extends InputNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		System.out.println("RECEIVED IN API REST");
 		
 		context.put("InputSender", this.getSender());
 		context.put("context", "From ApiRest");
@@ -89,7 +80,6 @@ public class ApiRest extends InputNode {
 	
 	@Override
 	public void createMessageTrigger() {
-		System.out.println("In create message trigger");
 		this.context().actorSelection("/user/restRouter").tell(new RegisterRestRouter(this.api, this.getSelf()), ActorRef.noSender());
 		
 	}

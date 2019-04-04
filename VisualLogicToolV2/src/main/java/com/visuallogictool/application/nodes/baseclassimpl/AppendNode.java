@@ -18,25 +18,18 @@ import akka.actor.Props;
 
 public class AppendNode extends BaseNode {
 	
-	 
-	 //final LoggingAdapter log = Logging.getLogger(getContext().getSystem().eventStream(), "my.string");
-	  static public Props props(String id, AppendNodeConfiguration appendNodeConfiguration) {
-		    return Props.create(AppendNode.class, () -> new AppendNode(id, appendNodeConfiguration));
-	  }
 
 	private String var;
 	private String value;
 	private String newVariable;
 	private AppendNodeConfiguration appendNodeConfiguration;
 	
-	@Override
-	public void preStart() throws Exception {
-		// TODO Auto-generated method stub
-		super.preStart();
-		System.out.println("ID : " + this.id);
-	}
-	public AppendNode(String id, AppendNodeConfiguration appendNodeConfiguration) {
-		super(id);
+
+	public AppendNode(String id, String logId , AppendNodeConfiguration appendNodeConfiguration) {
+		super(id, logId );
+		
+		this.shortName = "AN";
+		this.logName = this.shortName + "-" + logId;
 		
 		this.var = appendNodeConfiguration.getVar();
 		this.value = appendNodeConfiguration.getValue();
@@ -52,23 +45,20 @@ public class AppendNode extends BaseNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		System.out.println("RECEIVED IN CUT END");
 		
 		
 		
 		String variable = (String) context.get(this.var);
 		
-		System.out.println("BEFORE APPEND : " + variable);
 		
 		variable = this.value + variable;
-		if(this.newVariable == null) {
+		if(this.newVariable == "") {
 			context.put(this.var, variable);
 		}else {
 			context.put(this.newVariable, variable);
 		}
 		
 		
-		System.out.println("AFTER APPEND : " + variable);
 		
 		MessageNode messageToSend = new MessageNode(context);
 	
@@ -91,7 +81,7 @@ public class AppendNode extends BaseNode {
 		
 		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
 									setFieldBase(new TextboxField(null, "value", "value", false, 2, null)).
-									setFieldBase(new TextboxField(null, "newVariable", "newVariable", false, 2, null));
+									setFieldBase(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.AppendNodeConfiguration"

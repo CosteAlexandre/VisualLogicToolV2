@@ -15,8 +15,11 @@ public class ApiRestOutput extends OutputNode{
 	private String htm;
 	private ApiRestOutputConfiguration configuration;
 	
-	public ApiRestOutput(String id,ApiRestOutputConfiguration configuration) {
-		super(id);
+	public ApiRestOutput(String id, String logId  ,ApiRestOutputConfiguration configuration) {
+		super(id, logId );
+		
+		this.shortName = "ARO";
+		this.logName = this.shortName + "-" + logId;
 		
 		this.configuration = configuration;
 		this.htm = this.configuration.getHtm();
@@ -41,7 +44,6 @@ public class ApiRestOutput extends OutputNode{
 
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
-		System.out.println("RECEIVED IN OUTPUT NODE");
 		createMessageResponse(context);
 		
 	}

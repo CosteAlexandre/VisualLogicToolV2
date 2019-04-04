@@ -57,7 +57,7 @@ public class Supervisor extends AbstractActor{
 		this.flow.getListNode().forEach(node -> {
 			try {
 				
-				this.getContext().actorOf(Props.create(Class.forName(node.getClassName()), node.getId(), node.getListParameters()));
+				this.getContext().actorOf(Props.create(Class.forName(node.getClassName()), node.getId(), node.getLogId(), node.getListParameters()));
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -110,7 +110,6 @@ public class Supervisor extends AbstractActor{
 	private void sendNextActor(Node node) {
 		ArrayList<ArrayList<ActorRef>> listNextActor = new ArrayList<ArrayList<ActorRef>>();
 		node.getOutput().forEach(output -> {
-		//	System.out.println(this.actors.get(child));
 			ArrayList<ActorRef> temp = new ArrayList<ActorRef>();
 			output.forEach(child -> {
 				temp.add(this.actors.get(child));

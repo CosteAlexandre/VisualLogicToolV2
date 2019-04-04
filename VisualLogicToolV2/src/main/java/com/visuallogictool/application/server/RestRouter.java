@@ -59,7 +59,6 @@ public class RestRouter extends AbstractActor{
 	public Receive createReceive() {
 		return receiveBuilder().match(HttpRequestReceived.class, request -> {
 			String url = request.getRequest().getUri().getPathString();
-			System.out.println("Router received message from : " + url);
 			
 			if(this.api.containsKey(url)) {
 				this.api.get(url).tell(new HttpRequestReceived(request.getRequest()), this.getSender());
@@ -71,7 +70,6 @@ public class RestRouter extends AbstractActor{
 			}
 			
 		}).match(RegisterRestRouter.class, message -> {
-			System.out.println("Registered in : " + message.getApi());
 			if(this.api.containsKey(message.getApi())) {
 				message.getActor().tell(new RegisterFailed(), ActorRef.noSender());
 			} else {
@@ -83,7 +81,6 @@ public class RestRouter extends AbstractActor{
 			this.api.remove(apply.getApi());
 		}).matchAny(apply->{
 			
-			System.out.println("Else : "+apply);
 			
 		}).build();
 		

@@ -19,26 +19,23 @@ import akka.actor.Props;
 public class CutBeginningNode extends BaseNode {
 	
 	 
-	 //final LoggingAdapter log = Logging.getLogger(getContext().getSystem().eventStream(), "my.string");
-	  static public Props props(String id, CutBeginningNodeConfiguration cutBeginningNodeConfiguration) {
-		    return Props.create(CutBeginningNode.class, () -> new CutBeginningNode(id, cutBeginningNodeConfiguration));
-	  }
 
 	private String var;
 	private int number;
+	private String newVariable;
+	
 	private CutBeginningNodeConfiguration cutBeginningNodeConfiguration;
 	
-	@Override
-	public void preStart() throws Exception {
-		// TODO Auto-generated method stub
-		super.preStart();
-		System.out.println("ID : " + this.id);
-	}
-	public CutBeginningNode(String id, CutBeginningNodeConfiguration cutBeginningNodeConfiguration) {
-		super(id);
+
+	public CutBeginningNode(String id, String logId , CutBeginningNodeConfiguration cutBeginningNodeConfiguration) {
+		super(id, logId);
+		
+		this.shortName = "CBN";
+		this.logName = this.shortName + "-" + logId;
 		
 		this.var = cutBeginningNodeConfiguration.getVar();
 		this.number = cutBeginningNodeConfiguration.getNumber();
+		this.newVariable = cutBeginningNodeConfiguration.getNewVariable();
 		
 		this.cutBeginningNodeConfiguration = cutBeginningNodeConfiguration;
 		
@@ -50,18 +47,21 @@ public class CutBeginningNode extends BaseNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		System.out.println("RECEIVED IN CUT BEGINNING");
 		
 		
 		
 		String variable = (String) context.get(this.var);
 		
-		System.out.println("BEFORE CUT : " + variable);
 		
 		variable = variable.substring(this.number);
-		context.put(this.var, variable);
 		
-		System.out.println("AFTER CUT : " + variable);
+		
+		
+		if(this.newVariable == "") {
+			context.put(this.var, variable);
+		}else {
+			context.put(this.newVariable, variable);
+		}
 		
 		MessageNode messageToSend = new MessageNode(context);
 	
@@ -79,10 +79,12 @@ public class CutBeginningNode extends BaseNode {
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("CutBeginningNode", "Cut the beginning of the String", "Cut the beginning of the String").
 									setFields(new Field("var", "String", "variable", "name of the variable that you want to modify")).
-									setFields(new Field("number", "int", "number", "The number of characters you want to delete"));
+									setFields(new Field("number", "int", "number", "The number of characters you want to delete")).
+									setFields(new Field("newVariable", "String", "newVariable", "The name of the new variable where the value will be stored"));
 		
 		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "number", "number", false, 2, null));
+									setFieldBase(new TextboxField(null, "number", "number", false, 2, null)).
+									setFieldBase(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.CutBeginningNodeConfiguration"

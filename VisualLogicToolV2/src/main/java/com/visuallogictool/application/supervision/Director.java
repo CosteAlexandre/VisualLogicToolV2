@@ -69,7 +69,6 @@ public class Director extends AbstractActor{
 		for (File file : listFiles) {
 			
 			Flow flow = jsonParser.jsonFlowConverter(file);
-			System.out.println("Flow sucessfully parsed to json");
 			initializeFlow(flow);
 		}
 		log.info("File charged");

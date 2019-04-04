@@ -7,19 +7,27 @@ public class CutBeginningNodeConfiguration extends NodeConfiguration {
 
 	private String var;
 	private int number;
+	private String newVariable;
 	
 	public CutBeginningNodeConfiguration() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public CutBeginningNodeConfiguration( String var, int number) {
+	public CutBeginningNodeConfiguration( String var, int number, String newVariable) {
 		super();
 
 		this.var = var;
 		this.number = number;
+		this.newVariable = newVariable;
 	}
 
+	public String getNewVariable() {
+		return newVariable;
+	}
+	public void setNewVariable(String newVariable) {
+		this.newVariable = newVariable;
+	}
 	public int getNumber() {
 		return number;
 	}

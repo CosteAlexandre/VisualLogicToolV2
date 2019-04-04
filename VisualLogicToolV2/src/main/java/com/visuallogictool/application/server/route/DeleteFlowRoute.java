@@ -21,7 +21,6 @@ public class DeleteFlowRoute extends Route{
 		// TODO Auto-generated method stub
 		return receiveBuilder().match(HttpRequestReceived.class, apply -> {
 			Strict entity = (Strict) apply.getRequest().entity();
-			System.out.println(" TEST "+entity.getData().decodeString("UTF-8"));
 			String id = entity.getData().decodeString("UTF-8");
 			
 			

@@ -19,23 +19,17 @@ import akka.actor.Props;
 public class SetNode extends BaseNode {
 	
 	 
-	 //final LoggingAdapter log = Logging.getLogger(getContext().getSystem().eventStream(), "my.string");
-	  static public Props props(String id, SetNodeConfiguration setNodeConfiguration) {
-		    return Props.create(SetNode.class, () -> new SetNode(id, setNodeConfiguration));
-	  }
 
 	private String var;
 	private String value;
 	private SetNodeConfiguration setNodeConfiguration;
 	
-	@Override
-	public void preStart() throws Exception {
-		// TODO Auto-generated method stub
-		super.preStart();
-		System.out.println("ID : " + this.id);
-	}
-	public SetNode(String id, SetNodeConfiguration setNodeConfiguration) {
-		super(id);
+
+	public SetNode(String id, String logId , SetNodeConfiguration setNodeConfiguration) {
+		super(id, logId);
+		
+		this.shortName = "SN";
+		this.logName = this.shortName + "-" + logId;
 		
 		this.var = setNodeConfiguration.getVar();
 		this.value = setNodeConfiguration.getValue();
@@ -50,7 +44,6 @@ public class SetNode extends BaseNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		System.out.println("RECEIVED IN Set node");
 		
 		context.put(this.var, this.value);
 		

@@ -10,29 +10,33 @@ import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 import com.visuallogictool.application.nodes.information.concrete.TextboxField;
 
 import akka.actor.ActorRef;
-import akka.actor.Props;
 
 
 
-public class ContainsNode extends TwoOutPutNode {
+public class StartWithNode extends TwoOutPutNode {
 	
 	 
 
 	private String var;
 	private String value;
-	private ContainsNodeConfiguration containsNodeConfiguration;
+	private StartWithNodeConfiguration startWithNodeConfiguration;
 	
-
-	public ContainsNode(String id, String logId , ContainsNodeConfiguration containsNodeConfiguration) {
+	@Override
+	public void preStart() throws Exception {
+		// TODO Auto-generated method stub
+		super.preStart();
+		System.out.println("ID : " + this.id);
+	}
+	public StartWithNode(String id, String logId , StartWithNodeConfiguration startWithNodeConfiguration) {
 		super(id, logId);
 		
-		this.shortName = "CondN";
+		this.shortName = "SWNO";
 		this.logName = this.shortName + "-" + logId;
 		
-		this.var = containsNodeConfiguration.getVar();
-		this.value = containsNodeConfiguration.getValue();
+		this.var = startWithNodeConfiguration.getVar();
+		this.value = startWithNodeConfiguration.getValue();
 		
-		this.containsNodeConfiguration = containsNodeConfiguration;
+		this.startWithNodeConfiguration = startWithNodeConfiguration;
 		
 		
 		
@@ -42,15 +46,19 @@ public class ContainsNode extends TwoOutPutNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
+		System.out.println("RECEIVED IN start with");
+		
+		
 		
 		String variable = (String) context.get(this.var);
 		
+		System.out.println("START WITH BEFORE : " + variable);
 		
 		MessageNode messageToSend = new MessageNode(context);
 		
 		int outPutNum;
 		
-		if(variable.contains(this.value)) {
+		if(variable.startsWith(this.value)) {
 			outPutNum = 0;
 			
 		}else {
@@ -59,6 +67,7 @@ public class ContainsNode extends TwoOutPutNode {
 		this.listNextActors.get(outPutNum).forEach(output-> {
 			output.tell(messageToSend, ActorRef.noSender());
 		});
+		System.out.println("AFTER start with : " + variable);
 		
 		
 	
@@ -69,7 +78,7 @@ public class ContainsNode extends TwoOutPutNode {
 	public static NodeInformations getGUI() {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
-		informations = informations.setHeader("ContainsNode", "Check if the String is contained in the variable", "Check if the String is contained in the variable").
+		informations = informations.setHeader("StartWithNode", "Check if the String is begins with the variable", "Check if the String is begins with the variable").
 									setFields(new Field("var", "String", "variable", "name of the variable that to check")).
 									setFields(new Field("value", "String", "value", "the value that will be checked with the var"));
 		
@@ -77,12 +86,12 @@ public class ContainsNode extends TwoOutPutNode {
 									setFieldBase(new TextboxField(null, "value", "value", false, 2, null));
 		
 		
-		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ContainsNodeConfiguration"
-											,"com.visuallogictool.application.nodes.baseclassimpl.ContainsNode");
+		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.StartWithNodeConfiguration"
+											,"com.visuallogictool.application.nodes.baseclassimpl.StartWithNode");
 		
-		informations = informations.setShortName("CondN");
+		informations = informations.setShortName("SWN");
 		
-		informations = informations.setImageUrl("https://img.icons8.com/ultraviolet/40/000000/no-gluten.png");
+		informations = informations.setImageUrl("https://img.icons8.com/android/40/000000/play.png");
 		
 		return informations.getNodeInformations();
 	}

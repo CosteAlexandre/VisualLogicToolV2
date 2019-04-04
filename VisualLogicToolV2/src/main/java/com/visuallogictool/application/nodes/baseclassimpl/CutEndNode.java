@@ -19,26 +19,23 @@ import akka.actor.Props;
 public class CutEndNode extends BaseNode {
 	
 	 
-	 //final LoggingAdapter log = Logging.getLogger(getContext().getSystem().eventStream(), "my.string");
-	  static public Props props(String id, CutEndNodeConfiguration cutEndNodeConfiguration) {
-		    return Props.create(CutEndNode.class, () -> new CutEndNode(id, cutEndNodeConfiguration));
-	  }
 
 	private String var;
 	private int number;
+	private String newVariable;
+	
 	private CutEndNodeConfiguration cutEndNodeConfiguration;
 	
-	@Override
-	public void preStart() throws Exception {
-		// TODO Auto-generated method stub
-		super.preStart();
-		System.out.println("ID : " + this.id);
-	}
-	public CutEndNode(String id, CutEndNodeConfiguration cutEndNodeConfiguration) {
-		super(id);
+
+	public CutEndNode(String id, String logId , CutEndNodeConfiguration cutEndNodeConfiguration) {
+		super(id, logId);
+		
+		this.shortName = "CEN";
+		this.logName = this.shortName + "-" + logId;
 		
 		this.var = cutEndNodeConfiguration.getVar();
 		this.number = cutEndNodeConfiguration.getNumber();
+		this.newVariable = cutEndNodeConfiguration.getNewVariable();
 		
 		this.cutEndNodeConfiguration = cutEndNodeConfiguration;
 		
@@ -50,18 +47,20 @@ public class CutEndNode extends BaseNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		System.out.println("RECEIVED IN CUT END");
 		
 		
 		
 		String variable = (String) context.get(this.var);
 		
-		System.out.println("BEFORE CUT : " + variable);
 		
 		variable = variable.substring(0, variable.length()-this.number);
-		context.put(this.var, variable);
+
+		if(this.newVariable == "") {
+			context.put(this.var, variable);
+		}else {
+			context.put(this.newVariable, variable);
+		}
 		
-		System.out.println("AFTER CUT : " + variable);
 		
 		MessageNode messageToSend = new MessageNode(context);
 	
@@ -79,10 +78,12 @@ public class CutEndNode extends BaseNode {
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("CutEndNode", "Cut the end of the String", "Cut the end of the String").
 									setFields(new Field("var", "String", "variable", "name of the variable that you want to modify")).
-									setFields(new Field("number", "int", "number", "The number of characters you want to delete"));
+									setFields(new Field("number", "int", "number", "The number of characters you want to delete")).
+									setFields(new Field("newVariable", "String", "newVariable", "The name of the new variable where the value will be stored"));
 		
 		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "number", "number", false, 2, null));
+									setFieldBase(new TextboxField(null, "number", "number", false, 2, null)).
+									setFieldBase(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.CutEndNodeConfiguration"

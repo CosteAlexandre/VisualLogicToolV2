@@ -61,7 +61,6 @@ public class JsonParser {
 
 			Flow flow = objectMapper.readValue(file, Flow.class);
 			
-			System.out.println(jsonNode.toString());
 			
 			return flow;
 			

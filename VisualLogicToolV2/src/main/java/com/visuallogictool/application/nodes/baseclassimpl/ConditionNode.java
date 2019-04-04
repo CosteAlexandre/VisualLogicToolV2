@@ -28,8 +28,12 @@ public class ConditionNode<T> extends MultipleOutput{
 	private HashMap<String, BiFunction<Object, String, Boolean>> json;
 	
 	
-	public ConditionNode(String id, ConditionNodeConfiguration configuration) {
-		super(id);
+	public ConditionNode(String id, String logId , ConditionNodeConfiguration configuration) {
+		super(id, logId);
+		
+		this.shortName = "CN";
+		this.logName = this.shortName + "-" + logId;
+		
 		this.configuration = configuration;
 		conditions = configuration.getConditions();
 		initializeMap();

@@ -7,8 +7,8 @@ import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 
 public abstract class OutputNode extends BaseNode{
 
-	public OutputNode(String id) {
-		super(id);		
+	public OutputNode(String id, String logId ) {
+		super(id, logId);		
 	}
 
 	public abstract void createMessageResponse(HashMap<String, Object> context); // Send a response back

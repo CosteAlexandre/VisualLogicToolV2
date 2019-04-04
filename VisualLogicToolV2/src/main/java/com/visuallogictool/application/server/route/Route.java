@@ -31,12 +31,9 @@ public abstract class Route extends AbstractActor{
 	}
 	
 	protected String getBody(HttpRequestReceived httpRequest) {
-		System.out.println("HTTP REQUEST : "+httpRequest.getRequest().entity());
 		
 		RequestEntity test = httpRequest.getRequest().entity();
-		System.out.println("Test : " + test.getDataBytes().toString());
 		Strict entity = (Strict) httpRequest.getRequest().entity();
-		System.out.println(" TEST "+entity.getData().decodeString("UTF-8"));
 		String body = entity.getData().decodeString("UTF-8");
 		return body;
 	}

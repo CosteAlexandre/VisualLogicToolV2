@@ -17,26 +17,22 @@ import akka.actor.Props;
 public class PrependNode extends BaseNode {
 	
 	 
-	 //final LoggingAdapter log = Logging.getLogger(getContext().getSystem().eventStream(), "my.string");
-	  static public Props props(String id, PrependNodeConfiguration prependNodeConfiguration) {
-		    return Props.create(PrependNode.class, () -> new PrependNode(id, prependNodeConfiguration));
-	  }
 
 	private String var;
 	private String value;
+	private String newVariable;
 	private PrependNodeConfiguration prependNodeConfiguration;
 	
-	@Override
-	public void preStart() throws Exception {
-		// TODO Auto-generated method stub
-		super.preStart();
-		System.out.println("ID : " + this.id);
-	}
-	public PrependNode(String id, PrependNodeConfiguration prependNodeConfiguration) {
-		super(id);
+
+	public PrependNode(String id, String logId , PrependNodeConfiguration prependNodeConfiguration) {
+		super(id, logId);
+		
+		this.shortName = "PN";
+		this.logName = this.shortName + "-" + logId;
 		
 		this.var = prependNodeConfiguration.getVar();
 		this.value = prependNodeConfiguration.getValue();
+		this.newVariable = prependNodeConfiguration.getNewVariable();
 		
 		this.prependNodeConfiguration = prependNodeConfiguration;
 		
@@ -48,18 +44,20 @@ public class PrependNode extends BaseNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		System.out.println("RECEIVED IN CUT END");
 		
 		
 		
 		String variable = (String) context.get(this.var);
 		
-		System.out.println("BEFORE PREPEND : " + variable);
 		
 		variable = variable + this.value;
-		context.put(this.var, variable);
+
+		if(this.newVariable == "") {
+			context.put(this.var, variable);
+		}else {
+			context.put(this.newVariable, variable);
+		}
 		
-		System.out.println("AFTER PREPEND : " + variable);
 		
 		MessageNode messageToSend = new MessageNode(context);
 	
@@ -77,10 +75,12 @@ public class PrependNode extends BaseNode {
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("PrependNode", "Prepend at the end of the String", "Prepend at the end of the String").
 									setFields(new Field("var", "String", "variable", "name of the variable that you want to modify")).
-									setFields(new Field("value", "String", "value", "the value that will be added at the end of the string"));
+									setFields(new Field("value", "String", "value", "the value that will be added at the end of the string")).
+									setFields(new Field("newVariable", "String", "newVariable", "the name of the new variable where the value will be stored"));
 		
 		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "value", "value", false, 2, null));
+									setFieldBase(new TextboxField(null, "value", "value", false, 2, null)).
+									setFieldBase(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.PrependNodeConfiguration"

@@ -20,8 +20,12 @@ public class CurrentHour extends BaseNode{
 	private String var;
 	private CurrentHourConfiguration configuration;
 	
-	public CurrentHour(String id, CurrentHourConfiguration configuration) {
-		super(id);
+	public CurrentHour(String id, String logId , CurrentHourConfiguration configuration) {
+		super(id, logId);
+		
+		this.shortName = "CH";
+		this.logName = this.shortName + "-" + logId;
+		
 		this.var = configuration.getVar();
 	}
 	
@@ -31,7 +35,6 @@ public class CurrentHour extends BaseNode{
 		Calendar cal = Calendar.getInstance();
 	    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 	    String hour = sdf.format(cal.getTime());
-	    System.out.println("HOUR : " + hour);
 		context.put(var, hour);
 		this.listNextActors.forEach(output -> {
 			output.forEach(actor -> {

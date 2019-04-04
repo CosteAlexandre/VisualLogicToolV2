@@ -37,17 +37,21 @@ public abstract class BaseNode extends AbstractActor{
 	
 	protected String id; // unique id for each node
 	
+	protected String logId;
+	
+	protected String shortName;
+	protected String logName;
 	
 	protected ArrayList<ArrayList<ActorRef>> listNextActors; // list of the next actor he will call
 	
 	//add start/finish time
 	
 	//call this one with the new one to initialise quickly
-	public BaseNode(String id ) {
+	public BaseNode(String id, String logId ) {
 		super();
 		//this.numberOutput = numberOutput;		
 		this.id = id;
-
+		this.logId = logId;
 				
 	}
 	
@@ -106,16 +110,15 @@ public abstract class BaseNode extends AbstractActor{
 	public Receive createReceive() {
 		// TODO Auto-generated method stub
 		return receiveBuilder().match(NextActors.class, apply -> {
-			//System.out.println("next actor received");
 			log.info("Message received NextActor.class");
 			this.listNextActors = apply.getListNextActor();
 			this.getContext().getParent().tell(new NextActorReceived(), this.getSelf());
 		}).match(HttpRequestReceived.class, apply -> {
-			log.info("Message received MessagedReceived.class");
+			log.info("HttpRequest received in {} node", this.logName);
 			processMessage(apply.getRequest().toString());
 			
 		}).match(MessageNode.class, apply -> {
-			log.info("Message received MessageNode.class");
+			log.info("Message received in {} node", this.logName);
 			processMessage(apply.getContext());
 		}).build();
 		

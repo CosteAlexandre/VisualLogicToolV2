@@ -14,25 +14,25 @@ import akka.actor.Props;
 
 
 
-public class ContainsNode extends TwoOutPutNode {
+public class EndWithNode extends TwoOutPutNode {
 	
 	 
 
 	private String var;
 	private String value;
-	private ContainsNodeConfiguration containsNodeConfiguration;
+	private EndWithNodeConfiguration endWithNodeConfiguration;
 	
 
-	public ContainsNode(String id, String logId , ContainsNodeConfiguration containsNodeConfiguration) {
+	public EndWithNode(String id, String logId , EndWithNodeConfiguration endWithNodeConfiguration) {
 		super(id, logId);
-		
-		this.shortName = "CondN";
+	
+		this.shortName = "EWN";
 		this.logName = this.shortName + "-" + logId;
 		
-		this.var = containsNodeConfiguration.getVar();
-		this.value = containsNodeConfiguration.getValue();
+		this.var = endWithNodeConfiguration.getVar();
+		this.value = endWithNodeConfiguration.getValue();
 		
-		this.containsNodeConfiguration = containsNodeConfiguration;
+		this.endWithNodeConfiguration = endWithNodeConfiguration;
 		
 		
 		
@@ -43,6 +43,8 @@ public class ContainsNode extends TwoOutPutNode {
 	public void processMessage(HashMap<String, Object> context) {
 		
 		
+		
+		
 		String variable = (String) context.get(this.var);
 		
 		
@@ -50,7 +52,7 @@ public class ContainsNode extends TwoOutPutNode {
 		
 		int outPutNum;
 		
-		if(variable.contains(this.value)) {
+		if(variable.endsWith(this.value)) {
 			outPutNum = 0;
 			
 		}else {
@@ -69,7 +71,7 @@ public class ContainsNode extends TwoOutPutNode {
 	public static NodeInformations getGUI() {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
-		informations = informations.setHeader("ContainsNode", "Check if the String is contained in the variable", "Check if the String is contained in the variable").
+		informations = informations.setHeader("EndWithNode", "Check if the String ends with the variable", "Check if the String ends with the variable").
 									setFields(new Field("var", "String", "variable", "name of the variable that to check")).
 									setFields(new Field("value", "String", "value", "the value that will be checked with the var"));
 		
@@ -77,12 +79,12 @@ public class ContainsNode extends TwoOutPutNode {
 									setFieldBase(new TextboxField(null, "value", "value", false, 2, null));
 		
 		
-		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ContainsNodeConfiguration"
-											,"com.visuallogictool.application.nodes.baseclassimpl.ContainsNode");
+		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.EndWithNodeConfiguration"
+											,"com.visuallogictool.application.nodes.baseclassimpl.EndWithNode");
 		
-		informations = informations.setShortName("CondN");
+		informations = informations.setShortName("EWN");
 		
-		informations = informations.setImageUrl("https://img.icons8.com/ultraviolet/40/000000/no-gluten.png");
+		informations = informations.setImageUrl("https://img.icons8.com/ios/50/000000/close-window-filled.png");
 		
 		return informations.getNodeInformations();
 	}

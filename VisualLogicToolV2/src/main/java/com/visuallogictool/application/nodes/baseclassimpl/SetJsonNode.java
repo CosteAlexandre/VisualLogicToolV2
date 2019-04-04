@@ -21,8 +21,12 @@ public class SetJsonNode extends BaseNode{
 	private String path;
 	private String valName;
 	
-	public SetJsonNode(String id, SetJsonNodeConfiguration configuration) {
-		super(id);
+	public SetJsonNode(String id, String logId , SetJsonNodeConfiguration configuration) {
+		super(id, logId);
+		
+		this.shortName = "SJN";
+		this.logName = this.shortName + "-" + logId;
+		
 		this.configuration = configuration;
 		this.variable = configuration.getVariable();
 		this.path = configuration.getPath();
@@ -33,18 +37,12 @@ public class SetJsonNode extends BaseNode{
 	public void processMessage(HashMap<String, Object> context) {
 		log.info("IN SET JSONNODE");
 		JsonNode node = (JsonNode)context.get(this.variable);
-		System.out.println();
-		/*
-		 * Regex the string with the dots, then do multiple path search depending on number of "dot", then how for the table // add index in the beginning?
-		 */
-		
-		//forecast.forecastday[1]
+
 		
 		String[] split = this.path.split(Pattern.quote("."));
 		String pattern = "(.*)\\[([0-9]*)\\]";
 		
 		for (int i = 0; i < split.length; i++) {
-			System.out.println("Split : "+split[i]);
 			
 			if(split[i].matches(pattern)) {
 				String firstPart = split[1].replaceAll(pattern, "$1");

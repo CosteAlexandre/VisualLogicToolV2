@@ -2,32 +2,24 @@ package com.visuallogictool.application.nodes.baseclassimpl;
 
 import com.visuallogictool.application.jsonclass.NodeConfiguration;
 
-public class PrependNodeConfiguration extends NodeConfiguration {
+public class StartWithNodeConfiguration extends NodeConfiguration {
 
 
 	private String var;
 	private String value;
-	private String newVariable;
 	
-	public PrependNodeConfiguration() {
+	public StartWithNodeConfiguration() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-	public PrependNodeConfiguration( String var, String value, String newVariable) {
+	public StartWithNodeConfiguration( String var, String value) {
 		super();
 
 		this.var = var;
 		this.value = value;
-		this.newVariable = newVariable;
 	}
 
-	public String getNewVariable() {
-		return newVariable;
-	}
-	public void setNewVariable(String newVariable) {
-		this.newVariable = newVariable;
-	}
 	public String getValue() {
 		return value;
 	}
