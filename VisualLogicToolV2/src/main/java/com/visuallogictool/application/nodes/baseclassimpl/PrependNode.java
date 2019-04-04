@@ -24,11 +24,11 @@ public class PrependNode extends BaseNode {
 	private PrependNodeConfiguration prependNodeConfiguration;
 	
 
-	public PrependNode(String id, String logId , PrependNodeConfiguration prependNodeConfiguration) {
+	public PrependNode(String id, String logId, String flowId, PrependNodeConfiguration prependNodeConfiguration) {
 		super(id, logId);
 		
 		this.shortName = "PN";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.var = prependNodeConfiguration.getVar();
 		this.value = prependNodeConfiguration.getValue();
@@ -59,14 +59,7 @@ public class PrependNode extends BaseNode {
 		}
 		
 		
-		MessageNode messageToSend = new MessageNode(context);
-	
-		this.listNextActors.forEach(output -> {
-			output.forEach(actor -> {
-				actor.tell(messageToSend, ActorRef.noSender());
-			});
-			
-		});		
+		this.sendingToAllActor(context);	
 		
 	}
 	

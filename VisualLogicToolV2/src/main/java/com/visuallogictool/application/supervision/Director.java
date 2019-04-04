@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 import com.visuallogictool.application.jsonclass.Flow;
 import com.visuallogictool.application.messages.flow.CreateFlow;
@@ -18,6 +19,7 @@ import com.visuallogictool.application.utils.JsonParser;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.event.DiagnosticLoggingAdapter;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.http.javadsl.model.HttpResponse;
@@ -37,7 +39,7 @@ public class Director extends AbstractActor{
 	private HashMap<String, Flow> supervisorsFlow;
 	
 	
-	private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
+	protected DiagnosticLoggingAdapter log = Logging.getLogger(this);
 	
 	
 	public Director(RestServer server, int mode) {
@@ -51,13 +53,21 @@ public class Director extends AbstractActor{
 		this.listSupervisor = new HashSet<ActorRef>();
 		this.supervisors = new HashMap<String, ActorRef>();
 		this.supervisorsFlow = new HashMap<String, Flow>();
+		
+		Map<String, Object> mdc;
+        mdc = new HashMap<String, Object>();
+        mdc.put("group", "Director");
+        
+        log.setMDC(mdc);
+        
+        
 	}
 	
 	@Override
 	public void preStart() throws Exception {
 		// TODO Add logic flow route when this actor is created, then start adding new route
 		super.preStart();
-		log.info("Director created, charging files");
+		log.info("Director started");
 		chargeFiles();
 		
 	}
@@ -65,26 +75,31 @@ public class Director extends AbstractActor{
 	
 	
 	private void chargeFiles() {
+		log.info("Charging files");
 		Collection<File> listFiles = filesUtils.getAllJSONFile("src/main/resources/jsonFlow");
+		log.debug("Number of file :{}",listFiles.size());
+		int i =0;
 		for (File file : listFiles) {
-			
+			log.debug("File number {} with path {}",i,file.getAbsolutePath());
 			Flow flow = jsonParser.jsonFlowConverter(file);
 			initializeFlow(flow);
+			i++;
 		}
-		log.info("File charged");
+		log.info("Files charged");
 	}
 
 	
 	private void initializeFlow(Flow flow) {
-		log.info("Initializing flow");		
+		log.info("Initializing flow {}", flow.getId());		
 		if(this.supervisors.containsKey(flow.getId())) {
 			log.info("The flow with this id already exists");
 			return;
 		}
-		ActorRef supervisor = this.getContext().actorOf(Supervisor.props(flow,null));
+		ActorRef supervisor = this.getContext().actorOf(Supervisor.props(flow,null),flow.getId());
 		this.listSupervisor.add(supervisor);
 		this.supervisors.put(flow.getId(), supervisor);
 		this.supervisorsFlow.put(flow.getId(), flow);
+		log.info("Flow {} initialized",flow.getId());
 	}
 	private void initializeFlow(Flow flow,ActorRef sender) {
 		log.info("Initializing flow");		
@@ -92,19 +107,24 @@ public class Director extends AbstractActor{
 			log.info("The flow with this id already exists");
 			return;
 		}
+		log.debug("FLow with id {} sending to actor {}",flow.getId(),sender);
 		ActorRef supervisor = this.getContext().actorOf(Supervisor.props(flow,sender));
 		this.listSupervisor.add(supervisor);
 		this.supervisors.put(flow.getId(), supervisor);
 		this.supervisorsFlow.put(flow.getId(), flow);
+		log.info("Flow {} initialized",flow.getId());
 	}
 
 	@Override
 	public Receive createReceive() {
 		// TODO Auto-generated method stub
 		return receiveBuilder().match(CreateFlow.class,apply -> {
+			log.debug("Receive create flow id : {}",apply.getFlow().getId());
 			if(this.supervisorsFlow.get(apply.getFlow().getId())!=null) {
+				log.info("The flow with the id {} already exists", apply.getFlow().getId());
 				sendResponse("Flow with this id already exists");
 			}else {
+				
 				initializeFlow(apply.getFlow(),this.getSender());
 			}
 			
@@ -113,14 +133,17 @@ public class Director extends AbstractActor{
 			Flow flow = this.supervisorsFlow.get(apply.getId());
 			jsonParser.addFlowJsonFile(flow,"src/main/resources/jsonFlow/"+flow.getId()+".json");
 			
-		
+			log.info("Flow {} succesfully created",flow.getId());
 			sendResponse("Flow succesfully created");
 			
 		}).match(DeleteFlow.class, apply -> {
+			log.info("received in deleteFlow");
 			deleteFlow(apply);
 		}).match(GetAllFlow.class, apply ->{
+			log.info("received in GetAllFlow");
 			getAllFlow();
 		}).match(GetFlowGraph.class, apply->{
+			log.info("received in GetFlowGraph");
 			getFlowGraph(apply.getId());
 		}).build();
 		
@@ -129,13 +152,13 @@ public class Director extends AbstractActor{
 	}
 
 	private void getFlowGraph(String id) {
-		
+		log.info("Getting flow {}", id);
 		this.sendResponse(this.supervisorsFlow.get(id));
 		
 	}
 
 	private void getAllFlow() {
-
+		log.info("Getting all flow {}");
 		ArrayList<String> flowId = new ArrayList<String>();
 		
 		this.supervisorsFlow.forEach((id,flow) -> {
@@ -154,6 +177,7 @@ public class Director extends AbstractActor{
 	private HashMap<String, Flow> supervisorsFlow;
 		 * 
 		 * */
+		log.info("Deleting flow {}", apply.getId());
 		String id = apply.getId();
 		ActorRef supervisor = supervisors.get(id);
 		
@@ -161,10 +185,10 @@ public class Director extends AbstractActor{
 		
 		if(supervisor == null) {
 			resp = "no such flow";
-			log.info("NO SUCH FLOW");
+			log.info("Flow {} doesn't exist",apply.getId());
 		}else {
 			resp = "flow deleted";
-			log.info("FLOW DELETED");
+			
 			supervisors.remove(id);
 			listSupervisor.remove(supervisor);
 			supervisorsFlow.remove(id);
@@ -172,6 +196,7 @@ public class Director extends AbstractActor{
 			this.filesUtils.deleteFile("src/main/resources/jsonFlow/"+id+".json");
 			
 			this.context().stop(supervisor);
+			log.info("Flow {} deleted",apply.getId());
 		}
 		
 		
@@ -179,6 +204,8 @@ public class Director extends AbstractActor{
 		
 	}
 	private void sendResponse(Object object) {
+		log.info("Sending back response");
+		log.debug("Send response with object {}",object);
 		HttpResponse response = HttpResponse.create()
 				.withStatus(200)
 				.withEntity(jsonParser.getJson(object)).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));

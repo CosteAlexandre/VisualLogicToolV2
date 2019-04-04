@@ -2,6 +2,7 @@ package com.visuallogictool.application.nodes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
@@ -13,6 +14,7 @@ import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
+import akka.event.DiagnosticLoggingAdapter;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 
@@ -33,7 +35,11 @@ public abstract class BaseNode extends AbstractActor{
 	private boolean singleOutput;
 	*/
 	//add method
-	protected LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
+	//protected LoggingAdapter log;
+	
+	protected DiagnosticLoggingAdapter log;
+	
+	//https://doc.akka.io/docs/akka/current/logging.html
 	
 	protected String id; // unique id for each node
 	
@@ -52,7 +58,12 @@ public abstract class BaseNode extends AbstractActor{
 		//this.numberOutput = numberOutput;		
 		this.id = id;
 		this.logId = logId;
-				
+		
+		//log = Logging.getLogger(getContext().getSystem(), this);
+		log = Logging.getLogger(this);
+		
+
+		
 	}
 	
 	public void setListNextActor(ArrayList<ArrayList<ActorRef>> listNextActors) {
@@ -88,6 +99,26 @@ public abstract class BaseNode extends AbstractActor{
 		return informations;
 	}
 	
+	protected void setLogName(String flowId, String logId) {
+		this.logName = flowId + "-" + this.shortName + "-" + logId;
+	}
+	
+	protected void sendingToAllActor(HashMap<String, Object> context) {
+		MessageNode messageToSend = new MessageNode(context);
+		
+		int i = 0;
+		for (ArrayList<ActorRef> output : listNextActors) {
+			int y = 0;
+			
+			for (ActorRef actor : output) {
+				log.debug("sending actor from {} to output {} to number {} actor {}",this.logName,i,y,actor);
+				actor.tell(messageToSend, ActorRef.noSender());
+				y++;
+			}
+			i++;
+		}
+	}
+	
 	public abstract void processMessage(HashMap<String, Object> context);
 	public void processMessage(String message) {
 		HashMap<String, Object> context = new HashMap<String, Object>();
@@ -102,6 +133,12 @@ public abstract class BaseNode extends AbstractActor{
 	
 	@Override
 	public void preStart() throws Exception {
+		Map<String, Object> mdc;
+        mdc = new HashMap<String, Object>();
+        mdc.put("nodeId", this.logName);
+		
+		log.setMDC(mdc);
+		
 		log.info("Actor of {} class started : {}",this.getClass().getSimpleName(),this.getSelf());
 		getContext().getParent().tell(new NodeCreated(this.id), this.getSelf());
 	}
@@ -110,17 +147,21 @@ public abstract class BaseNode extends AbstractActor{
 	public Receive createReceive() {
 		// TODO Auto-generated method stub
 		return receiveBuilder().match(NextActors.class, apply -> {
-			log.info("Message received NextActor.class");
 			this.listNextActors = apply.getListNextActor();
 			this.getContext().getParent().tell(new NextActorReceived(), this.getSelf());
+			log.info("Next actor received in {}",this.logName);
 		}).match(HttpRequestReceived.class, apply -> {
-			log.info("HttpRequest received in {} node", this.logName);
-			processMessage(apply.getRequest().toString());
 			
+			processMessage(apply.getRequest().toString());
+			log.info("HttpRequest received in {} node", this.logName);
 		}).match(MessageNode.class, apply -> {
-			log.info("Message received in {} node", this.logName);
 			processMessage(apply.getContext());
+			log.info("Message received in {} node", this.logName);
 		}).build();
 		
 	}
+	
+	
+	
+	
 }

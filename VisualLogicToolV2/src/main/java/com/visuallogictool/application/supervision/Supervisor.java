@@ -2,6 +2,7 @@ package com.visuallogictool.application.supervision;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.visuallogictool.application.jsonclass.Flow;
 import com.visuallogictool.application.jsonclass.Node;
@@ -13,6 +14,7 @@ import com.visuallogictool.application.messages.flow.NodeCreated;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.Props;
+import akka.event.DiagnosticLoggingAdapter;
 import akka.event.Logging;
 import akka.event.LoggingAdapter;
 
@@ -24,7 +26,7 @@ public class Supervisor extends AbstractActor{
 	private int nextActorReceived;
 	
 	private HashMap<String, ActorRef> actors;
-	private LoggingAdapter log = Logging.getLogger(getContext().getSystem(), this);
+	protected DiagnosticLoggingAdapter log = Logging.getLogger(this);
 	
 	private ActorRef httpResponse;
 	public static Props props(Flow flow, ActorRef httpResponse) {
@@ -38,6 +40,13 @@ public class Supervisor extends AbstractActor{
 		
 		this.actorReceived = 0;
 		this.nextActorReceived = 0;
+		
+		Map<String, Object> mdc;
+        mdc = new HashMap<String, Object>();
+        mdc.put("supervisor", flow.getId());
+	
+        log.setMDC(mdc);
+        log.clearMDC();
 	}
 	public Supervisor(Flow flow, ActorRef httpResponse) {
 		this.flow = flow;
@@ -47,20 +56,29 @@ public class Supervisor extends AbstractActor{
 		this.actorReceived = 0;
 		this.nextActorReceived = 0;
 		this.httpResponse = httpResponse;
+		
+		Map<String, Object> mdc;
+        mdc = new HashMap<String, Object>();
+        mdc.put("supervisor", flow.getId());
+        
+	
+        log.setMDC(mdc);
+        
 	}
 
 	
 	 
 	@Override
 	public void preStart() throws Exception {
-		log.info("Supervisor started");
+		log.info("Supervisor {} started", this.id);
 		this.flow.getListNode().forEach(node -> {
 			try {
-				
-				this.getContext().actorOf(Props.create(Class.forName(node.getClassName()), node.getId(), node.getLogId(), node.getListParameters()));
+				log.info("Starting node {}", node.getShortName()+"-"+node.getLogId());
+				this.getContext().actorOf(Props.create(Class.forName(node.getClassName()), node.getId(), node.getLogId(), this.id, node.getListParameters()),this.id+"-"+node.getShortName()+"-"+node.getLogId());
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				log.debug("Error during class initialization of {}, exception : {}",node,e);
 			}
 		});
 		
@@ -71,12 +89,12 @@ public class Supervisor extends AbstractActor{
 	public Receive createReceive() {
 
 		return receiveBuilder().match(NodeCreated.class, apply -> {
-			log.info("New node created of : {}",this.getSender());
+			log.info("Node {} created of : {}", apply.getId(), this.getSender());
 			nodeCreateReceive(apply.getId());
 				
 			
 		}).match(NextActorReceived.class, apply -> {
-			log.info("Next actor of received : {}",this.getSender());
+			log.info("Next actor of received of {}",this.getSender());
 			receiveNextActor();
 		}).build();
 		
@@ -86,9 +104,10 @@ public class Supervisor extends AbstractActor{
 		
 		this.nextActorReceived++;
 		if(this.nextActorReceived == this.flow.getListNode().size()) {
-			log.info("All next actor Received size node : ");
-			if(this.httpResponse!=null) {
+			log.info("All next actor Received ");
+			if(this.httpResponse!=null) {				
 				this.getContext().getParent().tell(new FlowCreated(this.id), this.httpResponse);
+				log.info("Flow sucessfully created");
 			}
 		}
 		
@@ -99,11 +118,18 @@ public class Supervisor extends AbstractActor{
 		this.actors.put(id, this.getSender());
 		
 		if(this.actorReceived == this.flow.getListNode().size()) {
-						
-			log.info("All node created");
-			this.flow.getListNode().forEach( node -> {
+			log.info("All node created ");
+			
+			int i =0;
+			
+			for (Node node : this.flow.getListNode()) {
+				log.debug("Sending next actor to index {} in list and id {}",i,node.getId());
 				sendNextActor(node);
-			});
+				i++;
+			}
+			
+			
+			log.info("All next actor sent");
 		}
 	}
 
@@ -119,7 +145,7 @@ public class Supervisor extends AbstractActor{
 		});
 		ActorRef actor = this.actors.get(node.getId());
 		actor.tell(new NextActors(listNextActor), ActorRef.noSender());
-		
+		log.info("Sending next actor to {} ", node.getShortName()+"-"+node.getLogId());
 	}
 	/*
 	@Override

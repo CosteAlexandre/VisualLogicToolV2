@@ -23,11 +23,11 @@ public class ContainsNode extends TwoOutPutNode {
 	private ContainsNodeConfiguration containsNodeConfiguration;
 	
 
-	public ContainsNode(String id, String logId , ContainsNodeConfiguration containsNodeConfiguration) {
+	public ContainsNode(String id, String logId, String flowId, ContainsNodeConfiguration containsNodeConfiguration) {
 		super(id, logId);
 		
 		this.shortName = "CondN";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.var = containsNodeConfiguration.getVar();
 		this.value = containsNodeConfiguration.getValue();

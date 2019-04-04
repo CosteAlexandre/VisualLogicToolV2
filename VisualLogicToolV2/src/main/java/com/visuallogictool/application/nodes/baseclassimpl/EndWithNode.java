@@ -23,11 +23,11 @@ public class EndWithNode extends TwoOutPutNode {
 	private EndWithNodeConfiguration endWithNodeConfiguration;
 	
 
-	public EndWithNode(String id, String logId , EndWithNodeConfiguration endWithNodeConfiguration) {
+	public EndWithNode(String id, String logId, String flowId, EndWithNodeConfiguration endWithNodeConfiguration) {
 		super(id, logId);
 	
 		this.shortName = "EWN";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.var = endWithNodeConfiguration.getVar();
 		this.value = endWithNodeConfiguration.getValue();

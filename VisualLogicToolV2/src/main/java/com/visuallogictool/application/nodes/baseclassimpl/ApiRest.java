@@ -22,16 +22,15 @@ public class ApiRest extends InputNode {
 	 
 	private String api;
 
-	
 
-	public ApiRest(String id, String logId , ApiRestConfiguration apiRestConfiguration) {
+
+	public ApiRest(String id, String logId , String flowId, ApiRestConfiguration apiRestConfiguration) {
 		super(id, logId );
 		
 		this.api = apiRestConfiguration.getApi();
 		
 		this.shortName = "AR";
-		this.logName = this.shortName + "-" + logId;
-		//"/application"
+		setLogName(flowId,logId);
 		
 	}
 
@@ -39,21 +38,15 @@ public class ApiRest extends InputNode {
 
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
-		
-		
+		log.info("procesing message in {}", this.logName);
 		context.put("InputSender", this.getSender());
 		context.put("context", "From ApiRest");
-		MessageNode messageToSend = new MessageNode(context);
-	
-	
-		this.listNextActors.forEach(output -> {
-			output.forEach(actor -> {
-				actor.tell(messageToSend, ActorRef.noSender());
-			});
-			
-		});		
-		
+		log.debug("Sender : {}");
+		this.sendingToAllActor(context);
 	}
+	
+
+	
 	
 	public static NodeInformations getGUI() {
 		
@@ -80,6 +73,7 @@ public class ApiRest extends InputNode {
 	
 	@Override
 	public void createMessageTrigger() {
+		log.info("Api node {} registering to router with api {}", this.logName, this.api);
 		this.context().actorSelection("/user/restRouter").tell(new RegisterRestRouter(this.api, this.getSelf()), ActorRef.noSender());
 		
 	}
@@ -88,6 +82,7 @@ public class ApiRest extends InputNode {
 	@Override
 	public void postStop() throws Exception {
 		super.postStop();
+		log.info("Stopping actor {} and unregister to router", this.logName);
 		this.context().actorSelection("/user/restRouter").tell(new UnregisterRouter(this.api), ActorRef.noSender());
 		
 		

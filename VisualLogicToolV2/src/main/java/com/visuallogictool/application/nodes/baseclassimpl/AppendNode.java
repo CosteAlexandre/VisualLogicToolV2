@@ -25,11 +25,11 @@ public class AppendNode extends BaseNode {
 	private AppendNodeConfiguration appendNodeConfiguration;
 	
 
-	public AppendNode(String id, String logId , AppendNodeConfiguration appendNodeConfiguration) {
+	public AppendNode(String id, String logId, String flowId, AppendNodeConfiguration appendNodeConfiguration) {
 		super(id, logId );
 		
 		this.shortName = "AN";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.var = appendNodeConfiguration.getVar();
 		this.value = appendNodeConfiguration.getValue();
@@ -45,9 +45,6 @@ public class AppendNode extends BaseNode {
 	@Override
 	public void processMessage(HashMap<String, Object> context) {
 		
-		
-		
-		
 		String variable = (String) context.get(this.var);
 		
 		
@@ -58,16 +55,7 @@ public class AppendNode extends BaseNode {
 			context.put(this.newVariable, variable);
 		}
 		
-		
-		
-		MessageNode messageToSend = new MessageNode(context);
-	
-		this.listNextActors.forEach(output -> {
-			output.forEach(actor -> {
-				actor.tell(messageToSend, ActorRef.noSender());
-			});
-			
-		});			
+		this.sendingToAllActor(context);		
 		
 	}
 	

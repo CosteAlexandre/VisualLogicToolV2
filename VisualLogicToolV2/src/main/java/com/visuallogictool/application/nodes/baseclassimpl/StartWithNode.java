@@ -27,11 +27,11 @@ public class StartWithNode extends TwoOutPutNode {
 		super.preStart();
 		System.out.println("ID : " + this.id);
 	}
-	public StartWithNode(String id, String logId , StartWithNodeConfiguration startWithNodeConfiguration) {
+	public StartWithNode(String id, String logId, String flowId, StartWithNodeConfiguration startWithNodeConfiguration) {
 		super(id, logId);
 		
 		this.shortName = "SWNO";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.var = startWithNodeConfiguration.getVar();
 		this.value = startWithNodeConfiguration.getValue();

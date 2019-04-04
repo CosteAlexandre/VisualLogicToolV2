@@ -27,11 +27,11 @@ public class CutEndNode extends BaseNode {
 	private CutEndNodeConfiguration cutEndNodeConfiguration;
 	
 
-	public CutEndNode(String id, String logId , CutEndNodeConfiguration cutEndNodeConfiguration) {
+	public CutEndNode(String id, String logId, String flowId, CutEndNodeConfiguration cutEndNodeConfiguration) {
 		super(id, logId);
 		
 		this.shortName = "CEN";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.var = cutEndNodeConfiguration.getVar();
 		this.number = cutEndNodeConfiguration.getNumber();
@@ -62,14 +62,7 @@ public class CutEndNode extends BaseNode {
 		}
 		
 		
-		MessageNode messageToSend = new MessageNode(context);
-	
-		this.listNextActors.forEach(output -> {
-			output.forEach(actor -> {
-				actor.tell(messageToSend, ActorRef.noSender());
-			});
-			
-		});	
+		this.sendingToAllActor(context);
 		
 	}
 	

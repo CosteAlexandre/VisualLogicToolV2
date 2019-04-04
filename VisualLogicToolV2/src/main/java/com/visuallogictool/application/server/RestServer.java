@@ -2,6 +2,8 @@ package com.visuallogictool.application.server;
 
 import static scala.compat.java8.FutureConverters.toJava;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CompletionStage;
 
 import com.visuallogictool.application.messages.message.HttpRequestReceived;
@@ -24,6 +26,7 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Sink;
 import akka.stream.javadsl.Source;
 import scala.concurrent.ExecutionContext;
+
 public class RestServer {
 
 	
@@ -45,6 +48,12 @@ public class RestServer {
 		this.port = port;
 		log = Logging.getLogger(system, this);
 		this.restRouter = this.system.actorSelection("/user/restRouter");
+		/*
+		Map<String, Object> mdc;
+        mdc = new HashMap<String, Object>();
+        mdc.put("group", "Director");
+        
+        log.setMDC(mdc);*/
 	}
 	
 	

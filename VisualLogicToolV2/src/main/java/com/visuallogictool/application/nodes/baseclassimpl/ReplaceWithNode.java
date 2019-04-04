@@ -27,11 +27,11 @@ public class ReplaceWithNode extends BaseNode {
 	private ReplaceWithNodeConfiguration replaceWithNodeConfiguration;
 	
 
-	public ReplaceWithNode(String id, String logId , ReplaceWithNodeConfiguration replaceWithNodeConfiguration) {
+	public ReplaceWithNode(String id, String logId, String flowId, ReplaceWithNodeConfiguration replaceWithNodeConfiguration) {
 		super(id, logId);
 		
 		this.shortName = "RWN";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.var = replaceWithNodeConfiguration.getVar();
 		this.value = replaceWithNodeConfiguration.getValue();
@@ -59,14 +59,7 @@ public class ReplaceWithNode extends BaseNode {
 			context.put(this.otherVar, variable);
 		}
 		
-		MessageNode messageToSend = new MessageNode(context);
-		
-		this.listNextActors.forEach(output -> {
-			output.forEach(actor -> {
-				actor.tell(messageToSend, ActorRef.noSender());
-			});
-			
-		});	
+		this.sendingToAllActor(context);
 		
 	}
 	

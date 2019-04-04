@@ -7,6 +7,7 @@ public class Node {
 
 	private String id;
 	private String logId;
+	private String shortName;
 	private String function;
 	private String className;
 //	@JsonDeserialize(using = CustomDateDeserializer.class)
@@ -17,10 +18,11 @@ public class Node {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Node(String id, String logId , String function, String className, ArrayList<ArrayList<String>> output) {
+	public Node(String id, String logId, String shortName, String function, String className, ArrayList<ArrayList<String>> output) {
 		super();
 		this.id = id;
 		this.logId = logId;
+		this.shortName = shortName;
 		this.function = function;
 
 		this.output = output;
@@ -38,6 +40,12 @@ public class Node {
 	}
 	public void setLogId(String logId) {
 		this.logId = logId;
+	}
+	public String getShortName() {
+		return shortName;
+	}
+	public void setShortName(String shortName) {
+		this.shortName = shortName;
 	}
 	public String getFunction() {
 		return function;

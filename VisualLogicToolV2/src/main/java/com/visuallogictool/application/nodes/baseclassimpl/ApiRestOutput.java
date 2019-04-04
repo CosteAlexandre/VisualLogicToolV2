@@ -15,12 +15,11 @@ public class ApiRestOutput extends OutputNode{
 	private String htm;
 	private ApiRestOutputConfiguration configuration;
 	
-	public ApiRestOutput(String id, String logId  ,ApiRestOutputConfiguration configuration) {
+	public ApiRestOutput(String id, String logId , String flowId,ApiRestOutputConfiguration configuration) {
 		super(id, logId );
 		
 		this.shortName = "ARO";
-		this.logName = this.shortName + "-" + logId;
-		
+		this.setLogName(flowId, logId);
 		this.configuration = configuration;
 		this.htm = this.configuration.getHtm();
 	}
@@ -35,7 +34,7 @@ public class ApiRestOutput extends OutputNode{
 		} else {
 			message = "message";
 		}
-		
+		log.info("sending message back");
 		HttpResponse response = HttpResponse.create()
 				.withStatus(200)
 				.withEntity(this.htm);

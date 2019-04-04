@@ -21,11 +21,11 @@ public class SetJsonNode extends BaseNode{
 	private String path;
 	private String valName;
 	
-	public SetJsonNode(String id, String logId , SetJsonNodeConfiguration configuration) {
+	public SetJsonNode(String id, String logId, String flowId, SetJsonNodeConfiguration configuration) {
 		super(id, logId);
 		
 		this.shortName = "SJN";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.configuration = configuration;
 		this.variable = configuration.getVariable();
@@ -58,12 +58,7 @@ public class SetJsonNode extends BaseNode{
 		
 		context.put(this.valName, node);
 		
-		this.listNextActors.forEach(output -> {
-			output.forEach(actor -> {
-				actor.tell(new MessageNode(context), ActorRef.noSender());
-			});
-			
-		});	
+		this.sendingToAllActor(context);
 		
 	}
 

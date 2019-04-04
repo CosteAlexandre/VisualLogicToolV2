@@ -25,11 +25,11 @@ public class HttpRequest extends BaseNode{
 	
 	HttpRequestConfiguration configuration;
 	
-	public HttpRequest(String id, String logId , HttpRequestConfiguration configuration) {
+	public HttpRequest(String id, String logId, String flowId, HttpRequestConfiguration configuration) {
 		super(id, logId);
 		
 		this.shortName = "HR";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.configuration = configuration;
 		this.var = configuration.getVar();
@@ -60,12 +60,7 @@ public class HttpRequest extends BaseNode{
 				         */
 				         
 				         
-				         getOutput().forEach(output -> {
-				 			output.forEach(actor -> {
-				 				actor.tell(new MessageNode(context), ActorRef.noSender());
-				 			});
-				 			
-				 		});	
+				         sendingToAllActor(context);
 				         
 				    }
 

@@ -1,0 +1,50 @@
+ INFO [system-akka.actor.default-dispatcher-2] Slf4jLogger [group : , supervisor: , nodeId: ] - Slf4jLogger started
+12:00:18.756UTC DEBUG[system-akka.actor.default-dispatcher-2] EventStream [group : , supervisor: , nodeId: ] - logger log1-Slf4jLogger started
+12:00:18.759UTC DEBUG[system-akka.actor.default-dispatcher-2] EventStream [group : , supervisor: , nodeId: ] - Default Loggers started
+12:00:19.144UTC DEBUG[system-akka.actor.default-dispatcher-2] AkkaSSLConfig [group : , supervisor: , nodeId: ] - Initializing AkkaSSLConfig extension...
+12:00:19.148UTC DEBUG[system-akka.actor.default-dispatcher-2] AkkaSSLConfig [group : , supervisor: , nodeId: ] - buildHostnameVerifier: created hostname verifier: com.typesafe.sslconfig.ssl.DefaultHostnameVerifier@106cc338
+12:00:20.936UTC INFO [system-akka.actor.default-dispatcher-5] RestServer [group : , supervisor: , nodeId: ] - Server online at http://localhost:8090
+12:00:21.197UTC INFO [system-akka.actor.default-dispatcher-5] Director [group : Director, supervisor: , nodeId: ] - Director started
+12:00:21.198UTC INFO [system-akka.actor.default-dispatcher-5] Director [group : Director, supervisor: , nodeId: ] - Charging files
+12:00:21.227UTC DEBUG[system-akka.actor.default-dispatcher-10] TcpListener [group : , supervisor: , nodeId: ] - Successfully bound to /127.0.0.1:8090
+12:00:21.232UTC DEBUG[system-akka.actor.default-dispatcher-10] Director [group : Director, supervisor: , nodeId: ] - Number of file :1
+12:00:21.233UTC DEBUG[system-akka.actor.default-dispatcher-10] Director [group : Director, supervisor: , nodeId: ] - File number 0 with path C:\Users\Admin\git\VisualLogicTool\VisualLogicToolV2\src\main\resources\jsonFlow\coucou.json
+12:00:21.351UTC INFO [system-akka.actor.default-dispatcher-9] Director [group : Director, supervisor: , nodeId: ] - Initializing flow coucou
+12:00:21.355UTC INFO [system-akka.actor.default-dispatcher-9] Director [group : Director, supervisor: , nodeId: ] - Flow coucou initialized
+12:00:21.355UTC INFO [system-akka.actor.default-dispatcher-9] Director [group : Director, supervisor: , nodeId: ] - Files charged
+12:00:21.361UTC INFO [system-akka.actor.default-dispatcher-11] Supervisor [group : , supervisor: coucou, nodeId: ] - Supervisor coucou started
+12:00:21.362UTC INFO [system-akka.actor.default-dispatcher-11] Supervisor [group : , supervisor: coucou, nodeId: ] - Starting node AR-0
+12:00:21.366UTC INFO [system-akka.actor.default-dispatcher-10] Supervisor [group : , supervisor: coucou, nodeId: ] - Starting node ARO-1
+12:00:21.370UTC INFO [system-akka.actor.default-dispatcher-9] ApiRestOutput [group : , supervisor: , nodeId: coucou-ARO-1] - Actor of ApiRestOutput class started : Actor[akka://system/user/director/coucou/coucou-ARO-1#-488020445]
+12:00:21.371UTC INFO [system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - Node afc9eb56-e3a9-4b88-a60c-39840edb9726 created of : Actor[akka://system/user/director/coucou/coucou-ARO-1#-488020445]
+12:00:21.378UTC INFO [system-akka.actor.default-dispatcher-9] ApiRest [group : , supervisor: , nodeId: coucou-AR-0] - Actor of ApiRest class started : Actor[akka://system/user/director/coucou/coucou-AR-0#1663912890]
+12:00:21.381UTC INFO [system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - Node e92ff4a2-77cf-409e-b493-afb2adc08dff created of : Actor[akka://system/user/director/coucou/coucou-AR-0#1663912890]
+12:00:21.381UTC INFO [system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - All node created 
+12:00:21.381UTC DEBUG[system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - Sending next actor to index 0 in list and id e92ff4a2-77cf-409e-b493-afb2adc08dff
+12:00:21.382UTC INFO [system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - Sending next actor to AR-0 
+12:00:21.383UTC DEBUG[system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - Sending next actor to index 1 in list and id afc9eb56-e3a9-4b88-a60c-39840edb9726
+12:00:21.383UTC INFO [system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - Sending next actor to ARO-1 
+12:00:21.383UTC INFO [system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - All next actor sent
+12:00:21.388UTC INFO [system-akka.actor.default-dispatcher-9] ApiRestOutput [group : , supervisor: , nodeId: coucou-ARO-1] - Next actor received in coucou-ARO-1
+12:00:21.389UTC INFO [system-akka.actor.default-dispatcher-9] Supervisor [group : , supervisor: coucou, nodeId: ] - Next actor of received of Actor[akka://system/user/director/coucou/coucou-ARO-1#-488020445]
+12:00:21.394UTC INFO [system-akka.actor.default-dispatcher-11] ApiRest [group : , supervisor: , nodeId: coucou-AR-0] - Next actor received in coucou-AR-0
+12:00:21.394UTC INFO [system-akka.actor.default-dispatcher-11] Supervisor [group : , supervisor: coucou, nodeId: ] - Next actor of received of Actor[akka://system/user/director/coucou/coucou-AR-0#1663912890]
+12:00:21.394UTC INFO [system-akka.actor.default-dispatcher-11] Supervisor [group : , supervisor: coucou, nodeId: ] - All next actor Received 
+ INFO [system-akka.actor.default-dispatcher-3] Slf4jLogger [group : , route :  supervisor: , nodeId: ] - Slf4jLogger started
+12:10:43.983UTC DEBUG[system-akka.actor.default-dispatcher-3] EventStream [group : , route :  supervisor: , nodeId: ] - logger log1-Slf4jLogger started
+12:10:43.986UTC DEBUG[system-akka.actor.default-dispatcher-3] EventStream [group : , route :  supervisor: , nodeId: ] - Default Loggers started
+12:10:44.353UTC DEBUG[system-akka.actor.default-dispatcher-2] AkkaSSLConfig [group : , route :  supervisor: , nodeId: ] - Initializing AkkaSSLConfig extension...
+12:10:44.357UTC DEBUG[system-akka.actor.default-dispatcher-2] AkkaSSLConfig [group : , route :  supervisor: , nodeId: ] - buildHostnameVerifier: created hostname verifier: com.typesafe.sslconfig.ssl.DefaultHostnameVerifier@7b205dbd
+12:10:45.973UTC INFO [system-akka.actor.default-dispatcher-4] RestServer [group : , route :  supervisor: , nodeId: ] - Server online at http://localhost:8090
+12:10:46.156UTC INFO [system-akka.actor.default-dispatcher-2] Director [group : Director, route :  supervisor: , nodeId: ] - Director started
+12:10:46.162UTC INFO [system-akka.actor.default-dispatcher-2] Director [group : Director, route :  supervisor: , nodeId: ] - Charging files
+12:10:46.177UTC DEBUG[system-akka.actor.default-dispatcher-4] TcpListener [group : , route :  supervisor: , nodeId: ] - Successfully bound to /127.0.0.1:8090
+12:10:46.183UTC DEBUG[system-akka.actor.default-dispatcher-4] Director [group : Director, route :  supervisor: , nodeId: ] - Number of file :1
+12:10:46.183UTC DEBUG[system-akka.actor.default-dispatcher-4] Director [group : Director, route :  supervisor: , nodeId: ] - File number 0 with path C:\Users\Admin\git\VisualLogicTool\VisualLogicToolV2\src\main\resources\jsonFlow\coucou.json
+12:10:46.269UTC INFO [system-akka.actor.default-dispatcher-10] Director [group : Director, route :  supervisor: , nodeId: ] - Initializing flow coucou
+12:10:46.272UTC INFO [system-akka.actor.default-dispatcher-5] Director [group : Director, route :  supervisor: , nodeId: ] - Flow coucou initialized
+12:10:46.272UTC INFO [system-akka.actor.default-dispatcher-5] Director [group : Director, route :  supervisor: , nodeId: ] - Files charged
+12:10:46.275UTC INFO [system-akka.actor.default-dispatcher-4] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Supervisor coucou started
+12:10:46.276UTC INFO [system-akka.actor.default-dispatcher-4] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Starting node AR-0
+12:10:46.281UTC INFO [system-akka.actor.default-dispatcher-5] Supervisor [group : , route :  supervisor: coucou, nodeId: ] - Starting node ARO-1
+12:10:46.284UTC INFO [system-akka.actor.default-dispatcher-10] ApiRest [group : , route :  supervisor: , nodeId: coucou-AR-0] - Actor of ApiRest class started : Actor[akka://system/user/dire

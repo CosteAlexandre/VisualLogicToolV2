@@ -25,11 +25,11 @@ public class SetNode extends BaseNode {
 	private SetNodeConfiguration setNodeConfiguration;
 	
 
-	public SetNode(String id, String logId , SetNodeConfiguration setNodeConfiguration) {
+	public SetNode(String id, String logId, String flowId, SetNodeConfiguration setNodeConfiguration) {
 		super(id, logId);
 		
 		this.shortName = "SN";
-		this.logName = this.shortName + "-" + logId;
+		this.setLogName(flowId, logId);
 		
 		this.var = setNodeConfiguration.getVar();
 		this.value = setNodeConfiguration.getValue();
@@ -47,16 +47,7 @@ public class SetNode extends BaseNode {
 		
 		context.put(this.var, this.value);
 		
-		
-		
-		MessageNode messageToSend = new MessageNode(context);
-	
-		this.listNextActors.forEach(output -> {
-			output.forEach(actor -> {
-				actor.tell(messageToSend, ActorRef.noSender());
-			});
-			
-		});		
+		this.sendingToAllActor(context);	
 		
 	}
 	
