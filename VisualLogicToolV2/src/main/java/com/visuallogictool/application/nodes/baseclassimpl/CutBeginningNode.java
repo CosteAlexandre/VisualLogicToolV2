@@ -28,7 +28,7 @@ public class CutBeginningNode extends BaseNode {
 	
 
 	public CutBeginningNode(String id, String logId, String flowId, CutBeginningNodeConfiguration cutBeginningNodeConfiguration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "CBN";
 		this.setLogName(flowId, logId);

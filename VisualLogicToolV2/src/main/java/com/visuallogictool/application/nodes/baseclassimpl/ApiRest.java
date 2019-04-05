@@ -25,7 +25,7 @@ public class ApiRest extends InputNode {
 
 
 	public ApiRest(String id, String logId , String flowId, ApiRestConfiguration apiRestConfiguration) {
-		super(id, logId );
+		super(id, logId, flowId);
 		
 		this.api = apiRestConfiguration.getApi();
 		

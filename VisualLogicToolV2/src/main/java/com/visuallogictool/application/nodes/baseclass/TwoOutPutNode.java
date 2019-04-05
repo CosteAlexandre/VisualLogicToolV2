@@ -5,8 +5,8 @@ import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 
 public abstract class TwoOutPutNode extends BaseNode{
 
-	public TwoOutPutNode(String id, String logId ) {
-		super(id, logId);
+	public TwoOutPutNode(String id, String logId, String flowId ) {
+		super(id, logId, flowId);
 		// TODO Auto-generated constructor stub
 	}
 

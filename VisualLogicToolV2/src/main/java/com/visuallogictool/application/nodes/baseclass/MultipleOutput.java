@@ -5,8 +5,8 @@ import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 
 public abstract class MultipleOutput extends BaseNode {
 
-	public MultipleOutput(String id, String logId ) {
-		super(id, logId);		
+	public MultipleOutput(String id, String logId, String flowId ) {
+		super(id, logId, flowId);		
 	}
 	
 	protected static String getColor() {

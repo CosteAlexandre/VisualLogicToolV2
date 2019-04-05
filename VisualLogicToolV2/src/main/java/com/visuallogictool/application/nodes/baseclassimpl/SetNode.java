@@ -26,7 +26,7 @@ public class SetNode extends BaseNode {
 	
 
 	public SetNode(String id, String logId, String flowId, SetNodeConfiguration setNodeConfiguration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "SN";
 		this.setLogName(flowId, logId);

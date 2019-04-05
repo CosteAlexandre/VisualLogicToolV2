@@ -24,7 +24,7 @@ public class ContainsNode extends TwoOutPutNode {
 	
 
 	public ContainsNode(String id, String logId, String flowId, ContainsNodeConfiguration containsNodeConfiguration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "CondN";
 		this.setLogName(flowId, logId);

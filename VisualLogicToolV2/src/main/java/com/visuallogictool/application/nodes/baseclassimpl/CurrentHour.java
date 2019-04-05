@@ -21,7 +21,7 @@ public class CurrentHour extends BaseNode{
 	private CurrentHourConfiguration configuration;
 	
 	public CurrentHour(String id, String logId, String flowId, CurrentHourConfiguration configuration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "CH";
 		this.setLogName(flowId, logId);

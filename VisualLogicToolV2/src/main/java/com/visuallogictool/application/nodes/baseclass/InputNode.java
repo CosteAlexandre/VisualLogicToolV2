@@ -5,8 +5,8 @@ import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 
 public abstract class InputNode extends BaseNode{
 
-	public InputNode(String id , String logId ) {
-		super(id,logId);		
+	public InputNode(String id , String logId, String flowId ) {
+		super(id,logId, flowId);		
 	}
 	protected static String getColor() {
 		// TODO Auto-generated method stub

@@ -26,7 +26,7 @@ public class AppendNode extends BaseNode {
 	
 
 	public AppendNode(String id, String logId, String flowId, AppendNodeConfiguration appendNodeConfiguration) {
-		super(id, logId );
+		super(id, logId, flowId);
 		
 		this.shortName = "AN";
 		this.setLogName(flowId, logId);

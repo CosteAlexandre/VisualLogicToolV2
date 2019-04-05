@@ -16,7 +16,7 @@ public class ApiRestOutput extends OutputNode{
 	private ApiRestOutputConfiguration configuration;
 	
 	public ApiRestOutput(String id, String logId , String flowId,ApiRestOutputConfiguration configuration) {
-		super(id, logId );
+		super(id, logId, flowId);
 		
 		this.shortName = "ARO";
 		this.setLogName(flowId, logId);

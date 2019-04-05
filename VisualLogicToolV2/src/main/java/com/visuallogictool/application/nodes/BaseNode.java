@@ -46,18 +46,19 @@ public abstract class BaseNode extends AbstractActor{
 	
 	protected String shortName;
 	protected String logName;
+	protected String flowId;
 	
 	protected ArrayList<ArrayList<ActorRef>> listNextActors; // list of the next actor he will call
 	
 	//add start/finish time
 	
 	//call this one with the new one to initialise quickly
-	public BaseNode(String id, String logId ) {
+	public BaseNode(String id, String logId, String flowId ) {
 		super();
 		//this.numberOutput = numberOutput;		
 		this.id = id;
 		this.logId = logId;
-		
+		this.flowId = flowId;
 		//log = Logging.getLogger(getContext().getSystem(), this);
 		log = Logging.getLogger(this);
 		
@@ -122,9 +123,37 @@ public abstract class BaseNode extends AbstractActor{
 	public void processMessage(String message) {
 		HashMap<String, Object> context = new HashMap<String, Object>();
 		context.put("message", message);
+		context.put("loopDetectionBaseNode",new HashMap<String, Integer>());
+		context.put("loopDetectionMultipleOutPut",new HashMap<String, Integer>());
 		processMessage(context);
 	}
-	
+	private boolean loopDetection(HashMap<String, Object> context) {
+		
+		HashMap<String, Integer> loopDetectionBaseNode = (HashMap<String, Integer>) context.get("loopDetectionBaseNode");
+		HashMap<String, Integer> loopDetectionMultipleOutPut = (HashMap<String, Integer>) context.get("loopDetectionMultipleOutPut");
+		
+		
+		if(this.getType().equals("Loop")) {
+			loopDetectionBaseNode = new HashMap<String, Integer>();
+			return checkLoopMap(loopDetectionMultipleOutPut, 10000);
+		}else {
+			return checkLoopMap(loopDetectionBaseNode, 10);
+		}
+	}
+	private boolean checkLoopMap(HashMap<String, Integer> loopDetection, int number) {
+		if(!loopDetection.containsKey(this.id)) {
+			loopDetection.put(this.id,1 );
+		} else {
+			int val = loopDetection.get(this.id);
+			
+			if(val <= number) {
+				loopDetection.put(this.id, val+1);
+			}else {
+				return false;
+			}
+		}
+		return true;
+	}
 	public static NodeInformations getGUI() {
 		return null;
 	};// by introspection get all fields of class and send it back by formating it?
@@ -135,6 +164,7 @@ public abstract class BaseNode extends AbstractActor{
 		Map<String, Object> mdc;
         mdc = new HashMap<String, Object>();
         mdc.put("nodeId", this.logName);
+        mdc.put("supervisor", this.flowId);
 		
 		log.setMDC(mdc);
 		
@@ -154,6 +184,10 @@ public abstract class BaseNode extends AbstractActor{
 			processMessage(apply.getRequest().toString());
 			log.info("HttpRequest received in {} node", this.logName);
 		}).match(MessageNode.class, apply -> {
+			if(!loopDetection(apply.getContext())) {
+				log.info("Infinite loop with node {} detected", this.logName);
+				return;
+			}
 			processMessage(apply.getContext());
 			log.info("Message received in {} node", this.logName);
 		}).build();

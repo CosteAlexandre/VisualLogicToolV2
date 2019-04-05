@@ -29,7 +29,7 @@ public class ConditionNode<T> extends MultipleOutput{
 	
 	
 	public ConditionNode(String id, String logId, String flowId, ConditionNodeConfiguration configuration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "CN";
 		this.setLogName(flowId, logId);

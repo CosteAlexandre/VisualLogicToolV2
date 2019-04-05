@@ -21,7 +21,7 @@ public class PrependNode extends BaseNode {
 	
 
 	public PrependNode(String id, String logId, String flowId, PrependNodeConfiguration prependNodeConfiguration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "PN";
 		this.setLogName(flowId, logId);

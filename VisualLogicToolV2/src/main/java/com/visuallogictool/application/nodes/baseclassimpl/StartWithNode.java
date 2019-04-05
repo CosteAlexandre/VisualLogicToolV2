@@ -1,5 +1,6 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
+import java.util.ArrayDeque;
 import java.util.HashMap;
 
 import com.visuallogictool.application.messages.message.MessageNode;
@@ -23,7 +24,7 @@ public class StartWithNode extends TwoOutPutNode {
 	
 
 	public StartWithNode(String id, String logId, String flowId, StartWithNodeConfiguration startWithNodeConfiguration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "SWNO";
 		this.setLogName(flowId, logId);
@@ -63,6 +64,8 @@ public class StartWithNode extends TwoOutPutNode {
 		this.listNextActors.get(outPutNum).forEach(output-> {
 			output.tell(messageToSend, ActorRef.noSender());
 		});
+		ArrayDeque<String> queue = new ArrayDeque<String>();
+		
 		
 		
 	

@@ -28,7 +28,7 @@ public class CutEndNode extends BaseNode {
 	
 
 	public CutEndNode(String id, String logId, String flowId, CutEndNodeConfiguration cutEndNodeConfiguration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "CEN";
 		this.setLogName(flowId, logId);

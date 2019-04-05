@@ -28,7 +28,7 @@ public class ReplaceWithNode extends BaseNode {
 	
 
 	public ReplaceWithNode(String id, String logId, String flowId, ReplaceWithNodeConfiguration replaceWithNodeConfiguration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "RWN";
 		this.setLogName(flowId, logId);

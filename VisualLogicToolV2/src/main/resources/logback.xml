@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
  
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.out</target>
-        <encoder>
-            <pattern>%X{akkaTimestamp} %-5level[%thread] %logger{0} [group : %X{group}, supervisor: %X{supervisor}, nodeId: %X{nodeId}] - %msg%n</pattern>
-        </encoder>
-    </appender>
+
  
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
     
@@ -15,13 +10,19 @@
         <encoder>
             <pattern>%X{akkaTimestamp} %-5level[%thread] %logger{0} [group : %X{group}, route : %X{route} supervisor: %X{supervisor}, nodeId: %X{nodeId}] - %msg%n</pattern>
         </encoder>
-    </appender>
- 
+	</appender>
+	<appender name="map" class="com.visuallogictool.application.main.LoggingAppender">
+	 	
+	</appender>
+	
+
+	
     <logger name="akka" level="DEBUG" />
  
     <root level="DEBUG">
-        <appender-ref ref="CONSOLE"/>
+        
         <appender-ref ref="FILE"/>
+        <appender-ref ref="map"/>
     </root>
  
 </configuration>

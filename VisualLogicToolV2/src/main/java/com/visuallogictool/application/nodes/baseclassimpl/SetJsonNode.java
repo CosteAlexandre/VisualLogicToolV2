@@ -22,7 +22,7 @@ public class SetJsonNode extends BaseNode{
 	private String valName;
 	
 	public SetJsonNode(String id, String logId, String flowId, SetJsonNodeConfiguration configuration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "SJN";
 		this.setLogName(flowId, logId);

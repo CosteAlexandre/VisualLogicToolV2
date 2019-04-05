@@ -26,7 +26,7 @@ public class HttpRequest extends BaseNode{
 	HttpRequestConfiguration configuration;
 	
 	public HttpRequest(String id, String logId, String flowId, HttpRequestConfiguration configuration) {
-		super(id, logId);
+		super(id, logId, flowId);
 		
 		this.shortName = "HR";
 		this.setLogName(flowId, logId);
