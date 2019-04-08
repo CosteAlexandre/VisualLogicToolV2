@@ -26,6 +26,13 @@ public class GetFlowLogRoute extends Route{
 	public void preStart() throws Exception {
 		super.preStart();
 		loggingAppender = LoggingAppender.getLoggingAppender();
+		
+/*		
+		ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) org.slf4j.LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
+        ch.qos.logback.classic.LoggerContext loggerContext = root.getLoggerContext();
+
+        root.addAppender(new LoggingAppender());
+*/		
 	}
 	
 	

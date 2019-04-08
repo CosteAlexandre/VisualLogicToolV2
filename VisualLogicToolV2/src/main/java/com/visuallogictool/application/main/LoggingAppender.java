@@ -1,5 +1,8 @@
 package com.visuallogictool.application.main;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import com.google.common.collect.EvictingQueue;
@@ -15,7 +18,7 @@ public class LoggingAppender extends AppenderBase<ILoggingEvent> {
 	public LoggingAppender() {
 		loggingAppender = this;
 		this.cicularBuffers = new HashMap<String, EvictingQueue<String>>();
-		this.size = 10;
+		this.size =1000;
 		
 		System.out.println("Logger appender started");
 //		this.getContext().getSystem().actorSelection("/user/director").tell(new GetAllFlow(), this.getSender());;
@@ -29,21 +32,34 @@ public class LoggingAppender extends AppenderBase<ILoggingEvent> {
 		String supervisor = eventObject.getMDCPropertyMap().get("supervisor");
 		
 		if(supervisor != null) {
-			System.out.println("///////////////////////////////////");
-			System.out.println();
+//			System.out.println("///////////////////////////////////");
+//			System.out.println();
 			if(!this.cicularBuffers.containsKey(supervisor)) {
 				EvictingQueue<String> evictingQueue = EvictingQueue.create(this.size);
 				this.cicularBuffers.put(supervisor, evictingQueue);
 			}
-			this.cicularBuffers.get(supervisor).add(eventObject.toString());
+			
 
 			//System.out.println(supervisor);
-			System.out.println(eventObject.toString());
+//	System.out.println(eventObject.toString());
 			//System.out.println(eventObject.getMessage());
-			//System.out.println(eventObject.getTimeStamp());
-			
-			System.out.println();
-			System.out.println("///////////////////////////////////");
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+
+	        // Get date and time information in milliseconds
+	        long now = eventObject.getTimeStamp();
+
+	        // Create a calendar object that will convert the date and time value
+	        // in milliseconds to date. We use the setTimeInMillis() method of the
+	        // Calendar object.
+	        Calendar calendar = Calendar.getInstance();
+	        calendar.setTimeInMillis(now);
+
+//	        System.out.println(formatter.format(calendar.getTime()));
+	        
+	        this.cicularBuffers.get(supervisor).add(formatter.format(calendar.getTime()) + " " + eventObject.toString());
+	        
+//			System.out.println();
+//			System.out.println("///////////////////////////////////");
 			
 			
 		}
@@ -60,14 +76,7 @@ public class LoggingAppender extends AppenderBase<ILoggingEvent> {
 	}
 }
 /*
-    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-        <target>System.out</target>
-        <encoder>
-            <pattern>%X{akkaTimestamp} %-5level[%thread] %logger{0} [group : %X{group}, supervisor: %X{supervisor}, nodeId: %X{nodeId}] - %msg%n</pattern>
-        </encoder>
-    </appender>
-    
-    <appender-ref ref="CONSOLE"/>
+
 */
 
 /*

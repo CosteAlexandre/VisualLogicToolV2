@@ -6,17 +6,21 @@ import com.visuallogictool.application.nodes.baseclass.OutputNode;
 import com.visuallogictool.application.nodes.information.NodeInformations;
 import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 import com.visuallogictool.application.nodes.information.concrete.TextboxField;
+import com.visuallogictool.application.utils.JsonParser;
 
 import akka.actor.ActorRef;
 import akka.http.javadsl.model.HttpResponse;
+import akka.http.scaladsl.model.headers.RawHeader;
 
 public class ApiRestOutput extends OutputNode{
 
 	private String htm;
 	private ApiRestOutputConfiguration configuration;
-	
+	private JsonParser jsonParser;
 	public ApiRestOutput(String id, String logId , String flowId,ApiRestOutputConfiguration configuration) {
 		super(id, logId, flowId);
+		
+		this.jsonParser = new JsonParser();
 		
 		this.shortName = "ARO";
 		this.setLogName(flowId, logId);
@@ -37,7 +41,7 @@ public class ApiRestOutput extends OutputNode{
 		log.info("sending message back");
 		HttpResponse response = HttpResponse.create()
 				.withStatus(200)
-				.withEntity(this.htm);
+				.withEntity(jsonParser.getJson(this.htm)).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
 		actor.tell(response, ActorRef.noSender());
 	}
 

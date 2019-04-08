@@ -9,16 +9,30 @@ public class Flow {
 
 	private Object graph;
 	
+	private boolean infiniteFlow;
+	
 	public Flow() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Flow(String id, ArrayList<Node> listNode, Object graph) {
+	public Flow(String id, ArrayList<Node> listNode, Object graph, boolean infiniteFlow) {
 		super();
 		this.id = id;
 		this.listNode = listNode;
 		this.graph = graph;
+		this.infiniteFlow = infiniteFlow;
 	}
+	
+
+	
+	public boolean isInfiniteFlow() {
+		return infiniteFlow;
+	}
+
+	public void setInfiniteFlow(boolean infiniteFlow) {
+		this.infiniteFlow = infiniteFlow;
+	}
+
 	public Object getGraph() {
 		return graph;
 	}

@@ -13,6 +13,7 @@ import com.visuallogictool.application.messages.flow.DeleteFlow;
 import com.visuallogictool.application.messages.flow.FlowCreated;
 import com.visuallogictool.application.messages.flow.GetAllFlow;
 import com.visuallogictool.application.messages.flow.GetFlowGraph;
+import com.visuallogictool.application.messages.flow.InfiniteLoopFlow;
 import com.visuallogictool.application.server.RestServer;
 import com.visuallogictool.application.utils.Files;
 import com.visuallogictool.application.utils.JsonParser;
@@ -145,9 +146,18 @@ public class Director extends AbstractActor{
 		}).match(GetFlowGraph.class, apply->{
 			log.info("received in GetFlowGraph");
 			getFlowGraph(apply.getId());
+		}).match(InfiniteLoopFlow.class, apply->{			
+			infiniteloopFLow(apply.getFlowId());
 		}).build();
 		
 		
+		
+		
+	}
+
+	private void infiniteloopFLow(String flowId) {
+		this.supervisorsFlow.get(flowId).setInfiniteFlow(true);
+		jsonParser.addFlowJsonFile(this.supervisorsFlow.get(flowId),"src/main/resources/jsonFlow/"+flowId+".json");
 		
 	}
 

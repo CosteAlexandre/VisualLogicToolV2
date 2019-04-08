@@ -15,6 +15,7 @@ import com.visuallogictool.application.server.route.GetFlowLogRoute;
 import com.visuallogictool.application.server.route.GetNodesInformationsRoute;
 import com.visuallogictool.application.server.route.LogicFlowRoute;
 
+import akka.NotUsed;
 import akka.actor.AbstractActor;
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
@@ -23,6 +24,13 @@ import akka.event.Logging;
 import akka.event.LoggingAdapter;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.scaladsl.model.headers.RawHeader;
+import akka.japi.JavaPartialFunction;
+import akka.stream.javadsl.Flow;
+import akka.stream.javadsl.Source;
+import akka.http.javadsl.model.ws.Message;
+import akka.http.javadsl.model.ws.TextMessage;
+import akka.http.javadsl.model.ws.WebSocket;
+
 
 public class RestRouter extends AbstractActor{
 
@@ -67,13 +75,28 @@ public class RestRouter extends AbstractActor{
 		api.put("/getFlowLog", getFlowLog);
 	}
 	
-	
+	/*
+	 * https://doc.akka.io/docs/akka-http/current/server-side/websocket-support.html
+	 * https://github.com/akka/akka-http/blob/v10.1.8/docs/src/test/java/docs/http/javadsl/server/WebSocketCoreExample.java
+	 */
 	@Override
 	public Receive createReceive() {
 		return receiveBuilder().match(HttpRequestReceived.class, request -> {
 			String url = request.getRequest().getUri().getPathString();
-			
+			log.info("Request with url {} received", url , this.api.get(url));
+			System.out.println("Received "+url);
+			/*
+			if(url.equals("/socket.io/")) {
+				System.out.println("IN get flow flog");
+				final Flow<Message, Message, NotUsed> greeterFlow = greeter();
+			    HttpResponse socket = WebSocket.handleWebSocketRequestWith(request.getRequest(), greeterFlow);
+			    socket.addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
+			    System.out.println(socket.toString());
+			    this.getSender().tell(socket, ActorRef.noSender());
+			    return;
+			}*/
 			if(this.api.containsKey(url)) {
+
 				log.info("Contains url {} transferring message tp {}", url , this.api.get(url));
 				this.api.get(url).tell(new HttpRequestReceived(request.getRequest()), this.getSender());
 			}else {
@@ -105,4 +128,41 @@ public class RestRouter extends AbstractActor{
 		
 	}
 
+	
+	  public static Flow<Message, Message, NotUsed> greeter() {
+		    return
+		      Flow.<Message>create()
+		        .collect(new JavaPartialFunction<Message, Message>() {
+		          @Override
+		          public Message apply(Message msg, boolean isCheck) throws Exception {
+		        	  System.out.println("IN GREETER");
+		            if (isCheck) {
+		              if (msg.isText()) {
+		            	  System.out.println("ISTEXT");
+		                return null;
+		              } else {
+		            	  System.out.println("NOMATCH");
+		                throw noMatch();
+		              }
+		            } else {
+		            	System.out.println("Handle message");
+		              return handleTextMessage(msg.asTextMessage());
+		            }
+		          }
+		        });
+		  }
+
+		  public static TextMessage handleTextMessage(TextMessage msg) {
+		    if (msg.isStrict()) // optimization that directly creates a simple response...
+		    {
+		    	System.out.println("STRICT");
+		      return TextMessage.create("Hello " + msg.getStrictText());
+		    } else // ... this would suffice to handle all text messages in a streaming fashion
+		    {
+		    	System.out.println("cliucLSJCLK");
+		      return TextMessage.create(Source.single("Hello ").concat(msg.getStreamedText()));
+		    }
+		  }
+	
+	
 }

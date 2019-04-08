@@ -20,6 +20,7 @@ import akka.http.javadsl.IncomingConnection;
 import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
+import akka.http.javadsl.model.ws.WebSocket;
 import akka.japi.function.Function;
 import akka.pattern.Patterns;
 import akka.stream.ActorMaterializer;
@@ -77,6 +78,7 @@ public class RestServer {
                  {
                    log.debug("Accepted new connection from '{}' ..." , conn.remoteAddress());
                    conn.handleWithAsyncHandler(handler, materializer);
+                   
                  }
              ))
              .run(materializer);   
@@ -94,6 +96,7 @@ public class RestServer {
 
 	Function<HttpRequest, CompletionStage<HttpResponse>> handler = req -> { 
 		log.info("Process Incoming HTTP Request -> {}",req);
+
 		CompletionStage<HttpResponse> futureDirective = toJava(Patterns.ask(this.restRouter, new HttpRequestReceived(req), this.timeout))
 		        .thenApply (r ->{ 
 		            log.info("=====> {}",r);

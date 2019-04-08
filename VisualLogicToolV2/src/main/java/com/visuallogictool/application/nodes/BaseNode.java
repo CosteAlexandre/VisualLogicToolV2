@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.visuallogictool.application.messages.flow.GetFlowGraph;
+import com.visuallogictool.application.messages.flow.InfiniteLoopFlow;
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.messages.flow.NodeCreated;
@@ -185,6 +187,7 @@ public abstract class BaseNode extends AbstractActor{
 			log.info("HttpRequest received in {} node", this.logName);
 		}).match(MessageNode.class, apply -> {
 			if(!loopDetection(apply.getContext())) {
+				this.getContext().getSystem().actorSelection("/user/director").tell(new InfiniteLoopFlow(this.flowId), ActorRef.noSender());
 				log.info("Infinite loop with node {} detected", this.logName);
 				return;
 			}
