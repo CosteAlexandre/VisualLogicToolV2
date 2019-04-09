@@ -21,7 +21,7 @@ public class ApiRest extends InputNode {
 	
 	 
 	private String api;
-
+	
 
 
 	public ApiRest(String id, String logId , String flowId, ApiRestConfiguration apiRestConfiguration) {

@@ -51,7 +51,7 @@ public class AppendNode extends BaseNode {
 		log.debug("before appending : {}", variable);
 		variable = this.value + variable;
 		log.debug("After appending {}", variable);
-		if(this.newVariable == "") {
+		if(this.newVariable.equals("")) {
 			context.put(this.var, variable);
 			log.debug("erasing var");
 		}else {

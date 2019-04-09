@@ -55,7 +55,7 @@ public class CutBeginningNode extends BaseNode {
 		
 		log.debug("After cutting start {}",variable);
 		
-		if(this.newVariable == "") {
+		if(this.newVariable.equals("")) {
 			log.info("errasing var");
 			context.put(this.var, variable);
 		}else {

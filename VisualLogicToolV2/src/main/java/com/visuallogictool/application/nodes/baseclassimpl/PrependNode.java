@@ -46,7 +46,7 @@ public class PrependNode extends BaseNode {
 		log.debug("before prepending : {}", variable);		
 		variable = variable + this.value;
 		log.debug("After prepending {}", variable);
-		if(this.newVariable == "") {
+		if(this.newVariable.equals("")) {
 			context.put(this.var, variable);
 			log.debug("erasing var");
 		}else {

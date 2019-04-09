@@ -21,7 +21,12 @@
 	  		<artifactId>akka-actor_2.12</artifactId>
 	  		<version>2.5.19</version>
 	   </dependency>
-				
+	   <dependency>
+	   	     <groupId>com.typesafe.akka</groupId>
+			 <artifactId>akka-testkit_2.12</artifactId>
+			 <version>2.5.19</version>
+			 <scope>test</scope>
+		</dependency>
 		<dependency>
     		<groupId>commons-io</groupId>
     		<artifactId>commons-io</artifactId>
@@ -39,6 +44,12 @@
   			<groupId>com.typesafe.akka</groupId>
   			<artifactId>akka-http_2.12</artifactId>
   			<version>10.1.7</version>
+		</dependency>
+		<dependency>
+  			<groupId>com.typesafe.akka</groupId>
+			  <artifactId>akka-http-testkit_2.12</artifactId>
+			  <version>10.1.7</version>
+			  <scope>test</scope>
 		</dependency>
 		<dependency>
   			<groupId>com.typesafe.akka</groupId>
@@ -71,19 +82,18 @@
     		<version>1.18.4</version>
     		<scope>provided</scope>
 		</dependency>
+   		<dependency>
+    		<groupId>junit</groupId>
+		    <artifactId>junit</artifactId>
+		    <version>4.12</version>
+		    <scope>test</scope>
+		</dependency>
     	<dependency>
-        	<groupId>org.junit.jupiter</groupId>
-        	<artifactId>junit-jupiter-api</artifactId>
-        	<version>5.4.0</version>
-        	<scope>test</scope>
+	        <groupId>org.junit.vintage</groupId>
+	        <artifactId>junit-vintage-engine</artifactId>
+	        <version>5.4.2</version>
+	        <scope>test</scope>
     	</dependency>
-    	<dependency>
-        	<groupId>org.junit.jupiter</groupId>
-        	<artifactId>junit-jupiter-engine</artifactId>
-        	<version>5.4.0</version>
-        	<scope>test</scope>
-    	</dependency>
-    	
     	<dependency>
   			<groupId>org.apache.httpcomponents</groupId>
   			<artifactId>httpclient</artifactId>

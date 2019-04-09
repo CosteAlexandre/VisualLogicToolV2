@@ -44,10 +44,9 @@ public class SetJsonNode extends BaseNode{
 		String pattern = "(.*)\\[([0-9]*)\\]";
 		
 		for (int i = 0; i < split.length; i++) {
-			
 			if(split[i].matches(pattern)) {
-				String firstPart = split[1].replaceAll(pattern, "$1");
-				String index = split[1].replaceAll(pattern, "$2");
+				String firstPart = split[i].replaceAll(pattern, "$1");
+				String index = split[i].replaceAll(pattern, "$2");
 				node = node.findPath(firstPart).get(Integer.parseInt(index));
 			} else {
 				node = node.findPath(split[i]);
@@ -56,8 +55,12 @@ public class SetJsonNode extends BaseNode{
 		}
 		
 		log.info("Node : {}",node.toString());
+		if(this.valName.equals("")) {
+			context.put(this.variable, node);
+		}else {
+			context.put(this.valName, node);
+		}
 		
-		context.put(this.valName, node);
 		
 		this.sendingToAllActor(context);
 		

@@ -14,11 +14,12 @@ public class AppendNodeConfiguration extends NodeConfiguration {
 	}
 
 
-	public AppendNodeConfiguration( String var, String value) {
+	public AppendNodeConfiguration( String var, String value, String newVariable) {
 		super();
 
 		this.var = var;
 		this.value = value;
+		this.newVariable = newVariable;
 	}
 
 	

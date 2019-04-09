@@ -182,9 +182,9 @@ public abstract class BaseNode extends AbstractActor{
 			this.getContext().getParent().tell(new NextActorReceived(), this.getSelf());
 			log.info("Next actor received in {}",this.logName);
 		}).match(HttpRequestReceived.class, apply -> {
-			
-			processMessage(apply.getRequest().toString());
 			log.info("HttpRequest received in {} node", this.logName);
+			processMessage(apply.getRequest().toString());
+			
 		}).match(MessageNode.class, apply -> {
 			if(!loopDetection(apply.getContext())) {
 				this.getContext().getSystem().actorSelection("/user/director").tell(new InfiniteLoopFlow(this.flowId), ActorRef.noSender());

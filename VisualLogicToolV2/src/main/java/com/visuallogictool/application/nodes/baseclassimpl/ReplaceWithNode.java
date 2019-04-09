@@ -58,7 +58,7 @@ public class ReplaceWithNode extends BaseNode {
 		
 		log.debug("After replacing {}", variable);
 		
-		if(this.otherVar == "") {
+		if(this.otherVar.equals("")) {
 			context.put(this.var, variable);
 			log.debug("erasing var");
 		} else {

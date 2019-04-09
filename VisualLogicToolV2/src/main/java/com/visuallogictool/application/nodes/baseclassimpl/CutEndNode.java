@@ -59,7 +59,7 @@ public class CutEndNode extends BaseNode {
 		log.debug("After cutting end {}",variable);
 		
 		
-		if(this.newVariable == "") {
+		if(this.newVariable.equals("")) {
 			log.info("errasing var");
 			context.put(this.var, variable);
 		}else {
