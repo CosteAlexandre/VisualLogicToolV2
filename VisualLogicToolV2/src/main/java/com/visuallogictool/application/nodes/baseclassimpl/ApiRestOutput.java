@@ -3,6 +3,7 @@ package com.visuallogictool.application.nodes.baseclassimpl;
 import java.util.HashMap;
 
 import com.visuallogictool.application.nodes.baseclass.OutputNode;
+import com.visuallogictool.application.nodes.information.Field;
 import com.visuallogictool.application.nodes.information.NodeInformations;
 import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 import com.visuallogictool.application.nodes.information.concrete.TextboxField;
@@ -15,6 +16,8 @@ import akka.http.scaladsl.model.headers.RawHeader;
 public class ApiRestOutput extends OutputNode{
 
 	private String htm;
+	private String var;
+	
 	private ApiRestOutputConfiguration configuration;
 	private JsonParser jsonParser;
 	public ApiRestOutput(String id, String logId , String flowId,ApiRestOutputConfiguration configuration) {
@@ -25,23 +28,28 @@ public class ApiRestOutput extends OutputNode{
 		this.shortName = "ARO";
 		this.setLogName(flowId, logId);
 		this.configuration = configuration;
+		
 		this.htm = this.configuration.getHtm();
+		this.var = this.configuration.getVar();
 	}
 
 	@Override
 	public void createMessageResponse(HashMap<String, Object> context) {
 		ActorRef actor = ((ActorRef)context.get("InputSender"));
 		
-		String message;
-		if(context.containsKey("output")) {
-			message = (String) context.get("output");
-		} else {
-			message = "message";
+		String messageResp;
+		if(this.var.equals("")) {
+			log.info("No var put using htm");
+			messageResp = this.htm;
+		}else {
+			messageResp = (String) context.get(this.var);
+			
+			log.info("using var : " + messageResp);
 		}
 		log.info("sending message back");
 		HttpResponse response = HttpResponse.create()
 				.withStatus(200)
-				.withEntity(jsonParser.getJson(this.htm)).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
+				.withEntity(jsonParser.getJson(messageResp)).addHeader(new RawHeader("Access-Control-Allow-Origin","*" ));
 		actor.tell(response, ActorRef.noSender());
 	}
 
@@ -54,9 +62,12 @@ public class ApiRestOutput extends OutputNode{
 	public static NodeInformations getGUI() {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
-		informations = informations.setHeader("ApiOutput", "send back a response", "Sends back a response to the api called");
+		informations = informations.setHeader("ApiOutput", "send back a response", "Sends back a response to the api called if no parameter var given htm will be used").
+										setFields(new Field("htm", "String", "print the text given in parameter", "print the text given in parameter")).
+										setFields(new Field("var", "String", "take the informations of the var", "take the informations of the var"));
 		
 		informations = informations.setFieldBase(new TextboxField(null, "htm", "htm", false, 1, null));
+		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null));
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput");

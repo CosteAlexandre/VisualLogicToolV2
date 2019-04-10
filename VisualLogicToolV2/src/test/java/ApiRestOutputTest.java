@@ -52,7 +52,7 @@ public class ApiRestOutputTest {
 		  new TestKit(system) {
 		      {
 		        //String id, String logId, String flowId, AppendNodeConfiguration appendNodeConfiguration
-		    	  ApiRestOutputConfiguration apiRestOutputConfiguration = new ApiRestOutputConfiguration("coucou");
+		    	  ApiRestOutputConfiguration apiRestOutputConfiguration = new ApiRestOutputConfiguration("coucou","");
 		    	  TestKit parent = new TestKit(system);
 		    	  ActorRef child = parent.childActorOf(Props.create(ApiRestOutput.class,"1","AN","coucou",apiRestOutputConfiguration));
 
@@ -94,6 +94,29 @@ public class ApiRestOutputTest {
 		    	  String body = entity.getData().decodeString("UTF-8");
 		    	  assertEquals(body,"\"coucou\"");
 		    	 
+		    	  
+		    	  apiRestOutputConfiguration = new ApiRestOutputConfiguration("coucou","var");
+		    	  ActorRef child2 = parent.childActorOf(Props.create(ApiRestOutput.class,"1","AN","coucou",apiRestOutputConfiguration));
+
+		    	  //Check if the child has been created
+		    	  parent.expectMsgClass(Duration.ofSeconds(1), NodeCreated.class);
+		    	
+		    	  child2.tell(nextActorMessage, ActorRef.noSender());
+		    	  
+		    	  parent.expectMsgClass(Duration.ofSeconds(1), NextActorReceived.class);
+		    	  
+		    	  context.put("InputSender", httpRespActor.getRef());
+		    	  context.put("var", "hola");
+		    	  message = new MessageNode(context);
+		    	  
+		    	  
+		    	  child2.tell(message, ActorRef.noSender());
+		    	  
+		    	  response = httpRespActor.expectMsgClass(Duration.ofSeconds(1), HttpResponse.class);
+		    	  entity = (Strict) response.entity();
+		    	  body = entity.getData().decodeString("UTF-8");
+		    	  System.out.println(body);
+		    	  assertEquals(body,"\"hola\"");
 		    	  
 		    	  
 		      }

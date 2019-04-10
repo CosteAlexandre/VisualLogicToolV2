@@ -99,7 +99,7 @@ public class AppendNodeTest {
 		    	  MessageNode response = nextActor.expectMsgClass(Duration.ofSeconds(1), MessageNode.class);
 
 		    	  String var = (String) response.getContext().get("var");
-		    	  assertEquals(var,"holacoucou");
+		    	  assertEquals(var,"coucouhola");
 		    	  
 		    	  
 		    	  
@@ -124,7 +124,7 @@ public class AppendNodeTest {
 		    	  response = nextActor.expectMsgClass(Duration.ofSeconds(1), MessageNode.class);
 
 		    	  var = (String) response.getContext().get("bla");
-		    	  assertEquals(var,"holacoucou");
+		    	  assertEquals(var,"coucouhola");
 		    	  
 		    	  
 		      }
