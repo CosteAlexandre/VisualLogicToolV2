@@ -43,7 +43,7 @@ public class LoggingAppender extends AppenderBase<ILoggingEvent> {
 			//System.out.println(supervisor);
 //	System.out.println(eventObject.toString());
 			//System.out.println(eventObject.getMessage());
-			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss.SSS");
+			DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 
 	        // Get date and time information in milliseconds
 	        long now = eventObject.getTimeStamp();
@@ -53,7 +53,7 @@ public class LoggingAppender extends AppenderBase<ILoggingEvent> {
 	        // Calendar object.
 	        Calendar calendar = Calendar.getInstance();
 	        calendar.setTimeInMillis(now);
-
+	        System.out.println();
 //	        System.out.println(formatter.format(calendar.getTime()));
 	        
 	        this.cicularBuffers.get(supervisor).add(formatter.format(calendar.getTime()) + " " + eventObject.toString());
