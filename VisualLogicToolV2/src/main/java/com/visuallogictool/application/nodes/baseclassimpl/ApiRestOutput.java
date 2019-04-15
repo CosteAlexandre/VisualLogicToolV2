@@ -2,6 +2,7 @@ package com.visuallogictool.application.nodes.baseclassimpl;
 
 import java.util.HashMap;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.visuallogictool.application.nodes.baseclass.OutputNode;
 import com.visuallogictool.application.nodes.information.Field;
 import com.visuallogictool.application.nodes.information.NodeInformations;
@@ -37,12 +38,16 @@ public class ApiRestOutput extends OutputNode{
 	public void createMessageResponse(HashMap<String, Object> context) {
 		ActorRef actor = ((ActorRef)context.get("InputSender"));
 		
-		String messageResp;
+		Object messageResp;
 		if(this.var.equals("")) {
 			log.info("No var put using htm");
 			messageResp = this.htm;
 		}else {
-			messageResp = (String) context.get(this.var);
+			
+			messageResp = context.get(this.var);	
+			
+			//System.out.println("HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA : "+context.get(this.var).getClass().getSimpleName());
+			
 			
 			log.info("using var : " + messageResp);
 		}

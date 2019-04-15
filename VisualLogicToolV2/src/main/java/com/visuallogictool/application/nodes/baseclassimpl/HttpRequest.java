@@ -50,7 +50,6 @@ public class HttpRequest extends BaseNode{
 				    public void completed(HttpResponse<JsonNode> response) {
 				         int code = response.getStatus();
 				         String message =  response.getBody().toString();
-				         
 				         JsonParser parser = new JsonParser(); 
 				         log.info("Response received from {} : {}" ,url,message);
 				         context.put(var, parser.getJsonNode(message));

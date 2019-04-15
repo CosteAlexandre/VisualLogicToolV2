@@ -15,6 +15,7 @@ import com.visuallogictool.application.messages.flow.NodeCreated;
 import com.visuallogictool.application.messages.message.MessageNode;
 import com.visuallogictool.application.nodes.baseclassimpl.HttpRequest;
 import com.visuallogictool.application.nodes.baseclassimpl.HttpRequestConfiguration;
+import com.visuallogictool.application.utils.JsonParser;
 
 import akka.NotUsed;
 import akka.actor.ActorRef;
@@ -29,9 +30,7 @@ import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 import akka.testkit.javadsl.TestKit;
 
-import static akka.http.javadsl.server.Directives.path;
-import static akka.http.javadsl.server.Directives.post;
-import static akka.http.javadsl.server.Directives.*;
+import static spark.Spark.*;
 
 public class HttpRequestTest {
 
@@ -64,31 +63,27 @@ public class HttpRequestTest {
 		  
 		  new TestKit(system) {
 		      {
+    	    	  JsonParser parser = new JsonParser(); 
 		    	  
-				  	ActorSystem sys = ActorSystem.create("routes");
-				    ActorMaterializer materializer = ActorMaterializer.create(sys);
-
-				    final Http http = Http.get(sys);
-
-				    //In order to access all directives we need an instance where the routes are define.
-
-				    final Flow<akka.http.javadsl.model.HttpRequest, HttpResponse, NotUsed> routeFlow = createRoute().flow(sys, materializer);
-				    final CompletionStage<ServerBinding> binding = http.bindAndHandle(routeFlow,
-				        ConnectHttp.toHost("localhost", 9156), materializer);
-				    //http://localhost:9156/hello
-				    System.out.println("Server online at http://localhost:9156/\nPress RETURN to stop...");
-
-				    binding
-				        .thenCompose(ServerBinding::unbind) // trigger unbinding from the port
-				        .thenAccept(unbound -> sys.terminate()); // and shutdown when done
+    	    	  HashMap<String, String> map = new HashMap<String, String>();
+    	    	  map.put("coucou", "hola");
+    	    	  
+			      
+			      String json = parser.getJson(map);
+			      System.out.println(json);
+			      get("/hello", (req, res) ->{
+			    	  System.out.println("RECEIVED DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDdd");
+			    	  return parser.getJson("Hello");
+			      });
 		    	  
 		    	  
-		    	  
+
+		    	  expectNoMessage();
 		    	  
 		    	  
 		    	  
 		        //String id, String logId, String flowId, AppendNodeConfiguration appendNodeConfiguration
-		    	  HttpRequestConfiguration httpRequestConfiguration = new HttpRequestConfiguration("var","http://localhost:9156/hello");
+		    	  HttpRequestConfiguration httpRequestConfiguration = new HttpRequestConfiguration("var","http://localhost:4567/hello");
 		    	  TestKit parent = new TestKit(system);
 		    	  ActorRef child = parent.childActorOf(Props.create(HttpRequest.class,"1","AN","coucou",httpRequestConfiguration));
 
@@ -137,13 +132,7 @@ public class HttpRequestTest {
 		    };
 	  }
 		
-	  private Route createRoute() {
-			
-			return concat(
-			        path("hello", () ->
-		            post(() ->
-		                complete("{ \"hola\" : \"coucou\" }"))));
-		  };
+
 	}
 	
 	
