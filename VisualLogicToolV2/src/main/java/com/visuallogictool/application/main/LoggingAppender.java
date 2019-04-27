@@ -53,7 +53,7 @@ public class LoggingAppender extends AppenderBase<ILoggingEvent> {
 	        // Calendar object.
 	        Calendar calendar = Calendar.getInstance();
 	        calendar.setTimeInMillis(now);
-	        System.out.println();
+//	        System.out.println();
 //	        System.out.println(formatter.format(calendar.getTime()));
 	        
 	        this.cicularBuffers.get(supervisor).add(formatter.format(calendar.getTime()) + " " + eventObject.toString());
