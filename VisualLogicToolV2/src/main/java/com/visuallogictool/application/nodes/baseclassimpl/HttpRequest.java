@@ -77,11 +77,11 @@ public class HttpRequest extends BaseNode{
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("HttpRequest", "Fetch a http request", "Fetch the json in the given url").
-									setFields(new Field("var", "String", "variable", "name of the variable where the information will be stored")).
-									setFields(new Field("url", "String", "name of url", "the name of the url that will be used"));
+									addFieldDescription(new Field("var", "String", "variable", "name of the variable where the information will be stored")).
+									addFieldDescription(new Field("url", "String", "name of url", "the name of the url that will be used"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "url", "url", false, 2, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null)).
+									addFieldDefinition(new TextboxField(null, "url", "url", false, 2, null));
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.HttpRequestConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.HttpRequest");

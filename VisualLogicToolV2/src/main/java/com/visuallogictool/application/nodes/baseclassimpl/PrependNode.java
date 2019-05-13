@@ -63,13 +63,13 @@ public class PrependNode extends BaseNode {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("PrependNode", "Prepend at the end of the String", "Prepend at the end of the String").
-									setFields(new Field("var", "String", "variable", "name of the variable that you want to modify")).
-									setFields(new Field("value", "String", "value", "the value that will be added at the end of the string")).
-									setFields(new Field("newVariable", "String", "newVariable", "the name of the new variable where the value will be stored"));
+									addFieldDescription(new Field("var", "String", "variable", "name of the variable that you want to modify")).
+									addFieldDescription(new Field("value", "String", "value", "the value that will be added at the end of the string")).
+									addFieldDescription(new Field("newVariable", "String", "newVariable", "the name of the new variable where the value will be stored"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "value", "value", false, 2, null)).
-									setFieldBase(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null)).
+									addFieldDefinition(new TextboxField(null, "value", "value", false, 2, null)).
+									addFieldDefinition(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.PrependNodeConfiguration"

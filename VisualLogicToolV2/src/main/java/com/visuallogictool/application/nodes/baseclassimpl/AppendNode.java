@@ -35,9 +35,7 @@ public class AppendNode extends BaseNode {
 		this.value = appendNodeConfiguration.getValue();
 		this.newVariable = appendNodeConfiguration.getNewVariable();
 		
-		this.appendNodeConfiguration = appendNodeConfiguration;
-		
-		
+		this.appendNodeConfiguration = appendNodeConfiguration;		
 		
 	}
 
@@ -67,13 +65,13 @@ public class AppendNode extends BaseNode {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("AppendNode", "Append at the beginning of the String", "Append at the beginning of the String").
-									setFields(new Field("var", "String", "variable", "name of the variable that you want to modify")).
-									setFields(new Field("value", "String", "value", "the value that will be added at the beggining of the string")).
-									setFields(new Field("newVariable", "String", "newVariable", "The new variable where the new information will be stored, if nothing it with erase the first variable"));
+									addFieldDescription(new Field("var", "String", "variable", "name of the variable that you want to modify")).
+									addFieldDescription(new Field("value", "String", "value", "the value that will be added at the beggining of the string")).
+									addFieldDescription(new Field("newVariable", "String", "newVariable", "The new variable where the new information will be stored, if nothing it with erase the first variable"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "value", "value", false, 2, null)).
-									setFieldBase(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null)).
+									addFieldDefinition(new TextboxField(null, "value", "value", false, 2, null)).
+									addFieldDefinition(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.AppendNodeConfiguration"

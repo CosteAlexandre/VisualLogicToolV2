@@ -73,11 +73,11 @@ public class ContainsNode extends TwoOutPutNode {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("ContainsNode", "Check if the String is contained in the variable", "Check if the String is contained in the variable").
-									setFields(new Field("var", "String", "variable", "name of the variable that to check")).
-									setFields(new Field("value", "String", "value", "the value that will be checked with the var"));
+									addFieldDescription(new Field("var", "String", "variable", "name of the variable that to check")).
+									addFieldDescription(new Field("value", "String", "value", "the value that will be checked with the var"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "value", "value", false, 2, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null)).
+									addFieldDefinition(new TextboxField(null, "value", "value", false, 2, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ContainsNodeConfiguration"

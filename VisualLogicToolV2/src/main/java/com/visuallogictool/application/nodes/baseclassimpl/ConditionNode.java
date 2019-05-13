@@ -98,16 +98,16 @@ public class ConditionNode<T> extends MultipleOutput{
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("ConditionNode", "Creates new conditions", "Creates multiple conditions and depending on the output of those conditions redirect it").
-				setFields(new Field("val1", "String", "first value", "the parameter of the context that will be used for the first parameter")).
-				setFields(new Field("val2", "String", "second value", "the value that will be used for the second parameter")).
-				setFields(new Field("typeval2", "type", "type of value 2", "decide the type of the second value")).
-				setFields(new Field("condition", "String", "conditions", "the condition that the user wanna use")).
+				addFieldDescription(new Field("val1", "String", "first value", "the parameter of the context that will be used for the first parameter")).
+				addFieldDescription(new Field("val2", "String", "second value", "the value that will be used for the second parameter")).
+				addFieldDescription(new Field("typeval2", "type", "type of value 2", "decide the type of the second value")).
+				addFieldDescription(new Field("condition", "String", "conditions", "the condition that the user wanna use")).
 //				setFields(new Field("output", "int", "output result", "Where the output will go")).
 				
-									setFields(new Field("hourAboveOrEquals", "hour", "check above or equals hour", "check if the hour is above or equal to the given parameter")).
-									setFields(new Field("hourBelow", "hour", "check below hour", "check if the hour is below the given parameter")).
-									setFields(new Field("containsJson", "json", "contains", "check if the value of the json contains the given parameter")).
-									setFields(new Field("inferiorThanJson", "json", "inferior than integer", "check if the hour is the value of the json (converted to an integer) is inferior than the given parameter"));
+									addFieldDescription(new Field("hourAboveOrEquals", "hour", "check above or equals hour", "check if the hour is above or equal to the given parameter")).
+									addFieldDescription(new Field("hourBelow", "hour", "check below hour", "check if the hour is below the given parameter")).
+									addFieldDescription(new Field("containsJson", "json", "contains", "check if the value of the json contains the given parameter")).
+									addFieldDescription(new Field("inferiorThanJson", "json", "inferior than integer", "check if the hour is the value of the json (converted to an integer) is inferior than the given parameter"));
 		
 		ArrayList<Option> optionsType = new ArrayList<Option>();
 		optionsType.add(new Option("hour","hour"));
@@ -121,7 +121,7 @@ public class ConditionNode<T> extends MultipleOutput{
 		optionsFunction.add(new Option("jsoncontains","jsoncontains"));
 		optionsFunction.add(new Option("else","else"));
 
-		informations = informations.setFieldBase(new TextboxField(null, "val1", "valeur 1", false, 1, null),
+		informations = informations.addFieldDefinition(new TextboxField(null, "val1", "valeur 1", false, 1, null),
 												 new TextboxField(null, "val2", "valeur 2", false, 2, null),
 												 new DropdownField(null, "typeVal2", "type value 2", false, 3, optionsType),
 												 new DropdownField(null, "condition", "condition", false, 4, optionsFunction));

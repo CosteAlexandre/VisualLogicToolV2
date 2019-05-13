@@ -74,15 +74,15 @@ public class ReplaceWithNode extends BaseNode {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("ReplaceWithNode", "Replace the part given by the variable with the given parameter", "Replace the part given by the variable with the given parameter").
-									setFields(new Field("var", "String", "variable", "name of the variable that to replace")).
-									setFields(new Field("value", "String", "value", "the value that will be found to replace")).
-									setFields(new Field("newValue", "String", "newValue", "the value that will replace the given String"))	.
-									setFields(new Field("otherVar", "String", "otherVar", "the otherVar of the context that will replace the given String"));
+									addFieldDescription(new Field("var", "String", "variable", "name of the variable that to replace")).
+									addFieldDescription(new Field("value", "String", "value", "the value that will be found to replace")).
+									addFieldDescription(new Field("newValue", "String", "newValue", "the value that will replace the given String"))	.
+									addFieldDescription(new Field("otherVar", "String", "otherVar", "the otherVar of the context that will replace the given String"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "value", "value", false, 2, null)).
-									setFieldBase(new TextboxField(null, "newValue", "newValue", false, 3, null)).
-									setFieldBase(new TextboxField(null, "otherVar", "otherVar", false, 4, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null)).
+									addFieldDefinition(new TextboxField(null, "value", "value", false, 2, null)).
+									addFieldDefinition(new TextboxField(null, "newValue", "newValue", false, 3, null)).
+									addFieldDefinition(new TextboxField(null, "otherVar", "otherVar", false, 4, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ReplaceWithNodeConfiguration"

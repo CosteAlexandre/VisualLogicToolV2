@@ -19,7 +19,7 @@ public class NodeInformationsSetUp {
 		return this;
 	}
 	
-	public NodeInformationsSetUp setFields(Field ...fields ) {
+	public NodeInformationsSetUp addFieldDescription(Field ...fields ) {
 		
 		for (Field field : fields) {
 			nodeInformations.getFields().add(field);
@@ -30,7 +30,7 @@ public class NodeInformationsSetUp {
 	public NodeInformations getNodeInformations() {
 		return nodeInformations;
 	}
-	public NodeInformationsSetUp setFieldBase(FieldBase ...basefields) {
+	public NodeInformationsSetUp addFieldDefinition(FieldBase ...basefields) {
 		
 		for (FieldBase fieldBase : basefields) {
 			this.nodeInformations.getFieldBases().add(fieldBase);

@@ -76,13 +76,13 @@ public class CutEndNode extends BaseNode {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("CutEndNode", "Cut the end of the String", "Cut the end of the String").
-									setFields(new Field("var", "String", "variable", "name of the variable that you want to modify")).
-									setFields(new Field("number", "int", "number", "The number of characters you want to delete")).
-									setFields(new Field("newVariable", "String", "newVariable", "The name of the new variable where the value will be stored"));
+									addFieldDescription(new Field("var", "String", "variable", "name of the variable that you want to modify")).
+									addFieldDescription(new Field("number", "int", "number", "The number of characters you want to delete")).
+									addFieldDescription(new Field("newVariable", "String", "newVariable", "The name of the new variable where the value will be stored"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "number", "number", false, 2, null)).
-									setFieldBase(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null)).
+									addFieldDefinition(new TextboxField(null, "number", "number", false, 2, null)).
+									addFieldDefinition(new TextboxField(null, "newVariable", "newVariable", false, 3, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.CutEndNodeConfiguration"

@@ -44,9 +44,9 @@ public class CurrentHour extends BaseNode{
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("CurrentHour", "take the current hour", "Put the current hour in a variable").
-									setFields(new Field("var", "hour", "variable", "the name of the variable where the new parameter will be stored"));
+									addFieldDescription(new Field("var", "hour", "variable", "the name of the variable where the new parameter will be stored"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null));
 	
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.CurrentHourConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.CurrentHour");

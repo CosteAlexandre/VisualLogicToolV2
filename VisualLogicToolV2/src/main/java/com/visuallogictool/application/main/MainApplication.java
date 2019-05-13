@@ -12,8 +12,7 @@ import akka.actor.Props;
 public class MainApplication {
 
 	
-	
-	
+
 	public static void main(String[] args) {
 		
 		String configurationPath = "src/main/resources/configuration.conf";

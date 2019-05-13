@@ -52,9 +52,9 @@ public class ApiRest extends InputNode {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("ApiInput", "Creates an api", "Creates an Api with the given parameter").
-									setFields(new Field("api", "String", "name for new api", "the name for the new api"));
+									addFieldDescription(new Field("api", "String", "name for new api", "the name for the new api"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "api", "api", false, 1, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "api", "api", false, 1, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration"

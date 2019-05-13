@@ -71,13 +71,13 @@ public class SetJsonNode extends BaseNode{
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("SetJson", "modify the current json", "Modifies the current json and put it in a new variable").
-									setFields(new Field("variable", "String", "name of variable", "the name of the variable that contains the json node")).
-									setFields(new Field("path", "String", "new path", "path to the new variable in the json node")).
-									setFields(new Field("valName", "String", "name of new variable", "the name of the new varaible where the new information will be stored"));
+									addFieldDescription(new Field("variable", "String", "name of variable", "the name of the variable that contains the json node")).
+									addFieldDescription(new Field("path", "String", "new path", "path to the new variable in the json node")).
+									addFieldDescription(new Field("valName", "String", "name of new variable", "the name of the new varaible where the new information will be stored"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "variable", "variable", false, 1, null)).
-									setFieldBase(new TextboxField(null, "path", "path", false, 2, null)).
-									setFieldBase(new TextboxField(null, "valName", "valName", false, 3, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "variable", "variable", false, 1, null)).
+									addFieldDefinition(new TextboxField(null, "path", "path", false, 2, null)).
+									addFieldDefinition(new TextboxField(null, "valName", "valName", false, 3, null));
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.SetJsonNodeConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.SetJsonNode");

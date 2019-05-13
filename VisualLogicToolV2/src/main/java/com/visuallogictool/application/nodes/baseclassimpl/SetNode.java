@@ -57,11 +57,11 @@ public class SetNode extends BaseNode {
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("SetNode", "Set a variable of the context to X", "Set a variable of the context to X").
-									setFields(new Field("var", "String", "variable", "name of the variable that you want to set")).
-									setFields(new Field("value", "String", "value", "value of the variable you want to set"));
+									addFieldDescription(new Field("var", "String", "variable", "name of the variable that you want to set")).
+									addFieldDescription(new Field("value", "String", "value", "value of the variable you want to set"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null)).
-									setFieldBase(new TextboxField(null, "value", "value", false, 2, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null)).
+									addFieldDefinition(new TextboxField(null, "value", "value", false, 2, null));
 		
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.SetNodeConfiguration"

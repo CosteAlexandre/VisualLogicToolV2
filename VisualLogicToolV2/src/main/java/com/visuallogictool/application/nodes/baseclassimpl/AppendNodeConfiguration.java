@@ -21,7 +21,6 @@ public class AppendNodeConfiguration extends NodeConfiguration {
 		this.value = value;
 		this.newVariable = newVariable;
 	}
-
 	
 	public String getNewVariable() {
 		return newVariable;
@@ -40,9 +39,5 @@ public class AppendNodeConfiguration extends NodeConfiguration {
 	}
 	public void setVar(String var) {
 		this.var = var;
-	}
-
-
-	
-	
+	}	
 }

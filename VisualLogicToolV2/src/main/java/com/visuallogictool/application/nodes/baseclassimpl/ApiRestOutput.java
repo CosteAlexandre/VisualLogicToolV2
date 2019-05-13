@@ -68,11 +68,11 @@ public class ApiRestOutput extends OutputNode{
 		
 		NodeInformationsSetUp informations = getBaseInformation();
 		informations = informations.setHeader("ApiOutput", "send back a response", "Sends back a response to the api called if no parameter var given htm will be used").
-										setFields(new Field("htm", "String", "print the text given in parameter", "print the text given in parameter")).
-										setFields(new Field("var", "String", "take the informations of the var", "take the informations of the var"));
+										addFieldDescription(new Field("htm", "String", "print the text given in parameter", "print the text given in parameter")).
+										addFieldDescription(new Field("var", "String", "take the informations of the var", "take the informations of the var"));
 		
-		informations = informations.setFieldBase(new TextboxField(null, "htm", "htm", false, 1, null));
-		informations = informations.setFieldBase(new TextboxField(null, "var", "var", false, 1, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "htm", "htm", false, 1, null));
+		informations = informations.addFieldDefinition(new TextboxField(null, "var", "var", false, 1, null));
 		
 		informations = informations.setClass("com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutputConfiguration"
 				,"com.visuallogictool.application.nodes.baseclassimpl.ApiRestOutput");
