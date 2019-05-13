@@ -1,18 +1,12 @@
 package com.visuallogictool.application.nodes.baseclassimpl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.visuallogictool.application.messages.message.MessageNode;
-import com.visuallogictool.application.messages.message.UnregisterRouter;
 import com.visuallogictool.application.nodes.BaseNode;
 import com.visuallogictool.application.nodes.information.Field;
 import com.visuallogictool.application.nodes.information.NodeInformations;
 import com.visuallogictool.application.nodes.information.NodeInformationsSetUp;
 import com.visuallogictool.application.nodes.information.concrete.TextboxField;
-
-import akka.actor.ActorRef;
-import akka.actor.Props;
 
 
 

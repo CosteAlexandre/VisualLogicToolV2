@@ -5,29 +5,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.visuallogictool.application.messages.flow.NextActorReceived;
 import com.visuallogictool.application.messages.flow.NextActors;
 import com.visuallogictool.application.messages.flow.NodeCreated;
-import com.visuallogictool.application.messages.message.HttpRequestReceived;
 import com.visuallogictool.application.messages.message.MessageNode;
-import com.visuallogictool.application.messages.message.RegisterRestRouter;
-import com.visuallogictool.application.nodes.baseclassimpl.ApiRest;
-import com.visuallogictool.application.nodes.baseclassimpl.ApiRestConfiguration;
 import com.visuallogictool.application.nodes.baseclassimpl.AppendNode;
 import com.visuallogictool.application.nodes.baseclassimpl.AppendNodeConfiguration;
 
 import akka.actor.ActorRef;
 import akka.actor.ActorSystem;
-import akka.actor.PoisonPill;
 import akka.actor.Props;
-import akka.actor.Terminated;
-import akka.http.javadsl.model.HttpRequest;
 import akka.testkit.javadsl.TestKit;
-import static org.junit.Assert.*;
 public class AppendNodeTest {
 
 	private ActorRef appendNode;
